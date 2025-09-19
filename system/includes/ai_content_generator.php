@@ -258,9 +258,38 @@ ANAHTAR KELİMELER: {KEYWORDS}';
                 break;
             }
 
+            $seoTitle = trim($json['seo_title']);
+            $metaDesc = trim($json['meta_description']);
+
+            // Meta Description'ı ilk etiketle başlatmayı garanti et (iş kuralı)
+            $firstKeyword = '';
+            if (!empty($keywords)) {
+                $parts = preg_split('/\s*,\s*/u', $keywords);
+                if (!empty($parts)) {
+                    $firstKeyword = trim($parts[0]);
+                }
+            }
+            if ($firstKeyword !== '') {
+                $starts = stripos($metaDesc, $firstKeyword) === 0;
+                if (!$starts) {
+                    $metaDesc = $firstKeyword . ' ' . ltrim($metaDesc);
+                }
+                // 160 karakter sınırına yakın tut (keserken kelime bütünlüğünü korumaya çalış)
+                $limit = 160;
+                if (mb_strlen($metaDesc, 'UTF-8') > $limit) {
+                    $cut = mb_substr($metaDesc, 0, $limit, 'UTF-8');
+                    // Boşlukta kes
+                    $spacePos = mb_strrpos($cut, ' ', 0, 'UTF-8');
+                    if ($spacePos !== false && $spacePos > 0) {
+                        $cut = mb_substr($cut, 0, $spacePos, 'UTF-8');
+                    }
+                    $metaDesc = rtrim($cut, ' ,.;:') . '…';
+                }
+            }
+
             return [
-                'seo_title' => trim($json['seo_title']),
-                'meta_description' => trim($json['meta_description'])
+                'seo_title' => $seoTitle,
+                'meta_description' => $metaDesc
             ];
         }
 
@@ -268,6 +297,87 @@ ANAHTAR KELİMELER: {KEYWORDS}';
             throw $lastError;
         }
         throw new Exception('ChatGPT isteği başarısız oldu.');
+    }
+
+    /**
+     * Başlık, açıklama, anahtar kelimeler ve içerikten SEO puanı üretir (0-100)
+     */
+    public function analyzeSEOScore($title, $description, $keywords, $content) {
+        $apiKey = config('chatgpt.api.key');
+        if (empty($apiKey)) {
+            throw new Exception('ChatGPT API anahtarı ayarlanmamış.');
+        }
+
+        $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';
+        $maxTokens = (int)(config('chatgpt.max.tokens') ?: 8000);
+        $temperature = (float)(config('chatgpt.temperature') ?: 0.4);
+
+        $attemptModels = [$model];
+        if ($model === 'gpt-5') {
+            $attemptModels[] = 'gpt-4o';
+            $attemptModels[] = 'gpt-4-turbo-preview';
+        }
+
+        $payload = [
+            'title' => $title,
+            'description' => $description,
+            'keywords' => $keywords,
+            'content' => mb_substr($content ?? '', 0, 8000, 'UTF-8')
+        ];
+
+        $system = 'Türkçe konuşan bir SEO uzmanısın. SADECE GEÇERLİ JSON üret. Markalı, abartılı metin yazma.';
+        $user = 'Aşağıdaki verileri analiz edip 0-100 arası SEO puanı ve alt kırılımları üret. JSON dışında hiçbir şey yazma. JSON formatı: {"score":85,"subscores":{"title":20,"description":22,"keywords":18,"content":25},"notes":["...","..."],"length":{"title":X,"description":Y,"content":Z}}. Veriler: ' . json_encode($payload, JSON_UNESCAPED_UNICODE);
+
+        $lastError = null;
+        foreach ($attemptModels as $attemptModel) {
+            $data = [
+                'model' => $attemptModel,
+                'messages' => [
+                    ['role' => 'system', 'content' => $system],
+                    ['role' => 'user', 'content' => $user]
+                ],
+                'max_tokens' => min($maxTokens, 512),
+                'temperature' => $temperature
+            ];
+
+            $context = stream_context_create([
+                'http' => [
+                    'method' => 'POST',
+                    'header' => [
+                        'Content-Type: application/json',
+                        'Authorization: Bearer ' . $apiKey,
+                        'User-Agent: EuropaDepo-AI/1.0'
+                    ],
+                    'content' => json_encode($data),
+                    'timeout' => 45,
+                    'ignore_errors' => true
+                ],
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false
+                ]
+            ]);
+
+            $response = @file_get_contents('https://api.openai.com/v1/chat/completions', false, $context);
+            if ($response === false) { $lastError = new Exception('ChatGPT erişim hatası'); break; }
+            $result = json_decode($response, true);
+            if (!$result) { $lastError = new Exception('Geçersiz ChatGPT yanıtı'); break; }
+            if (isset($result['error'])) { $lastError = new Exception('ChatGPT API Hatası: ' . ($result['error']['message'] ?? '')); break; }
+
+            $content = trim($result['choices'][0]['message']['content'] ?? '');
+            $content = preg_replace('/^```json|^```|```$/m', '', $content);
+            $json = json_decode($content, true);
+            if (!is_array($json) || !isset($json['score'])) {
+                $lastError = new Exception('Geçersiz JSON çıktısı');
+                break;
+            }
+            // Normalleştir
+            $json['score'] = (int)($json['score']);
+            return $json;
+        }
+
+        if ($lastError instanceof Exception) { throw $lastError; }
+        throw new Exception('SEO analizi başarısız oldu.');
     }
 
     private function generateWithChatGPT($prompt) {

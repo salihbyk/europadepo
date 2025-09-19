@@ -1332,6 +1332,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const aiSEOStatus = document.getElementById('aiSEOStatus');
     const seoTitleInput = document.getElementById('pSeoTitle');
     const metaDescInput = document.getElementById('pMeta');
+    const analyzeBtn = document.getElementById('analyzeSEO');
+    const seoScoreBox = document.getElementById('seoScoreBox');
+    const seoScoreBadge = document.getElementById('seoScoreBadge');
+    const seoSubscores = document.getElementById('seoSubscores');
+    const seoNotes = document.getElementById('seoNotes');
 
     if (generateAISEOBtn) {
         generateAISEOBtn.addEventListener('click', function() {
@@ -1403,6 +1408,69 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.innerHTML = '<i class="fa fa-magic"></i> SEO Oluştur';
                     if (aiSEOStatus) aiSEOStatus.style.display = 'none';
                 });
+        });
+    }
+
+    // SEO Puanı Analizi
+    if (analyzeBtn) {
+        analyzeBtn.addEventListener('click', async function() {
+            const title = titleInput ? titleInput.value.trim() : '';
+            const description = metaDescInput ? metaDescInput.value.trim() : '';
+            const tagInput = document.getElementById('pTag');
+            const keywords = tagInput ? tagInput.value.trim() : '';
+            const content = (document.getElementById('wmd-input') || {}).value || '';
+
+            this.disabled = true;
+            this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Analiz ediliyor...';
+
+            try {
+                const resp = await fetch(base_path + 'admin/analyze-seo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    body: JSON.stringify({ title, description, keywords, content, csrf_token: '<?php echo get_csrf(); ?>' })
+                });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const data = await resp.json();
+                if (!data.success) throw new Error(data.error || 'Analiz başarısız');
+
+                const score = data.score || {};
+                const total = score.score ?? 0;
+                const subs = score.subscores || {};
+                const notes = score.notes || [];
+
+                if (seoScoreBadge) seoScoreBadge.textContent = total;
+
+                // Renk kodu
+                if (seoScoreBadge) {
+                    seoScoreBadge.className = 'badge ' + (total >= 80 ? 'badge-success' : total >= 60 ? 'badge-warning' : 'badge-danger');
+                }
+
+                if (seoSubscores) {
+                    seoSubscores.innerHTML = `
+                        <div>Başlık: <strong>${subs.title ?? 0}</strong> / 25</div>
+                        <div>Açıklama: <strong>${subs.description ?? 0}</strong> / 25</div>
+                        <div>Anahtar Kelimeler: <strong>${subs.keywords ?? 0}</strong> / 25</div>
+                        <div>İçerik: <strong>${subs.content ?? 0}</strong> / 25</div>
+                    `;
+                }
+
+                if (seoNotes) {
+                    seoNotes.innerHTML = '';
+                    notes.forEach(n => {
+                        const li = document.createElement('li');
+                        li.textContent = n;
+                        seoNotes.appendChild(li);
+                    });
+                }
+
+                if (seoScoreBox) seoScoreBox.style.display = 'block';
+                showSuccessMessage('SEO analizi tamamlandı.');
+            } catch (e) {
+                showErrorMessage('SEO analizi başarısız: ' + e.message);
+            } finally {
+                this.disabled = false;
+                this.innerHTML = '<i class="fas fa-chart-line"></i> SEO Puanını Analiz Et';
+            }
         });
     }
 
@@ -1628,18 +1696,18 @@ function wrapSelection(textarea, prefix, suffix) {
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <!-- Başlık Alanı -->
+                        <!-- Başlık Alanı -->
                                 <div class="form-group">
                                     <label for="pTitle" class="form-label">
                                         <i class="fas fa-heading text-primary"></i> İçerik Başlığı
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input autofocus type="text"
+                        <input autofocus type="text"
                                            class="form-control form-control-lg <?php if (isset($postTitle)) { if (empty($postTitle)) { echo 'is-invalid';}} ?>"
-                                           id="pTitle"
-                                           name="title"
-                                           value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"
-                                           placeholder="Yazınızın başlığını buraya yazın..."/>
+                               id="pTitle"
+                               name="title"
+                               value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"
+                               placeholder="Yazınızın başlığını buraya yazın..."/>
                                     <?php if (isset($postTitle) && empty($postTitle)): ?>
                                     <div class="invalid-feedback">
                                         <i class="fas fa-exclamation-triangle"></i> Başlık alanı zorunludur
@@ -1751,11 +1819,11 @@ Kod bloğu
 ```"><?php if (isset($postContent)) { echo $postContent;} ?></textarea>
                             </div>
 
-                                <!-- Önizleme -->
+                            <!-- Önizleme -->
                                 <div id="wmd-preview" class="wmd-panel wmd-preview" style="margin-top: 20px; min-height: 200px; display: none;"></div>
                             </div>
                         </div>
-
+</div>
                         <!-- SEO Ayarları (İçerik Editörünün Altında) -->
                         <div class="card card-success card-outline mt-3">
                             <div class="card-header" data-card-widget="collapse" style="cursor: pointer;">
@@ -1785,8 +1853,8 @@ Kod bloğu
                                             <div class="form-text">
                                                 <i class="fas fa-info-circle text-info"></i>
                                                 Boş bırakırsanız normal başlık kullanılır. Önerilen: 50-60 karakter
-                                            </div>
-                                        </div>
+                        </div>
+                    </div>
 
                                         <div class="form-group">
                                             <label for="pMeta" class="form-label">
@@ -1802,8 +1870,23 @@ Kod bloğu
                                                 <i class="fas fa-info-circle text-info"></i>
                                                 Önerilen: 150-160 karakter. Boş bırakırsanız içerikten otomatik oluşturulur
                                             </div>
+                                            <div class="mt-2">
+                                                <button type="button" id="analyzeSEO" class="btn btn-outline-secondary btn-sm">
+                                                    <i class="fas fa-chart-line"></i> SEO Puanını Analiz Et
+                                                </button>
+                                            </div>
+                                            <div id="seoScoreBox" class="alert alert-light border mt-2" style="display:none;">
+                                                <div style="display:flex;align-items:center;gap:10px;">
+                                                    <div id="seoScoreBadge" class="badge badge-secondary" style="font-size:14px;">0</div>
+                                                    <strong>SEO Puanı</strong>
+                                                </div>
+                                                <div class="mt-2" id="seoSubscores" style="font-size:13px;">
+                                                    <!-- başlık/açıklama/anahtar kelime/içerik alt puanları -->
+                                                </div>
+                                                <ul id="seoNotes" class="mt-2 mb-0" style="padding-left:18px;font-size:12px;"></ul>
+                                            </div>
                                         </div>
-                                    </div>
+</div>
                                     <div class="col-md-4">
                                         <!-- AI SEO Oluşturucu -->
                                         <div class="card card-info card-outline">
@@ -1833,7 +1916,7 @@ Kod bloğu
                             </div>
                         </div>
                     </div>
-
+     
                     <!-- Sidebar (Sağ Taraf) -->
                     <div class="col-lg-4">
 
@@ -1856,15 +1939,15 @@ Kod bloğu
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select id="pCategory" class="form-control" name="category">
-                                        <?php foreach ($desc as $d):?>
-                                            <option value="<?php echo $d->slug;?>"><?php echo $d->title;?></option>
-                                        <?php endforeach;?>
-                                    </select>
+                        <?php foreach ($desc as $d):?>
+                            <option value="<?php echo $d->slug;?>"><?php echo $d->title;?></option>
+                        <?php endforeach;?>
+                    </select>
                                     <div class="form-text">
                                         <i class="fas fa-info-circle text-info"></i>
                                         İçeriğinizin kategorisini seçin
                                     </div>
-                                </div>
+                </div>
 
                                 <div class="form-group">
                                     <label for="pTag" class="form-label">
@@ -1889,7 +1972,7 @@ Kod bloğu
                                     </div>
                                     <?php endif; ?>
                                 </div>
-                            </div>
+                        </div>
                         </div>
 
                             <div class="form-group-modern">
@@ -1915,8 +1998,8 @@ Kod bloğu
                                        value="<?php if (isset($postUrl)) { echo $postUrl;} ?>"
                                        placeholder="otomatik-olusturulacak"/>
                                 <div class="info-text">Boş bırakırsanız başlıktan otomatik oluşturulur</div>
-                            </div>
                         </div>
+
 
 
                         <!-- Medya Ayarları -->
@@ -2024,11 +2107,11 @@ Kod bloğu
                             <div class="card card-secondary card-outline">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div>
+                    <div>
                                             <button type="button" id="preview-toggle" class="btn btn-outline-info">
                                                 <i class="fas fa-eye"></i> Önizleme
-                                            </button>
-                                        </div>
+                        </button>
+                </div>
                                         <div>
                                             <button type="submit" name="draft" class="btn btn-outline-secondary mr-2">
                                                 <i class="fas fa-save"></i> Taslak Kaydet
@@ -2040,18 +2123,18 @@ Kod bloğu
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Hidden Fields -->
-                    <?php if ($type == 'is_post'):?>
-                    <input type="hidden" name="is_post" value="is_post">
-                    <?php endif;?>
-                    <input id="oldfile" type="hidden" name="oldfile" class="text"/>
-                    <input type="hidden" id="pType" name="posttype" value="<?php echo $type; ?>">
-                    <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">
+            </div>
                 </div>
-            </form>
+
+                <!-- Hidden Fields -->
+                <?php if ($type == 'is_post'):?>
+                <input type="hidden" name="is_post" value="is_post">
+                <?php endif;?>
+                <input id="oldfile" type="hidden" name="oldfile" class="text"/>
+                <input type="hidden" id="pType" name="posttype" value="<?php echo $type; ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">
+                </div>
+        </form>
         </div>
     </div>
     </div>
