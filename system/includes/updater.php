@@ -153,12 +153,45 @@ class GitHubUpdater {
         $zipContent = @file_get_contents($downloadUrl, false, $context);
 
         if ($zipContent === false) {
-            return ['error' => 'Güncelleme dosyası indirilemedi'];
+            $error = error_get_last();
+            $errorMsg = 'Güncelleme dosyası indirilemedi';
+            if ($error && isset($error['message'])) {
+                $errorMsg .= ': ' . $error['message'];
+            }
+            
+            // HTTP response headers kontrol et
+            if (isset($http_response_header)) {
+                $statusLine = $http_response_header[0] ?? '';
+                error_log("Download Debug - HTTP Status: $statusLine");
+                if (strpos($statusLine, '404') !== false) {
+                    $errorMsg = 'Release dosyası GitHub\'da bulunamadı (404). Release oluşturulmuş mu?';
+                } elseif (strpos($statusLine, '403') !== false) {
+                    $errorMsg = 'GitHub erişim reddedildi (403). Repository private mi?';
+                }
+            }
+            
+            return ['error' => $errorMsg];
+        }
+
+        // İndirilen içeriği kontrol et
+        $contentLength = strlen($zipContent);
+        error_log("Download Debug - Content length: $contentLength bytes");
+        error_log("Download Debug - First 100 chars: " . substr($zipContent, 0, 100));
+
+        if ($contentLength < 1024) {
+            return ['error' => 'İndirilen dosya çok küçük (' . $contentLength . ' bytes). Muhtemelen hata mesajı: ' . substr($zipContent, 0, 200)];
+        }
+
+        // ZIP header kontrolü (PK signature)
+        if (substr($zipContent, 0, 2) !== 'PK') {
+            return ['error' => 'İndirilen dosya ZIP formatında değil. İlk karakterler: ' . bin2hex(substr($zipContent, 0, 10))];
         }
 
         if (file_put_contents($tempFile, $zipContent) === false) {
-            return ['error' => 'Geçici dosya oluşturulamadı'];
+            return ['error' => 'Geçici dosya oluşturulamadı: ' . $tempFile];
         }
+
+        error_log("Download Debug - Temp file created: $tempFile (" . filesize($tempFile) . " bytes)");
 
         return ['temp_file' => $tempFile];
     }
@@ -168,12 +201,66 @@ class GitHubUpdater {
             return ['error' => 'Geçici dosya bulunamadı'];
         }
 
+        // Dosya boyutunu ve türünü kontrol et
+        $fileSize = filesize($tempFile);
+        $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($fileInfo, $tempFile);
+        finfo_close($fileInfo);
+
+        // Debug bilgileri
+        error_log("Update Debug - Temp file: $tempFile");
+        error_log("Update Debug - File size: $fileSize bytes");
+        error_log("Update Debug - MIME type: $mimeType");
+
+        // Dosya boyutu kontrolü
+        if ($fileSize < 1024) { // 1KB'den küçükse muhtemelen hata mesajı
+            $content = file_get_contents($tempFile);
+            unlink($tempFile);
+            return ['error' => 'İndirilen dosya çok küçük (muhtemelen hata mesajı): ' . substr($content, 0, 200)];
+        }
+
+        // MIME type kontrolü
+        if (!in_array($mimeType, ['application/zip', 'application/x-zip-compressed', 'application/octet-stream'])) {
+            $content = file_get_contents($tempFile);
+            unlink($tempFile);
+            return ['error' => 'İndirilen dosya ZIP formatında değil. MIME: ' . $mimeType . '. İçerik: ' . substr($content, 0, 200)];
+        }
+
         $zip = new ZipArchive();
         $extractPath = sys_get_temp_dir() . '/europadepo_extract_' . time();
 
-        if ($zip->open($tempFile) !== TRUE) {
+        $zipResult = $zip->open($tempFile);
+        if ($zipResult !== TRUE) {
+            $zipErrors = [
+                ZipArchive::ER_OK => 'No error',
+                ZipArchive::ER_MULTIDISK => 'Multi-disk zip archives not supported',
+                ZipArchive::ER_RENAME => 'Renaming temporary file failed',
+                ZipArchive::ER_CLOSE => 'Closing zip archive failed',
+                ZipArchive::ER_SEEK => 'Seek error',
+                ZipArchive::ER_READ => 'Read error',
+                ZipArchive::ER_WRITE => 'Write error',
+                ZipArchive::ER_CRC => 'CRC error',
+                ZipArchive::ER_ZIPCLOSED => 'Containing zip archive was closed',
+                ZipArchive::ER_NOENT => 'No such file',
+                ZipArchive::ER_EXISTS => 'File already exists',
+                ZipArchive::ER_OPEN => 'Can\'t open file',
+                ZipArchive::ER_TMPOPEN => 'Failure to create temporary file',
+                ZipArchive::ER_ZLIB => 'Zlib error',
+                ZipArchive::ER_MEMORY => 'Memory allocation failure',
+                ZipArchive::ER_CHANGED => 'Entry has been changed',
+                ZipArchive::ER_COMPNOTSUPP => 'Compression method not supported',
+                ZipArchive::ER_EOF => 'Premature EOF',
+                ZipArchive::ER_INVAL => 'Invalid argument',
+                ZipArchive::ER_NOZIP => 'Not a zip archive',
+                ZipArchive::ER_INTERNAL => 'Internal error',
+                ZipArchive::ER_INCONS => 'Zip archive inconsistent',
+                ZipArchive::ER_REMOVE => 'Can\'t remove file',
+                ZipArchive::ER_DELETED => 'Entry has been deleted'
+            ];
+            
+            $errorMsg = $zipErrors[$zipResult] ?? 'Bilinmeyen ZIP hatası: ' . $zipResult;
             unlink($tempFile);
-            return ['error' => 'ZIP dosyası açılamadı'];
+            return ['error' => 'ZIP dosyası açılamadı: ' . $errorMsg . ' (Kod: ' . $zipResult . ')'];
         }
 
         if (!$zip->extractTo($extractPath)) {
