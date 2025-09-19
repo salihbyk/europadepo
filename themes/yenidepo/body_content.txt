@@ -1,0 +1,2031 @@
+<body>
+
+
+
+    <!-- Topbar Section Start -->
+    <div class="topbar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 col-md-6">
+                    <!-- Topbar Contact Information Start -->
+                    <div class="topbar-contact-info">
+                        <ul>
+                            <li>Ankara Eşya Depolama</li>
+                            <li>Premium Depolama Çözümleri</li>
+                        </ul>
+                    </div>
+                    <!-- Topbar Contact Information End -->
+                </div>
+
+                <div class="col-lg-5 col-md-6">
+                    <!-- Topbar Social Links Start -->
+                    <div class="topbar-social-links">
+                        <ul>
+                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#customerLoginModal"
+                                    aria-label="Müşteri Paneli Girişi"><i class="fa-solid fa-user"></i>Müşteri
+                                    Paneli</a></li>
+
+                        </ul>
+                    </div>
+                    <!-- Topbar Social Links End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar Section End -->
+
+    <!-- Header Start -->
+    <header class="main-header">
+        <div class="header-sticky">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <!-- Logo Start -->
+                    <a class="navbar-brand" href="index.html">
+                        <img src="http://europatrans.com.tr/uploads/logo.png" alt="Europa Depo Logo">
+                    </a>
+                    <!-- Logo End -->
+
+                    <!-- Main Menu Start -->
+                    <div class="collapse navbar-collapse main-menu">
+                        <div class="nav-menu-wrapper">
+                            <ul class="navbar-nav mr-auto" id="menu">
+                                <li class="nav-item"><a class="nav-link" href="index.html">Anasayfa</a></li>
+                                <li class="nav-item"><a class="nav-link" href="about.html">Kurumsal</a></li>
+                                <li class="nav-item submenu"><a class="nav-link" href="services.html">Hizmetler</a>
+                                    <ul>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">Ev Eşyası
+                                                Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">Kişisel Eşya
+                                                Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">Ticari
+                                                Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">Paletli Ürün
+                                                Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">Arşiv
+                                                Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">E-ticaret
+                                                Ürün Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">Medikal Ürün
+                                                Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="service-single.html">Sanat ve
+                                                Antika Depolama</a></li>
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="service-single.html">Self-Storage</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="projects.html">Nakliyat</a></li>
+                                <li class="nav-item"><a class="nav-link" href="projects.html">Galeri</a></li>
+                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                                <li class="nav-item"><a class="nav-link" href="contact.html">İletişim</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Header Btn Start -->
+                        <div class="header-btn">
+                            <a href="tel:4446995" class="btn-default call-center-btn">
+                                <i class="fas fa-headset"></i>
+                                <span>444 6 995</span>
+                            </a>
+                        </div>
+                        <!-- Header Btn End -->
+                    </div>
+                    <!-- Main Menu End -->
+                    <div class="navbar-toggle" role="button" aria-label="Menüyü aç/kapat" tabindex="0"></div>
+                </div>
+            </nav>
+            <div class="responsive-menu"></div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Hero Section Start -->
+    <div class="hero bg-section dark-section parallaxie hero-video-bg">
+        <!-- Video Background -->
+        <video class="hero-video" autoplay muted loop>
+            <source src="https://videos.pexels.com/video-files/7205586/7205586-uhd_2560_1440_25fps.mp4"
+                type="video/mp4">
+            <track kind="captions"
+                src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjEwLjAwMAo8Yj5FdXJvcGEgRGVwbyAtIEd1dmVubGkgRXN5YSBEZXBvbGFtYTwvYj4KCjAwOjAwOjEwLjAwMCAtLT4gMDA6MDA6MjAuMDAwCk1vZGVybiBkZXBvbGFtYSB0ZXNpc2xlcmltaXpkZSBlc3lhbGFyaW5peiBndXZlbmRlCgowMDowMDoyMC4wMDAgLS0+IDAwOjAwOjMwLjAwMApQcm9mZXN5b25lbCBla2liaW1peiBpbGUgZXN5YWxhcmluaXogZGVwb2xheWlwIGFsaXlvcnV6"
+                srclang="tr" label="Türkçe Altyazı" default>
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="hero-box">
+                    <!-- Hero Content Start -->
+                    <div class="hero-content">
+                        <!-- Section Title Start -->
+                        <div class="section-title">
+                            <span class="hero-subtitle wow fadeInUp">Premium Ev Eşyası Depolama Hizmetleri</span>
+                            <h1 class="text-anime-style-3" data-cursor="-opaque">Ankara Eşya Depolama Hizmeti</h1>
+                            <p class="wow fadeInUp" data-wow-delay="0.2s">Europa Depo olarak, ev eşyalarınızı en
+                                güvenli
+                                şekilde depoluyoruz. Modern tesislerimiz, 7/24 güvenlik sistemi ve profesyonel
+                                ekibimizle eşyalarınız tam güvende. Kısa ve uzun vadeli depolama çözümleri için bize
+                                güvenin.</p>
+                        </div>
+                        <!-- Section Title End -->
+
+                        <!-- Hero Button Start -->
+                        <div class="hero-btn wow fadeInUp" data-wow-delay="0.4s">
+                            <a href="contact.html" class="btn-default">Hemen Başlayın</a>
+                        </div>
+                        <!-- Hero Button End -->
+                    </div>
+                    <!-- Hero Content End -->
+
+                    <!-- Hero Counter Box Start -->
+                    <div class="hero-counter-box">
+                        <!-- Hero Review Box Start -->
+                        <div class="hero-review-box">
+                            <div class="hero-review-content">
+                                <p><span class="counter">99</span>% Müşteri Memnuniyeti</p>
+                            </div>
+                            <!-- Satisfy Client Images Start -->
+                            <div class="satisfy-client-images wow fadeInUp" data-wow-delay="0.2s">
+                                <div class="satisfy-client-image">
+                                    <figure class="image-anime">
+                                        <img src="images/author-1.jpg" alt="">
+                                    </figure>
+                                </div>
+                                <div class="satisfy-client-image">
+                                    <figure class="image-anime">
+                                        <img src="images/author-2.jpg" alt="">
+                                    </figure>
+                                </div>
+                                <div class="satisfy-client-image">
+                                    <figure class="image-anime">
+                                        <img src="images/author-3.jpg" alt="">
+                                    </figure>
+                                </div>
+                                <div class="satisfy-client-image">
+                                    <figure class="image-anime">
+                                        <img src="images/author-4.jpg" alt="">
+                                    </figure>
+                                </div>
+                                <div class="satisfy-client-image">
+                                    <figure class="image-anime">
+                                        <img src="images/author-5.jpg" alt="">
+                                    </figure>
+                                </div>
+                            </div>
+                            <!-- Satisfy Client Images End -->
+                        </div>
+                        <!-- Hero Review Box End -->
+
+                        <!-- Hero Counter Item Start -->
+                        <div class="hero-counter-item">
+                            <span class="counter-title"><span class="counter">15</span>+</span>
+                            <p>Yıllık deneyimimiz ve güvenilir depolama hizmetlerimizle binlerce müşteriye hizmet verdik
+                            </p>
+                        </div>
+                        <!-- Hero Counter Item End -->
+                    </div>
+                    <!-- Hero Counter Box End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero Section End -->
+
+    <!-- About Us Section Start -->
+    <div class="about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="about-businesses-client-content">
+                        <!-- Section Sub Title Start -->
+                        <div class="section-sub-title wow fadeInUp">
+                            <span class="about-subtitle wow fadeInUp">Premium Depolama Çözümleri</span>
+                        </div>
+                        <!-- Section Sub Title End -->
+
+                        <!-- About Client Box Start -->
+                        <div class="about-client-box wow fadeInUp" data-wow-delay="0.2s">
+
+                            <!-- About Client Box Content Start -->
+                            <div class="about-client-box-content">
+                                <div class="about-video-container expanded">
+                                    <video controls autoplay muted loop width="100%" height="auto"
+                                        poster="images/depo/video-poster.jpg">
+                                        <source src="images/depo/v1.mp4" type="video/mp4">
+                                        <track kind="captions"
+                                            src="data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjEwLjAwMAo8Yj5FdXJvcGEgRGVwbyAtIE11c3RlcmkgTWVtbnVuaXlldGk8L2I+CgowMDowMDoxMC4wMDAgLS0+IDAwOjAwOjIwLjAwMApCaW5sZXJjZSBtdXN0ZXJpbWl6bGUga3VyZHVndW11eiBndXZlbiBpbGlza2lzaW5kZW4gZ3VydXIgZHV5dXlvcnV6"
+                                            srclang="tr" label="Türkçe Altyazı">
+                                        <p>Tarayıcınız video oynatmayı desteklemiyor. <a
+                                                href="images/depo/v1.mp4">Videoyu indirin</a>.</p>
+                                    </video>
+                                </div>
+                            </div>
+                            <!-- About Client Box Content End -->
+                        </div>
+                        <!-- About Client Box End -->
+                    </div>
+                </div>
+
+                <div class="col-xl-8">
+                    <!-- About Us Content Start -->
+                    <div class="about-us-content">
+                        <!-- Section Title Start -->
+                        <div class="section-title">
+                            <h2 class="text-effect" data-cursor="-opaque">Müşteri odaklı yaklaşımımızla eşyalarınız
+                                için premium depolama hizmetleri sunuyoruz</h2>
+                            <p class="wow fadeInUp" data-wow-delay="0.2s">Yılların deneyimi ve müşteri geri
+                                bildirimlerini bir araya getirerek özel olarak tasarladığımız premium eşya depolama
+                                tesislerimiz, modern ve güvenlik standartları en üst düzeyde hazırlanmıştır.
+                                Depolarımızda yangın, sel, böcek ve benzeri tüm risklere karşı profesyonel önlemler
+                                alınmış olup, eşyalarınız 7/24 güvence altındadır.</p>
+                            <p class="wow fadeInUp" data-wow-delay="0.2s">Depolama sürecinden sonra müşterilerimiz,
+                                kendilerine özel hazırlanmış online müşteri paneli üzerinden tüm ödemelerini kolayca
+                                takip edebilir. Kredi kartı veya havale/EFT ile güvenli ödeme imkânı sunan sistemimiz,
+                                aynı zamanda otomatik ödeme hatırlatma özelliğiyle kullanıcı dostu bir deneyim
+                                sağlar. Ankara eşya depolama hizmetlerimizde, teknolojiyi ve profesyonelliği
+                                birleştirerek
+                                müşterilerimize güvenilir, modern ve uzun vadeli çözümler sunuyoruz.</p>
+
+
+                            <p class="wow fadeInUp" data-wow-delay="0.2s">
+                                Ankara’da güvenli depo kiralama ihtiyacı olan müşterilerimiz için özel olarak
+                                hazırladığımız odalar, hem bireysel hem de kurumsal eşya depolama taleplerine uygundur.
+                                Ev eşyalarınızdan ticari ürünlerinize kadar her türlü eşya için ideal çözümler sunan
+                                tesislerimiz, uzun vadeli saklama ve kısa süreli depolama ihtiyaçlarında profesyonel
+                                destek sağlar. Ankara eşya depolama fiyatları ise şeffaf ve ihtiyaca göre belirlenerek
+                                bütçe dostu seçenekler sunar.</p>
+                        </div>
+                        <!-- Section Title End -->
+
+
+                        <!-- About Us Button Start -->
+                        <div class="about-us-btn wow fadeInUp" data-wow-delay="0.6s">
+                            <a href="about.html" class="btn-default">Hakkımızda Daha Fazla</a>
+                        </div>
+                        <!-- About Us Button End -->
+                    </div>
+                    <!-- About Us Content End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About Us Section End -->
+
+    <!-- Our Services Section Start -->
+    <div class="our-services bg-section">
+        <div class="container">
+            <div class="row section-row">
+                <div class="col-lg-12">
+                    <!-- Section Title Start -->
+                    <div class="section-title section-title-center">
+                        <h3 class="wow fadeInUp">Hizmetlerimiz</h3>
+                        <h2 class="text-effect" data-cursor="-opaque">Ankara’da Premium ve Kurumsal Eşya Depolama
+                            Hizmeti</h2>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+            </div>
+
+            <div class="row services-item-list">
+                <div class="col-xl-3 col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item active wow fadeInUp">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-1.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Ev Eşyası Depolama</a></h3>
+                            <p>Ev eşyalarınız için güvenli ve profesyonel depolama hizmeti</p>
+                            <ul>
+                                <li>7/24 güvenlik sistemi</li>
+                                <li>Klima kontrollü ortam</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-2.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Ticari Depolama</a></h3>
+                            <p>İşletmenizin ürünleri için güvenli ticari depolama çözümleri</p>
+                            <ul>
+                                <li>Esnek depolama alanları</li>
+                                <li>Lojistik destek hizmeti</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-3.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Self-Storage</a></h3>
+                            <p>Kendi eşyalarınıza istediğiniz zaman erişebileceğiniz özel alanlar</p>
+                            <ul>
+                                <li>24 saat erişim imkanı</li>
+                                <li>Kişisel güvenlik kodları</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-4.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Arşiv Depolama</a></h3>
+                            <p>Önemli belgeleriniz ve arşiv malzemeleriniz için özel depolama</p>
+                            <ul>
+                                <li>Nem ve sıcaklık kontrolü</li>
+                                <li>Dijital kataloglama sistemi</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-5th col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="0.8s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-1.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Kişisel Eşya Depolama</a></h3>
+                            <p>Kişisel eşyalarınız için güvenli ve özel depolama alanları</p>
+                            <ul>
+                                <li>Kişiye özel depo bölümleri</li>
+                                <li>Esnek kiralama süreleri</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-5th col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="1.0s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-2.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Paletli Ürün Depolama</a></h3>
+                            <p>Endüstriyel ürünleriniz için paletli depolama sistemi</p>
+                            <ul>
+                                <li>Forklift erişimi</li>
+                                <li>Yüksek kapasiteli raflar</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-5th col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="1.2s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-3.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">E-ticaret Ürün Depolama</a></h3>
+                            <p>E-ticaret işletmeniz için özel depolama ve lojistik çözümleri</p>
+                            <ul>
+                                <li>Hızlı kargo entegrasyonu</li>
+                                <li>Stok yönetim sistemi</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-5th col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="1.4s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-4.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Medikal Ürün Depolama</a></h3>
+                            <p>Tıbbi malzemeler için özel şartlarda güvenli depolama</p>
+                            <ul>
+                                <li>Steril ortam koşulları</li>
+                                <li>Sıcaklık kontrollü alanlar</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-xl-5th col-md-6">
+                    <!-- Service Item Start -->
+                    <div class="services-item wow fadeInUp" data-wow-delay="1.6s">
+                        <div class="services-item-header">
+                            <div class="icon-box">
+                                <img src="images/icon-services-1.svg" alt="">
+                            </div>
+                            <div class="services-btn">
+                                <a href="service-single.html" aria-label="Hizmet detaylarını görüntüle"><img
+                                        src="images/arrow-primary.svg" alt="Detaylar"></a>
+                            </div>
+                        </div>
+                        <div class="services-item-content">
+                            <h3><a href="service-single.html">Sanat ve Antika Depolama</a></h3>
+                            <p>Değerli sanat eserleri ve antikalar için özel koruma</p>
+                            <ul>
+                                <li>Nem ve ışık kontrolü</li>
+                                <li>Özel ambalajlama hizmeti</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Service Item End -->
+                </div>
+
+                <div class="col-lg-12">
+                    <!-- Section Footer Text Start -->
+                    <div class="section-footer-text wow fadeInUp" data-wow-delay="0.8s">
+                        <p><span>Ücretsiz</span>Keşif ziyaretinden kuruluma kadar - <a
+                                href="contact.html">ihtiyaçlarınıza uygun Ankara eşya depolama çözümlerini keşfedin.</a>
+                        </p>
+                    </div>
+                    <!-- Section Footer Text End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Our Services Section End -->
+
+    <!-- Why Choose Us Section Start -->
+    <div class="why-choose-us">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-6">
+                    <!-- Why Choose Image Box Start -->
+                    <div class="why-choose-image-box">
+                        <div class="why-choose-box-1">
+                            <!-- Why Choose Image Start -->
+                            <div class="why-choose-img image-1">
+                                <figure class="image-anime reveal">
+                                    <img src="images/depo/1.jpeg" alt="">
+                                </figure>
+                            </div>
+                            <!-- Why Choose Image End -->
+
+                            <!-- Why Choose Image Start -->
+                            <div class="why-choose-img image-2">
+                                <figure class="image-anime reveal">
+                                    <img src="images/depo/2.jpeg" alt="">
+                                </figure>
+                            </div>
+                            <!-- Why Choose Image End -->
+                        </div>
+
+                        <div class="why-choose-box-2">
+                            <!-- Why Choose Image Start -->
+                            <div class="why-choose-img image-3">
+                                <figure class="image-anime reveal">
+                                    <img src="images/depo/4.jpeg" alt="">
+                                </figure>
+                            </div>
+                            <!-- Why Choose Image End -->
+
+                            <!-- Why Choose Image Start -->
+                            <div class="why-choose-img image-4">
+                                <figure class="image-anime reveal">
+                                    <img src="images/depo/7.jpeg" alt="">
+                                </figure>
+                            </div>
+                            <!-- Why Choose Image End -->
+                        </div>
+
+                        <!-- Contact Us Circle Start -->
+                        <div class="contact-us-circle">
+                            <a href="contact.html" aria-label="İletişim sayfasına git"><img
+                                    src="images/contact-us-circle.svg" alt="İletişim"></a>
+                        </div>
+                        <!-- Contact Us Circle End -->
+                    </div>
+                    <!-- Why Choose Image Box End -->
+                </div>
+
+                <div class="col-xl-6">
+                    <!-- Why Choose Item Box Start -->
+                    <div class="why-choose-us-content">
+                        <!-- Section Title Start -->
+                        <div class="section-title">
+                            <h3 class="wow fadeInUp">Neden Bizi Seçmelisiniz</h3>
+                            <h2 class="text-effect" data-cursor="-opaque">Ankara eşya depolama alanında
+                                müşterilerimizin ihtiyaçlarına odaklanıyoruz</h2>
+                            <p class="wow fadeInUp" data-wow-delay="0.2s">Ekibimiz onlarca yıllık Ankara eşya depolama
+                                deneyimi, gelişmiş güvenlik teknolojileri ve müşteri odaklı yaklaşımımızla eşyalarınızın
+                                güvenliğini sürekli değişen koşullarda da garanti altına alır.</p>
+                        </div>
+                        <!-- Section Title End -->
+
+                        <!-- Why Choose Body Start -->
+                        <div class="why-choose-body">
+                            <!-- Why Choose List Start -->
+                            <div class="why-choose-list wow fadeInUp" data-wow-delay="0.4s">
+                                <ul>
+                                    <li>Ankara'da Kanıtlanmış Deneyimli Uzman Ekip</li>
+                                    <li>7/24 Proaktif Güvenlik ve İzleme Sistemi</li>
+                                    <li>Kurumsal Düzeyde Güvenlik ve Uyumluluk</li>
+                                    <li>Şeffaf İletişim ve Özel Ankara Eşya Depolama Danışmanlığı</li>
+                                </ul>
+                            </div>
+                            <!-- Why Choose List End -->
+
+                            <!-- Why Choose Counter Box Start -->
+                            <div class="why-choose-counter-box">
+                                <div class="icon-box">
+                                    <img src="images/icon-why-choose-counter.svg" alt="">
+                                </div>
+                                <div class="why-choose-counter-content">
+                                    <span class="counter-title"><span class="counter">15</span>+</span>
+                                    <p>Yıllık Ankara Eşya Depolama Deneyimi</p>
+                                </div>
+                            </div>
+                            <!-- Why Choose Counter Box End -->
+                        </div>
+                        <!-- Why Choose Body End -->
+
+                        <!-- Why Choose Button Start -->
+                        <div class="why-choose-btn wow fadeInUp" data-wow-delay="0.6s">
+                            <a href="contact.html" class="btn-default">İletişime Geçin</a>
+                        </div>
+                        <!-- Why Choose Button End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Why Choose Us Section End -->
+
+
+    <!-- Our Pricing Section Start -->
+    <div class="our-pricing bg-section">
+        <div class="container">
+            <div class="row section-row align-items-center">
+                <div class="col-lg-12">
+                    <!-- Section Title Start -->
+                    <div class="section-title section-title-center">
+                        <h3 class="wow fadeInUp">Ankara Eşya Depo Fiyatları</h3>
+                        <h2 class="text-effect" data-cursor="-opaque">Her bütçeye uygun esnek Ankara eşya depolama
+                            hizmet planları</h2>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Our Pricing Box Start -->
+                    <div class="our-pricing-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="our-pricing-swich form-check form-switch">
+                            <label class="form-check-label" for="planToggle" id="toggleLabelMonthly">Aylık</label>
+                            <span><input class="form-check-input" type="checkbox" id="planToggle"></span>
+                            <label class="form-check-label" for="planToggle" id="toggleLabelAnnually">Yıllık</label>
+                        </div>
+                        <!-- Sidebar Our Pricing Nav End -->
+
+                        <!-- Pricing Tab Item Start -->
+                        <div class="pricing-tab-item" id="monthly">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Pricing Items List Start -->
+                                    <div class="pricing-items-list">
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-1.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">₺4.000<sub>/Aylık</sub></span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Ortalama 1+0 ve küçük evler için ideal Ankara eşya depolama
+                                                        çözümü.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>11-14 m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-2.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">₺7.000<sub>/Aylık</sub></span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Ortalama 2+1 ve 3+1 evler için geniş Ankara eşya depolama alanı.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>30-35 m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-3.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">₺8.000<sub>/Aylık</sub></span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Ortalama 3+1 ve 4+1 büyük evler için maksimum kapasiteli premium
+                                                        hizmet.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>35-40 m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-4.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">Özel<sub>/Fiyat</sub></span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Ürün depolama ve özel depolama ihtiyaçları için kişiye özel
+                                                        fiyatlandırma.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>Belirlediğiniz m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+                                    </div>
+                                    <!-- Pricing Items List End -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pricing Tab Item End -->
+
+                        <!-- Pricing Tab Item Start -->
+                        <div class="pricing-tab-item d-none" id="annually">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Pricing Items List Start -->
+                                    <div class="pricing-items-list">
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-1.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">₺40.000<sub>/Yıllık</sub></span>
+                                                    <span class="discount-badge">2 Ay Ücretsiz!</span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Ortalama 2+1 ve küçük 3+1 evler için yıllık avantajlı paket.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>11-14 m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-2.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">₺70.000<sub>/Yıllık</sub></span>
+                                                    <span class="discount-badge">2 Ay Ücretsiz!</span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Ortalama 3+1 ve 4+1 evler için yıllık avantajlı paket.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>30-35 m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-3.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">₺80.000<sub>/Yıllık</sub></span>
+                                                    <span class="discount-badge">2 Ay Ücretsiz!</span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Ortalama 4+1 ve 5+1 büyük evler için premium yıllık paket.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>35-40 m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+
+                                        <!-- Pricing Item Start -->
+                                        <div class="pricing-item">
+                                            <!-- Pricing Item Header Start -->
+                                            <div class="pricing-item-header">
+                                                <!-- Pricing Header Start -->
+                                                <div class="icon-box">
+                                                    <img src="images/icon-pricing-4.svg" alt="">
+                                                </div>
+                                                <!-- Pricing Header End -->
+
+                                                <!-- Pricing Price Start -->
+                                                <div class="pricing-price">
+                                                    <span class="pricing-amount">Özel<sub>/Yıllık</sub></span>
+                                                    <span class="discount-badge">2 Ay Ücretsiz!</span>
+                                                </div>
+                                                <!-- Pricing Price End -->
+
+                                                <!-- Pricing Item Content Start -->
+                                                <div class="pricing-item-content">
+                                                    <p>Medikal ürün depolama ve özel depolama ihtiyaçları için yıllık
+                                                        özel paket.
+                                                    </p>
+                                                </div>
+                                                <!-- Pricing Item Content End -->
+                                            </div>
+                                            <!-- Pricing Item Header End -->
+
+                                            <!-- Pricing body Start -->
+                                            <div class="pricing-body">
+                                                <span class="pricing-features-title">Dahil Olanlar:</span>
+                                                <ul>
+                                                    <li>Beirlediğiniz m³ depolama alanı</li>
+                                                    <li>Online ödeme sistemi</li>
+                                                    <li>Müşteri paneli erişimi</li>
+                                                    <li>Depo giriş-çıkış kayıtları</li>
+                                                    <li>Canlı kamera izleme</li>
+                                                </ul>
+
+                                                <!-- Pricing Button Start -->
+                                                <div class="pricing-btn">
+                                                    <a href="contact.html" class="btn-default">Hemen Başla</a>
+                                                </div>
+                                                <!-- Pricing Button End -->
+                                            </div>
+                                            <!-- Pricing body End -->
+                                        </div>
+                                        <!-- Pricing Item End -->
+                                    </div>
+                                    <!-- Pricing Items List End -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pricing Tab Item End -->
+
+                        <!-- Pricing Benifit List Start -->
+                        <div class="pricing-benefit-list wow fadeInUp" data-wow-delay="0.2s">
+                            <ul>
+                                <li><img src="images/icon-pricing-benefit-1.svg" alt="">Ücretsiz keşif ve danışmanlık
+                                    hizmeti</li>
+                                <li><img src="images/icon-pricing-benefit-2.svg" alt="">Gizli ücret yok, şeffaf
+                                    fiyatlandırma</li>
+                                <li><img src="images/icon-pricing-benefit-3.svg" alt="">Esnek sözleşme koşulları </li>
+                            </ul>
+                        </div>
+                        <!-- Pricing Benifit List End -->
+                    </div>
+                    <!-- Our Pricing Box End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Our Pricing Section End -->
+
+
+
+    <!-- How It Work Section Start -->
+    <div class="how-it-work">
+        <div class="container">
+            <div class="row section-row">
+                <div class="col-lg-4">
+                    <!-- Section Sub Title Start -->
+                    <div class="section-sub-title">
+                        <h3 class="wow fadeInUp">Depolama Süreci</h3>
+                    </div>
+                    <!-- Section Sub Title End -->
+                </div>
+
+                <div class="col-lg-8">
+                    <!-- Section Title Start -->
+                    <div class="section-title">
+                        <h2 class="text-effect" data-cursor="-opaque">Ankara eşya depolama sürecimizde güvenli, kolay ve
+                            sorunsuz hizmet garantisi</h2>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- How Work Step Box Start -->
+                    <div class="how-work-step-box">
+                        <!-- How Work Item Start -->
+                        <div class="how-work-item wow fadeInUp">
+                            <div class="how-work-body">
+                                <div class="how-work-header">
+                                    <div class="icon-box">
+                                        <img src="images/icon-how-work-1.svg" alt="">
+                                    </div>
+                                    <div class="how-work-stpe-no">
+                                        <span class="step-number">Step 01</span>
+                                    </div>
+                                </div>
+                                <div class="how-work-item-content">
+                                    <h3>Ücretsiz Keşif ve Sözleşme</h3>
+                                    <p>Uzman ekibimiz evinize gelerek ücretsiz keşif yapar ve dijital sözleşmelerinizi
+                                        hazırlar.</p>
+                                    <ul>
+                                        <li>Detaylı ev ve eşya keşfi</li>
+                                        <li>Nakliye ve depolama sözleşmeleri</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="how-work-item-list">
+                                <ul>
+                                    <li>Dijital İmza</li>
+                                    <li>Tablet Üzerinden Sözleşme</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- How Work Item End -->
+
+                        <!-- How Work Item Start -->
+                        <div class="how-work-item wow fadeInUp" data-wow-delay="0.2s">
+                            <div class="how-work-body">
+                                <div class="how-work-header">
+                                    <div class="icon-box">
+                                        <img src="images/icon-how-work-2.svg" alt="">
+                                    </div>
+                                    <div class="how-work-stpe-no">
+                                        <span class="step-number">Step 02</span>
+                                    </div>
+                                </div>
+                                <div class="how-work-item-content">
+                                    <h3>Profesyonel Taşıma Hizmeti</h3>
+                                    <p>Uzman ekibimiz sabah işe başlayarak eşyalarınızı güvenle taşır ve kontrol eder.
+                                    </p>
+                                    <ul>
+                                        <li>Sabah erken başlangıç</li>
+                                        <li>Ekip şefi eşliğinde kontrol</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="how-work-item-list">
+                                <ul>
+                                    <li>Güvenli Paketleme</li>
+                                    <li>Ankara Eşya Taşıma</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- How Work Item End -->
+
+                        <!-- How Work Item Start -->
+                        <div class="how-work-item wow fadeInUp" data-wow-delay="0.4s">
+                            <div class="how-work-body">
+                                <div class="how-work-header">
+                                    <div class="icon-box">
+                                        <img src="images/icon-how-work-3.svg" alt="">
+                                    </div>
+                                    <div class="how-work-stpe-no">
+                                        <span class="step-number">Step 03</span>
+                                    </div>
+                                </div>
+                                <div class="how-work-item-content">
+                                    <h3>Depo Teslimi ve Yerleştirme</h3>
+                                    <p>Eşyalarınız depoya ulaştığında size özel odaya düzenli şekilde yerleştirilir.</p>
+                                    <ul>
+                                        <li>Müşteriye özel depo odası</li>
+                                        <li>Düzenli istifleme sistemi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="how-work-item-list">
+                                <ul>
+                                    <li>Güvenli Depolama</li>
+                                    <li>Ankara Depo Hizmeti</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- How Work Item End -->
+
+                        <!-- How Work Item Start -->
+                        <div class="how-work-item wow fadeInUp" data-wow-delay="0.6s">
+                            <div class="how-work-body">
+                                <div class="how-work-header">
+                                    <div class="icon-box">
+                                        <img src="images/icon-how-work-4.svg" alt="">
+                                    </div>
+                                    <div class="how-work-stpe-no">
+                                        <span class="step-number">Step 04</span>
+                                    </div>
+                                </div>
+                                <div class="how-work-item-content">
+                                    <h3>Müşteri Paneli ve Kilit Teslimi</h3>
+                                    <p>Müşteri panel bilgileriniz ve depo kilit bilgileriniz size teslim edilir.</p>
+                                    <ul>
+                                        <li>Online müşteri paneli</li>
+                                        <li>Kişisel güvenlik kilidi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="how-work-item-list">
+                                <ul>
+                                    <li>7/24 Erişim</li>
+                                    <li>Dijital Takip</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- How Work Item End -->
+                    </div>
+                    <!-- How Work Step Box End -->
+                </div>
+
+                <div class="col-lg-12">
+                    <!-- Section Footer Text Start -->
+                    <div class="section-footer-text wow fadeInUp" data-wow-delay="0.8s">
+                        <p><span>Ücretsiz</span> Keşiften teslime kadar - <a href="contact.html">Ankara eşya depolama
+                                sürecimizi keşfedin ve güvenli hizmeti deneyimleyin.</a></p>
+                    </div>
+                    <!-- Section Footer Text End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- How It Work Section End -->
+
+
+
+
+    <!-- Our FAQs Section Start -->
+    <div class="our-faqs bg-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-6">
+                    <!-- Faq Image Box Start -->
+                    <div class="faq-image-box wow fadeInUp" data-wow-delay="0.2s">
+                        <!-- Faq Image 1 Start -->
+                        <div class="faq-img-1">
+                            <!-- Faq Image Start -->
+                            <div class="faq-image">
+                                <figure class="image-anime">
+                                    <img src="https://www.europatrans.com.tr/themes/europatrans/img/kurumsal.avif"
+                                        alt="">
+                                </figure>
+                            </div>
+                            <!-- Faq Image End -->
+
+                            <!-- Contact Us Circle Start -->
+                            <div class="contact-us-circle">
+                                <a href="contact.html" aria-label="İletişim sayfasına git"><img
+                                        src="images/contact-us-circle.svg" alt="İletişim"></a>
+                            </div>
+                            <!-- Contact Us Circle End -->
+                        </div>
+                        <!-- Faq Image 1 End -->
+
+                        <!-- Faq Image 2 Start -->
+                        <div class="faq-img-2">
+                            <!-- Faq CTA Box Start -->
+                            <div class="faq-cta-box">
+                                <div class="icon-box">
+                                    <img src="images/icon-headphone.svg" alt="">
+                                </div>
+                                <div class="faq-cta-content">
+                                    <p>Yardıma mı ihtiyacınız var? Bize ulaşın</p>
+                                    <h3><a href="tel:+905551234567">+90 555 123 45 67</a></h3>
+                                </div>
+                            </div>
+                            <!-- Faq CTA Box End -->
+
+                            <!-- Faq Image Start -->
+                            <div class="faq-image">
+                                <figure class="image-anime">
+                                    <img src="https://www.europatrans.com.tr/themes/europatrans/img/kurumsal.avif"
+                                        alt="">
+                                </figure>
+                            </div>
+                            <!-- Faq Image End -->
+                        </div>
+                        <!-- Faq Image 2 End -->
+                    </div>
+                    <!-- Faq Image Box End -->
+                </div>
+
+                <div class="col-xl-6">
+                    <!-- FAQs Content Start -->
+                    <div class="faqs-content">
+                        <!-- Section Title Start -->
+                        <div class="section-title">
+                            <h2 class="wow fadeInUp">Sık Sorulan Sorular</h2>
+                            <h3 class="text-effect" data-cursor="-opaque">Ankara eşya depolama hizmetlerimiz hakkında
+                                bilmeniz gereken her şey</h3>
+                        </div>
+                        <!-- Section Title End -->
+
+                        <!-- FAQ Accordion Start -->
+                        <div class="faq-accordion" id="accordion">
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.2s">
+                                <h3 class="accordion-header" id="heading1">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                        S1. Ankara eşya depolama hizmeti nedir?
+                                    </button>
+                                </h3>
+                                <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Ankara eşya depolama, ev veya iş yerinizde yer kaplayan fazla eşyalarınızı
+                                            güvenli, modern ve özel olarak tasarlanmış depolama alanlarında koruma
+                                            hizmetidir. Eşyalarınız yangın, sel, böcek ve benzeri risklere karşı
+                                            profesyonel önlemler alınmış tesislerde saklanır.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.3s">
+                                <h3 class="accordion-header" id="heading2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                        S2. Depolama alanlarınız güvenli mi?
+                                    </button>
+                                </h3>
+                                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Evet. Tüm depolarımız yangın sensörleri, nem kontrol sistemleri, 7/24 kamera
+                                            güvenliği ve haşere önlemleriyle donatılmıştır. Ayrıca giriş-çıkışlar kayıt
+                                            altında tutulur ve depolar sadece yetkili personel tarafından açılabilir.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.4s">
+                                <h3 class="accordion-header" id="heading3">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                        S3. Ankara'da eşya depolama fiyatları nasıl belirleniyor?
+                                    </button>
+                                </h3>
+                                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Depolama fiyatları; eşya miktarı, depo süresi ve seçilen oda büyüklüğüne göre
+                                            değişiklik göstermektedir. İhtiyacınıza en uygun fiyat teklifini almak için
+                                            online teklif formumuzu doldurabilir veya müşteri temsilcimizle iletişime
+                                            geçebilirsiniz.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.5s">
+                                <h3 class="accordion-header" id="heading4">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                        S4. Depolama sırasında eşyalarıma nasıl ulaşabilirim?
+                                    </button>
+                                </h3>
+                                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Müşterilerimiz için özel hazırlanmış online müşteri paneli sayesinde depolama
+                                            sürecini anlık takip edebilir, ödeme durumunu görebilir ve talep halinde
+                                            depoya erişim sağlayabilirsiniz.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.6s">
+                                <h3 class="accordion-header" id="heading5">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                        S5. Depo ödemelerini nasıl yapabilirim?
+                                    </button>
+                                </h3>
+                                <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Ödemelerinizi kredi kartı veya havale/EFT ile kolayca yapabilirsiniz. Online
+                                            panelimizde ödeme hatırlatma sistemi de bulunmaktadır, böylece ödemelerinizi
+                                            aksatma riski ortadan kalkar.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.7s">
+                                <h3 class="accordion-header" id="heading6">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                        S6. Kısa süreli eşya depolama yapabilir miyim?
+                                    </button>
+                                </h3>
+                                <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Evet. Ankara eşya depolama hizmetlerimiz hem kısa süreli hem de uzun süreli
+                                            depolama ihtiyaçlarınıza uygundur. Taşınma, tadilat veya geçici şehir dışı
+                                            durumlarında kısa vadeli çözümler de sunuyoruz.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.8s">
+                                <h3 class="accordion-header" id="heading7">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                        S7. Hangi tür eşyaları depolayabilirim?
+                                    </button>
+                                </h3>
+                                <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Ev eşyaları, ofis mobilyaları, arşiv dosyaları, ticari ürünler, paletli
+                                            malzemeler ve kişisel eşyalar güvenle depolanabilir. Ancak tehlikeli
+                                            kimyasal maddeler, yanıcı ürünler ve yasa dışı eşyalar kabul edilmemektedir.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+
+                            <!-- FAQ Item Start -->
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.9s">
+                                <h3 class="accordion-header" id="heading8">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                        S8. Depolarınız Ankara'nın neresinde bulunuyor?
+                                    </button>
+                                </h3>
+                                <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p>Depolarımız Ankara'nın Çankaya ve Kazan bölgelerinde yer almaktadır. Her iki
+                                            tesisimiz de merkezi konumları ve kolay ulaşım imkânları ile
+                                            müşterilerimizin depolama ihtiyaçlarını en pratik şekilde karşılamaktadır.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item End -->
+                        </div>
+                        <!-- FAQ Accordion End -->
+                    </div>
+                    <!-- FAQs Content End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Our FAQs Section End -->
+
+
+    <!-- Our Blog Section Start -->
+    <div class="our-blog">
+        <div class="container">
+            <div class="row section-row align-items-center">
+                <div class="col-xl-6 col-lg-8">
+                    <!-- Section Title Start -->
+                    <div class="section-title">
+                        <h2 class="wow fadeInUp">Blog Yazılarımız</h2>
+                        <h3 class="text-effect" data-cursor="-opaque">Ankara eşya depolama konusunda faydalı bilgiler ve
+                            ipuçları</h3>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+
+                <div class="col-xl-6 col-lg-4">
+                    <!-- Section Button Start -->
+                    <div class="section-btn wow fadeInUp" data-wow-delay="0.2s">
+                        <a href="blog.html" download="" class="btn-default">Tüm Blog Yazıları</a>
+                    </div>
+                    <!-- Section Button End -->
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Post Item List Start -->
+                <div class="post-item-list">
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="images/post-1.jpg" alt="">
+                                </figure>
+                            </a>
+                            <div class="post-item-tags">
+                                <a href="blog-single.html">Cyber Security</a>
+                            </div>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Post Item Body Start -->
+                        <div class="post-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h3><a href="blog-single.html">Top cybersecurity threat you need a know about this
+                                        year</a></h3>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Post Item Readmore Button Start-->
+                            <div class="post-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">devamını oku</a>
+                            </div>
+                            <!-- Post Item Readmore Button End-->
+                        </div>
+                        <!-- Post Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="0.2s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="images/post-2.jpg" alt="">
+                                </figure>
+                            </a>
+                            <div class="post-item-tags">
+                                <a href="blog-single.html">Automation</a>
+                            </div>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Post Item Body Start -->
+                        <div class="post-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h3><a href="blog-single.html">Why regular data backups can save your business</a></h3>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Post Item Readmore Button Start-->
+                            <div class="post-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">devamını oku</a>
+                            </div>
+                            <!-- Post Item Readmore Button End-->
+                        </div>
+                        <!-- Post Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="0.4s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="images/post-3.jpg" alt="">
+                                </figure>
+                            </a>
+                            <div class="post-item-tags">
+                                <a href="blog-single.html">Business Growth</a>
+                            </div>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Post Item Body Start -->
+                        <div class="post-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h3><a href="blog-single.html">How to build a future-ready network infrastructure</a>
+                                </h3>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Post Item Readmore Button Start-->
+                            <div class="post-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">devamını oku</a>
+                            </div>
+                            <!-- Post Item Readmore Button End-->
+                        </div>
+                        <!-- Post Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="0.6s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="images/post-4.jpg" alt="">
+                                </figure>
+                            </a>
+                            <div class="post-item-tags">
+                                <a href="blog-single.html">Data Backup</a>
+                            </div>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Post Item Body Start -->
+                        <div class="post-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h3><a href="blog-single.html">Understanding zero trust security in simple terms</a>
+                                </h3>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Post Item Readmore Button Start-->
+                            <div class="post-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">devamını oku</a>
+                            </div>
+                            <!-- Post Item Readmore Button End-->
+                        </div>
+                        <!-- Post Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+                </div>
+                <!-- Post Item List End -->
+            </div>
+        </div>
+    </div>
+    <!-- Our Blog Section End -->
+
+    <!-- Customer Login Modal Start -->
+    <div class="modal fade" id="customerLoginModal" tabindex="-1" aria-labelledby="customerLoginModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customerLoginModalLabel">
+                        <i class="fas fa-user-circle me-2"></i>
+                        Müşteri Paneli Girişi
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="customer-login-form">
+                        <div class="login-header">
+                            <div class="login-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h6>Güvenli Giriş</h6>
+                            <p>Sözleşme numaranızı girerek depolama hesabınıza erişin</p>
+                        </div>
+
+                        <form id="customerLoginForm">
+                            <div class="form-group mb-4">
+                                <label for="contractNumber" class="form-label">
+                                    <i class="fas fa-file-contract me-2"></i>
+                                    Sözleşme Numarası
+                                </label>
+                                <input type="text" class="form-control" id="contractNumber"
+                                    placeholder="Sözleşme numaranızı giriniz" required>
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Sözleşme numaranızı sözleşme belgenizde bulabilirsiniz
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 login-btn">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Giriş Yap
+                            </button>
+                        </form>
+
+                        <!-- Loading Section -->
+                        <div class="login-loading" id="loginLoading">
+                            <div class="loading-text">Müşteri Paneline Giriş Yapıyor...</div>
+                            <div class="loading-bar-container">
+                                <div class="loading-bar" id="loadingBar"></div>
+                            </div>
+                            <div class="loading-steps">
+                                <div class="loading-step" id="step1">
+                                    <i class="fas fa-check-circle"></i>
+                                    Doğrulama
+                                </div>
+                                <div class="loading-step" id="step2">
+                                    <i class="fas fa-key"></i>
+                                    Yetkilendirme
+                                </div>
+                                <div class="loading-step" id="step3">
+                                    <i class="fas fa-door-open"></i>
+                                    Yönlendirme
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="login-footer">
+                            <div class="help-links">
+                                <p class="mb-2">
+                                    <i class="fas fa-question-circle me-1"></i>
+                                    Yardıma mı ihtiyacınız var?
+                                </p>
+                                <a href="tel:4446995" class="help-link">
+                                    <i class="fas fa-phone me-1"></i>
+                                    444 6 995
+                                </a>
+                                <span class="mx-2">|</span>
+                                <a href="mailto:info@europadepo.com" class="help-link">
+                                    <i class="fas fa-envelope me-1"></i>
+                                    Destek
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Customer Login Modal End -->
+
+    <!-- Main Footer Start -->
+    <footer class="main-footer bg-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3">
+                    <!-- About Footer Start -->
+                    <div class="about-footer">
+                        <!-- Footer Logo Start -->
+                        <div class="footer-logo">
+                            <img src="http://europatrans.com.tr/uploads/logo.png" alt="Europa Depo Logo">
+                        </div>
+                        <!-- Footer Logo End -->
+
+                        <!-- About Footer Content Start -->
+                        <div class="about-footer-content">
+                            <p>Ankara'da güvenilir eşya depolama hizmetleri sunan lider firma. Premium depolama
+                                çözümleriyle eşyalarınız güvende.</p>
+                        </div>
+                        <!-- About Footer Content End -->
+
+                        <!-- Footer Social Link Start -->
+                        <div class="footer-social-links">
+                            <ul>
+                                <li><a href="https://instagram.com/europatrans" target="_blank" rel="noopener"
+                                        aria-label="Instagram'da bizi takip edin"><i
+                                            class="fa-brands fa-instagram"></i></a></li>
+                                <li><a href="https://facebook.com/europatrans" target="_blank" rel="noopener"
+                                        aria-label="Facebook'ta bizi takip edin"><i
+                                            class="fa-brands fa-facebook-f"></i></a></li>
+                                <li><a href="https://twitter.com/europatrans" target="_blank" rel="noopener"
+                                        aria-label="Twitter'da bizi takip edin"><i
+                                            class="fa-brands fa-x-twitter"></i></a></li>
+                                <li><a href="https://pinterest.com/europatrans" target="_blank" rel="noopener"
+                                        aria-label="Pinterest'te bizi takip edin"><i
+                                            class="fa-brands fa-pinterest-p"></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- Footer Social Link End -->
+                    </div>
+                    <!-- About Footer End -->
+                </div>
+
+                <div class="col-xl-3">
+                    <!-- Hızlı Erişim Start -->
+                    <div class="footer-links">
+                        <h3>Hızlı Erişim</h3>
+                        <ul class="footer-menu">
+                            <li><a href="services.html">Ankara Eşya Depolama</a></li>
+                            <li><a href="services.html">Premium Depolama</a></li>
+                            <li><a href="services.html">Güvenli Depolama</a></li>
+                            <li><a href="services.html">Ev Eşyası Depolama</a></li>
+                            <li><a href="services.html">Ticari Depolama</a></li>
+                            <li><a href="services.html">Self Storage</a></li>
+                        </ul>
+                    </div>
+                    <!-- Hızlı Erişim End -->
+                </div>
+
+                <div class="col-xl-3">
+                    <!-- Hizmetlerimiz Start -->
+                    <div class="footer-links">
+                        <h3>Hizmetlerimiz</h3>
+                        <ul class="footer-menu">
+                            <li><a href="service-single.html">Ev Eşyası Depolama</a></li>
+                            <li><a href="service-single.html">Kişisel Eşya Depolama</a></li>
+                            <li><a href="service-single.html">Ticari Depolama</a></li>
+                            <li><a href="service-single.html">Arşiv Depolama</a></li>
+                            <li><a href="service-single.html">E-ticaret Depolama</a></li>
+                            <li><a href="service-single.html">Medikal Depolama</a></li>
+                        </ul>
+                    </div>
+                    <!-- Hizmetlerimiz End -->
+                </div>
+
+                <div class="col-xl-3">
+                    <!-- İletişim Bilgileri Start -->
+                    <div class="footer-links">
+                        <h3>İletişim Bilgileri</h3>
+
+                        <!-- Telefon -->
+                        <div class="footer-contact-item">
+                            <div class="contact-info">
+                                <i class="fas fa-phone"></i>
+                                <div class="contact-details">
+                                    <h4><a href="tel:4446995">444 6 995</a></h4>
+                                    <p>7/24 Müşteri Hizmetleri</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Adres -->
+                        <div class="footer-contact-item">
+                            <div class="contact-info">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="contact-details">
+                                    <h4>Adresimiz</h4>
+                                    <p>Kayı mahallesi 3241 cadde<br>06980 Kahramankazan/Ankara</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="footer-contact-item">
+                            <div class="contact-info">
+                                <i class="fas fa-envelope"></i>
+                                <div class="contact-details">
+                                    <h4><a href="mailto:info@europadepo.com">info@europadepo.com</a></h4>
+                                    <p>Bilgi ve Destek</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- İletişim Bilgileri End -->
+                </div>
+
+                <div class="col-lg-12">
+                    <!-- Footer Copyright Start -->
+                    <div class="footer-copyright">
+                        <!-- Footer Top Button Start -->
+                        <div class="footer-top-button">
+                            <a href="#top" aria-label="Sayfanın başına git">
+                                <img src="images/arrow-primary.svg" alt="Yukarı">
+                            </a>
+                        </div>
+                        <!-- Footer Top Button End -->
+
+                        <!-- Footer Copyright Text Start -->
+                        <div class="footer-copyright-text">
+                            <p>Copyright © 2025 All Rights Reserved.</p>
+                        </div>
+                        <!-- Footer Copyright Text End -->
+
+                        <!-- Footer Menu Start -->
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="index.html">Ankara Eşya Depolama</a></li>
+                                <li><a href="about.html">Kurumsal</a></li>
+                                <li><a href="services.html">Hizmetler</a></li>
+                                <li><a href="projects.html">Nakliyat</a></li>
+                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="contact.html">İletişim</a></li>
+                            </ul>
+                        </div>
+                        <!-- Footer Menu End -->
+                    </div>
+                    <!-- Footer Copyright End -->
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Main Footer End -->
+
+    <!-- Jquery Library File -->
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap js file -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Validator js file -->
+    <script src="js/validator.min.js"></script>
+    <!-- SlickNav js file -->
+    <script src="js/jquery.slicknav.js"></script>
+    <!-- Swiper js file -->
+    <script src="js/swiper-bundle.min.js"></script>
+    <!-- Counter js file -->
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <!-- Magnific js file -->
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <!-- SmoothScroll -->
+    <script src="js/SmoothScroll.js"></script>
+    <!-- Parallax js -->
+    <script src="js/parallaxie.js"></script>
+    <!-- MagicCursor js file -->
+    <script src="js/gsap.min.js"></script>
+    <script src="js/magiccursor.js"></script>
+    <!-- Text Effect js file -->
+    <script src="js/SplitText.min.js"></script>
+    <script src="js/ScrollTrigger.min.js"></script>
+    <!-- YTPlayer js File -->
+    <script src="js/jquery.mb.YTPlayer.min.js"></script>
+    <!-- Image Effect js File -->
+    <script src="js/three.min.js"></script>
+    <script src="js/hover.js"></script>
+    <!-- Wow js file -->
+    <script src="js/wow.min.js"></script>
+    <!-- Main Custom js file -->
+    <script src="js/function.js"></script>
+
+    <!-- Customer Login Modal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const customerLoginForm = document.getElementById('customerLoginForm');
+            const loginLoading = document.getElementById('loginLoading');
+            const loadingBar = document.getElementById('loadingBar');
+            const loginBtn = customerLoginForm?.querySelector('.login-btn');
+
+            // Loading animation function
+            function showLoadingAnimation(contractNumber) {
+                // Hide form and show loading
+                customerLoginForm.style.display = 'none';
+                loginLoading.classList.add('active');
+
+                const steps = ['step1', 'step2', 'step3'];
+                let currentStep = 0;
+                let progress = 0;
+
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 15 + 5; // Random progress increment
+                    if (progress > 100) progress = 100;
+
+                    loadingBar.style.width = progress + '%';
+
+                    // Update steps
+                    if (progress > 30 && currentStep === 0) {
+                        document.getElementById(steps[0]).classList.add('active');
+                        setTimeout(() => {
+                            document.getElementById(steps[0]).classList.remove('active');
+                            document.getElementById(steps[0]).classList.add('completed');
+                        }, 500);
+                        currentStep++;
+                    } else if (progress > 60 && currentStep === 1) {
+                        document.getElementById(steps[1]).classList.add('active');
+                        setTimeout(() => {
+                            document.getElementById(steps[1]).classList.remove('active');
+                            document.getElementById(steps[1]).classList.add('completed');
+                        }, 500);
+                        currentStep++;
+                    } else if (progress > 90 && currentStep === 2) {
+                        document.getElementById(steps[2]).classList.add('active');
+                        setTimeout(() => {
+                            document.getElementById(steps[2]).classList.remove('active');
+                            document.getElementById(steps[2]).classList.add('completed');
+                        }, 500);
+                        currentStep++;
+                    }
+
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+
+                        // Complete loading and redirect
+                        setTimeout(() => {
+                            const loginUrl = `https://www.europagroup.com.tr/depo/musteri/${encodeURIComponent(contractNumber)}`;
+                            window.open(loginUrl, '_blank');
+
+                            // Reset modal
+                            resetModal();
+                        }, 800);
+                    }
+                }, 100);
+            }
+
+            // Reset modal function
+            function resetModal() {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('customerLoginModal'));
+                if (modal) {
+                    modal.hide();
+                }
+
+                // Reset form and loading states
+                setTimeout(() => {
+                    customerLoginForm.style.display = 'block';
+                    loginLoading.classList.remove('active');
+                    loadingBar.style.width = '0%';
+
+                    // Reset steps
+                    ['step1', 'step2', 'step3'].forEach(stepId => {
+                        const step = document.getElementById(stepId);
+                        step.classList.remove('active', 'completed');
+                    });
+
+                    // Reset form
+                    customerLoginForm.reset();
+                    loginBtn.disabled = false;
+                }, 500);
+            }
+
+            if (customerLoginForm) {
+                customerLoginForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const contractNumber = document.getElementById('contractNumber').value.trim();
+
+                    if (contractNumber) {
+                        // Disable button and show loading
+                        loginBtn.disabled = true;
+                        showLoadingAnimation(contractNumber);
+                    } else {
+                        // Show error
+                        const contractInput = document.getElementById('contractNumber');
+                        contractInput.classList.add('is-invalid');
+
+                        setTimeout(() => {
+                            contractInput.classList.remove('is-invalid');
+                        }, 3000);
+                    }
+                });
+            }
+
+            // Input focus olduğunda hata stilini kaldır
+            const contractInput = document.getElementById('contractNumber');
+            if (contractInput) {
+                contractInput.addEventListener('focus', function () {
+                    this.classList.remove('is-invalid');
+                });
+            }
+        });
+    </script>
+</body>

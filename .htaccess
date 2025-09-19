@@ -1,0 +1,151 @@
+# Don't show directory listings for URLs which map to a directory.
+Options -Indexes
+
+# Make HTMLy handle any 404 errors.
+ErrorDocument 404 /index.php
+
+# Set the default handler.
+DirectoryIndex index.php
+
+# Browser Caching and Expires Headers
+<IfModule mod_expires.c>
+  ExpiresActive on
+
+  # Default expiration fallback
+  ExpiresDefault "access plus 1 month"
+
+  # CSS and JavaScript
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/js "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+
+  # Images - Long cache for optimization
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # Videos - Long cache
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType video/webm "access plus 1 year"
+  ExpiresByType video/ogg "access plus 1 year"
+
+  # Fonts
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+  ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+  ExpiresByType application/x-font-ttf "access plus 1 year"
+  ExpiresByType font/opentype "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+
+  # HTML - Short cache for dynamic content
+  ExpiresByType text/html "access plus 1 hour"
+
+  # Data interchange - No cache
+  ExpiresByType application/json "access plus 0 seconds"
+  ExpiresByType application/xml "access plus 0 seconds"
+  ExpiresByType text/xml "access plus 0 seconds"
+
+  # Web feeds
+  ExpiresByType application/atom+xml "access plus 1 day"
+  ExpiresByType application/rss+xml "access plus 1 day"
+</IfModule>
+
+# Various rewrite rules.
+<IfModule mod_rewrite.c>
+
+  RewriteEngine on
+
+# Uncomment the following to redirect all visitors to the https version
+# RewriteCond %{HTTPS} off
+# RewriteRUle (.*) https://www.example.com/$1 [R=301,L]
+# RewriteCond %{HTTPS} on
+# RewriteCond %{HTTP_HOST} ^example\.com$ [NC]
+# RewriteRUle (.*) https://www.example.com/$1 [R=301,L]
+
+# Uncomment the following to redirect all visitors to the www version
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Uncomment the following to redirect all visitors to non www version
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^ http://%1%{REQUEST_URI} [L,R=301]
+
+# If your site is running in a VirtualDocumentRoot at http://example.com/,
+# uncomment the following line:
+# RewriteBase /
+
+# Pass all requests not referring directly to files in the filesystem to index.php.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [L]
+
+</IfModule>
+
+# Enable Gzip compression for better performance
+<IfModule mod_deflate.c>
+    # Force compression for mangled headers
+    <IfModule mod_setenvif.c>
+        <IfModule mod_headers.c>
+            SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+            RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+        </IfModule>
+    </IfModule>
+
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/atom+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/x-web-app-manifest+json
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/js
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/x-component
+    AddOutputFilterByType DEFLATE text/xml
+
+    # Remove browser bugs (only needed for really old browsers)
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    Header append Vary User-Agent
+</IfModule>
+
+# Additional Performance Optimizations
+<IfModule mod_headers.c>
+    # Remove ETags
+    Header unset ETag
+    FileETag None
+
+    # Security headers
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Cache control for static assets
+    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|webp|avif|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # Cache control for HTML
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "public, max-age=3600"
+    </FilesMatch>
+</IfModule>

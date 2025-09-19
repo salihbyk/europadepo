@@ -1,0 +1,20 @@
+{
+    "version": "1.0.0",
+    "build": "20250919001",
+    "release_date": "2025-09-19",
+    "description": "Europa Depo - İlk versiyon",
+    "github_repo": "salihbyk/europadepo",
+    "update_url": "https://api.github.com/repos/salihbyk/europadepo/releases/latest",
+    "changelog": [
+        {
+            "version": "1.0.0",
+            "date": "2025-09-19",
+            "changes": [
+                "İlk versiyon yayınlandı",
+                "HTMLy CMS entegrasyonu",
+                "Modern tema yapısı",
+                "Depolama hizmetleri sayfaları"
+            ]
+        }
+    ]
+}
