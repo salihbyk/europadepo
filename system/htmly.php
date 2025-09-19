@@ -2796,6 +2796,124 @@ post('/admin/dismiss-update-notification', function () {
     }
 });
 
+// Europa AI SEO Generator endpoint
+post('/admin/generate-ai-seo', function () {
+    header('Content-Type: application/json');
+    
+    try {
+        if (!login()) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Oturum açmanız gerekiyor']);
+            return;
+        }
+
+        // JSON input'u al
+        $rawInput = file_get_contents('php://input');
+        if (empty($rawInput)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Boş JSON input']);
+            return;
+        }
+
+        $input = json_decode($rawInput, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Geçersiz JSON format']);
+            return;
+        }
+
+        // CSRF kontrolü
+        if (!is_csrf_proper($input['csrf_token'] ?? '')) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'CSRF token geçersiz']);
+            return;
+        }
+
+        $title = trim($input['title'] ?? '');
+        $keywords = trim($input['keywords'] ?? '');
+
+        if (empty($title)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Başlık gereklidir']);
+            return;
+        }
+
+        if (empty($keywords)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Etiketler gereklidir']);
+            return;
+        }
+
+        // AI Content Generator sınıfını yükle
+        if (!class_exists('EuropaAIContentGenerator')) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'AI Generator sınıfı bulunamadı']);
+            return;
+        }
+
+        $generator = new EuropaAIContentGenerator();
+        
+        // SEO için özel prompt oluştur
+        $seoPrompt = "Lütfen aşağıdaki bilgilere göre SEO title ve meta description oluşturun:\n\n";
+        $seoPrompt .= "Başlık: {$title}\n";
+        $seoPrompt .= "Anahtar Kelimeler: {$keywords}\n\n";
+        $seoPrompt .= "Çıktı formatı (sadece JSON formatında yanıt verin):\n";
+        $seoPrompt .= "{\n";
+        $seoPrompt .= '  "seo_title": "50-60 karakter arası SEO başlığı",'."\n";
+        $seoPrompt .= '  "meta_description": "150-160 karakter arası meta açıklaması"'."\n";
+        $seoPrompt .= "}\n\n";
+        $seoPrompt .= "Türkçe dilinde, depolama hizmetleri için optimize edilmiş, çekici ve arama motorları için uygun olsun.";
+
+        $result = $generator->generateWithChatGPT($seoPrompt);
+        
+        if (empty($result)) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'AI yanıt alamadı']);
+            return;
+        }
+
+        // JSON yanıtını parse et
+        $seoData = json_decode($result, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            // Eğer JSON değilse, basit text parsing dene
+            $seoTitle = '';
+            $metaDesc = '';
+            
+            if (preg_match('/"seo_title":\s*"([^"]+)"/', $result, $matches)) {
+                $seoTitle = $matches[1];
+            }
+            if (preg_match('/"meta_description":\s*"([^"]+)"/', $result, $matches)) {
+                $metaDesc = $matches[1];
+            }
+            
+            if (empty($seoTitle) || empty($metaDesc)) {
+                http_response_code(500);
+                echo json_encode(['success' => false, 'error' => 'AI yanıtı parse edilemedi', 'raw_response' => $result]);
+                return;
+            }
+            
+            $seoData = [
+                'seo_title' => $seoTitle,
+                'meta_description' => $metaDesc
+            ];
+        }
+
+        echo json_encode([
+            'success' => true,
+            'seo_title' => $seoData['seo_title'] ?? '',
+            'meta_description' => $seoData['meta_description'] ?? ''
+        ]);
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'error' => 'Sunucu hatası: ' . $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+    }
+});
+
 // Europa AI Content Generator endpoint
 post('/admin/generate-ai-content', function () {
     // Error reporting'i aç

@@ -1356,28 +1356,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Loading durumu göster
             this.disabled = true;
-            this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> ChatGPT ile oluşturuluyor...';
-            aiGenerationStatus.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI SEO oluşturuluyor...';
+            aiSEOStatus.style.display = 'block';
 
-            // AI içerik oluşturma isteği
+            // AI SEO oluşturma isteği
             generateEuropaSEO(title, keywords)
-                .then(content => {
-                    if (content && content.trim()) {
-                        // İçeriği textarea'ya ekle
-                        if (contentTextarea) {
-                            contentTextarea.value = content;
-                            // Input event'ini tetikle (word count update için)
-                            contentTextarea.dispatchEvent(new Event('input'));
+                .then(result => {
+                    if (result && result.seo_title && result.meta_description) {
+                        // SEO alanlarını doldur
+                        if (seoTitleInput) {
+                            seoTitleInput.value = result.seo_title;
+                        }
+                        if (metaDescInput) {
+                            metaDescInput.value = result.meta_description;
                         }
 
-                        showSuccessMessage('🎉 AI içerik başarıyla oluşturuldu! İçeriği kontrol edin ve düzenleyin.');
+                        showSuccessMessage('🎉 AI SEO başarıyla oluşturuldu! SEO alanlarını kontrol edin.');
                     } else {
-                        showErrorMessage('İçerik oluşturulamadı. API ayarlarını kontrol edin.');
+                        showErrorMessage('SEO oluşturulamadı. API ayarlarını kontrol edin.');
                     }
                 })
                 .catch(error => {
-                    console.error('AI Content Generation Error:', error);
-                    let errorMsg = 'İçerik oluşturulurken hata oluştu: ' + error.message;
+                    console.error('AI SEO Generation Error:', error);
+                    let errorMsg = 'SEO oluşturulurken hata oluştu: ' + error.message;
 
                     if (error.message.includes('API')) {
                         errorMsg += ' ChatGPT API ayarlarını kontrol edin.';
@@ -1388,8 +1389,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 .finally(() => {
                     // Loading durumunu kaldır
                     this.disabled = false;
-                    this.innerHTML = '<i class="fa fa-magic"></i> AI İle İçerik Oluştur';
-                    aiGenerationStatus.style.display = 'none';
+                    this.innerHTML = '<i class="fas fa-magic"></i> SEO Oluştur';
+                    aiSEOStatus.style.display = 'none';
                 });
         });
     }
@@ -1424,12 +1425,61 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Syntax highlighting kaldırıldı (güvenlik riski nedeniyle)
     // Basit kod bloku stilleri yeterli
+
+    // Öne çıkan görsel önizleme
+    const featuredImageInput = document.getElementById('featuredImage');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+
+    if (featuredImageInput) {
+        featuredImageInput.addEventListener('input', function() {
+            const url = this.value.trim();
+            if (url && isValidImageUrl(url)) {
+                previewImg.src = url;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+
+        // Sayfa yüklendiğinde mevcut değeri kontrol et
+        if (featuredImageInput.value.trim()) {
+            const url = featuredImageInput.value.trim();
+            if (isValidImageUrl(url)) {
+                previewImg.src = url;
+                imagePreview.style.display = 'block';
+            }
+        }
+    }
 });
+
+// Görsel URL validasyonu
+function isValidImageUrl(url) {
+    return /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(url) || url.includes('unsplash.com') || url.includes('pexels.com');
+}
+
+// Görsel kaldırma fonksiyonu
+function removeImage() {
+    const featuredImageInput = document.getElementById('featuredImage');
+    const imagePreview = document.getElementById('imagePreview');
+    
+    if (featuredImageInput) {
+        featuredImageInput.value = '';
+    }
+    if (imagePreview) {
+        imagePreview.style.display = 'none';
+    }
+}
+
+// Görsel modal açma fonksiyonu (placeholder)
+function openImageModal() {
+    alert('Görsel yükleme özelliği yakında eklenecek. Şimdilik görsel URL\'si girebilirsiniz.');
+}
 
 // Europa AI SEO Oluşturma Fonksiyonu
 async function generateEuropaSEO(title, keywords) {
     try {
-        const response = await fetch(base_path + 'admin/generate-ai-content', {
+        const response = await fetch(base_path + 'admin/generate-ai-seo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1449,9 +1499,12 @@ async function generateEuropaSEO(title, keywords) {
         const data = await response.json();
 
         if (data.success) {
-            return data.content;
+            return {
+                seo_title: data.seo_title || '',
+                meta_description: data.meta_description || ''
+            };
         } else {
-            throw new Error(data.error || 'İçerik oluşturulamadı');
+            throw new Error(data.error || 'SEO oluşturulamadı');
         }
     } catch (error) {
         console.error('AI Content Generation Error:', error);
@@ -1619,18 +1672,18 @@ function wrapSelection(textarea, prefix, suffix) {
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <!-- Başlık Alanı -->
+                        <!-- Başlık Alanı -->
                                 <div class="form-group">
                                     <label for="pTitle" class="form-label">
                                         <i class="fas fa-heading text-primary"></i> İçerik Başlığı
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input autofocus type="text"
+                        <input autofocus type="text"
                                            class="form-control form-control-lg <?php if (isset($postTitle)) { if (empty($postTitle)) { echo 'is-invalid';}} ?>"
-                                           id="pTitle"
-                                           name="title"
-                                           value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"
-                                           placeholder="Yazınızın başlığını buraya yazın..."/>
+                               id="pTitle"
+                               name="title"
+                               value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"
+                               placeholder="Yazınızın başlığını buraya yazın..."/>
                                     <?php if (isset($postTitle) && empty($postTitle)): ?>
                                     <div class="invalid-feedback">
                                         <i class="fas fa-exclamation-triangle"></i> Başlık alanı zorunludur
@@ -1742,10 +1795,10 @@ Kod bloğu
 ```"><?php if (isset($postContent)) { echo $postContent;} ?></textarea>
                             </div>
 
-                                <!-- Önizleme -->
-                                <div id="wmd-preview" class="wmd-panel wmd-preview" style="margin-top: 20px; min-height: 200px;"></div>
-                            </div>
+                            <!-- Önizleme -->
+                                <div id="wmd-preview" class="wmd-panel wmd-preview" style="margin-top: 20px; min-height: 200px; display: none;"></div>
                         </div>
+                    </div>
 
                         <!-- SEO Ayarları (İçerik Editörünün Altında) -->
                         <div class="card card-success card-outline mt-3">
@@ -1755,11 +1808,11 @@ Kod bloğu
                                 </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-plus"></i>
+                                        <i class="fas fa-minus"></i>
                                     </button>
                                 </div>
                             </div>
-                            <div class="card-body" style="display: none;">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="form-group">
@@ -1827,6 +1880,53 @@ Kod bloğu
 
                     <!-- Sidebar (Sağ Taraf) -->
                     <div class="col-lg-4">
+                        <!-- Öne Çıkan Görsel -->
+                        <div class="card card-warning card-outline mb-3">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-image"></i> Öne Çıkan Görsel
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="featuredImage" class="form-label">
+                                        <i class="fas fa-link text-info"></i> Görsel URL'si
+                                        <small class="text-muted">(İsteğe bağlı)</small>
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="featuredImage" 
+                                               name="featured_image" 
+                                               placeholder="https://example.com/image.jpg"
+                                               value="<?php if (isset($p->featured_image)) { echo $p->featured_image;} ?>"/>
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-outline-primary" onclick="openImageModal()">
+                                                <i class="fas fa-upload"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle text-info"></i>
+                                        Önerilen boyut: 1200x630px
+                                    </div>
+                                </div>
+                                
+                                <div id="imagePreview" class="text-center" style="display: none;">
+                                    <img id="previewImg" src="" alt="Önizleme" class="img-fluid rounded border" style="max-height: 150px;">
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
+                                            <i class="fas fa-trash"></i> Kaldır
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Yayın Ayarları -->
                         <div class="card card-info card-outline">
@@ -1847,15 +1947,15 @@ Kod bloğu
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select id="pCategory" class="form-control" name="category">
-                                        <?php foreach ($desc as $d):?>
-                                            <option value="<?php echo $d->slug;?>"><?php echo $d->title;?></option>
-                                        <?php endforeach;?>
-                                    </select>
+                        <?php foreach ($desc as $d):?>
+                            <option value="<?php echo $d->slug;?>"><?php echo $d->title;?></option>
+                        <?php endforeach;?>
+                    </select>
                                     <div class="form-text">
                                         <i class="fas fa-info-circle text-info"></i>
                                         İçeriğinizin kategorisini seçin
                                     </div>
-                                </div>
+                </div>
 
                                 <div class="form-group">
                                     <label for="pTag" class="form-label">
@@ -1880,7 +1980,7 @@ Kod bloğu
                                     </div>
                                     <?php endif; ?>
                                 </div>
-                            </div>
+                        </div>
                         </div>
 
                             <div class="form-group-modern">
@@ -2015,11 +2115,11 @@ Kod bloğu
                             <div class="card card-secondary card-outline">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div>
+                    <div>
                                             <button type="button" id="preview-toggle" class="btn btn-outline-info">
                                                 <i class="fas fa-eye"></i> Önizleme
-                                            </button>
-                                        </div>
+                        </button>
+                </div>
                                         <div>
                                             <button type="submit" name="draft" class="btn btn-outline-secondary mr-2">
                                                 <i class="fas fa-save"></i> Taslak Kaydet
@@ -2031,18 +2131,18 @@ Kod bloğu
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Hidden Fields -->
-                    <?php if ($type == 'is_post'):?>
-                    <input type="hidden" name="is_post" value="is_post">
-                    <?php endif;?>
-                    <input id="oldfile" type="hidden" name="oldfile" class="text"/>
-                    <input type="hidden" id="pType" name="posttype" value="<?php echo $type; ?>">
-                    <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">
+            </div>
                 </div>
-            </form>
+
+                <!-- Hidden Fields -->
+                <?php if ($type == 'is_post'):?>
+                <input type="hidden" name="is_post" value="is_post">
+                <?php endif;?>
+                <input id="oldfile" type="hidden" name="oldfile" class="text"/>
+                <input type="hidden" id="pType" name="posttype" value="<?php echo $type; ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">
+                </div>
+        </form>
         </div>
     </div>
     </div>
