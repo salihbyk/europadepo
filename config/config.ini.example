@@ -219,5 +219,5 @@ transliterate.slug = "true"
 ; Europa AI Content Generator (ChatGPT API)
 chatgpt.api.key = ""
 chatgpt.model = "gpt-5"
-chatgpt.max.tokens = "4000"
+chatgpt.max.tokens = "8000"
 chatgpt.temperature = "0.7"

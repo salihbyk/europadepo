@@ -85,7 +85,9 @@ YASAK CÜMLELER (ASLA KULLANMA):
 - "Not:"
 - Herhangi bir açıklama cümlesi
 
-SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!';
+SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!
+
+ÖNEMLİ: MİNİMUM 3000-4000 KELİME uzunluğunda detaylı, kapsamlı içerik oluştur. Her bölümü genişlet, kısa paragraflar yazma. İçeriği ASLA yarım bırakma!';
     }
 
     private function setupInternalLinks() {
@@ -142,7 +144,7 @@ SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!';
     private function generateWithChatGPT($prompt) {
         $apiKey = config('chatgpt.api.key');
         $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';
-        $maxTokens = (int)(config('chatgpt.max.tokens') ?: 4000);
+        $maxTokens = (int)(config('chatgpt.max.tokens') ?: 8000);
         $temperature = (float)(config('chatgpt.temperature') ?: 0.7);
         // İstenen model ile dene; eğer yalnızca model kaynaklı hata oluşursa akıllı fallback uygula
         $requestedModel = $model;
@@ -164,7 +166,7 @@ SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!';
                     ],
                     [
                         'role' => 'user',
-                        'content' => $prompt . "\n\nKRİTİK TALİMATLAR:\n- SADECE HTML içeriği ver, hiçbir açıklama yazma\n- 'Bu örnek', 'Bu içerik', 'platformun kapsamı' gibi açıklamalar YASAK\n- Direkt <section> ile başla\n- Minimum 2000 kelime detaylı içerik\n- Sonunda hiçbir not veya açıklama ekleme\n- Sadece HTML kod ver, başka hiçbir şey yazma"
+                        'content' => $prompt . "\n\nKRİTİK TALİMATLAR:\n- SADECE HTML içeriği ver, hiçbir açıklama yazma\n- 'Bu örnek', 'Bu içerik', 'platformun kapsamı' gibi açıklamalar YASAK\n- Direkt <section> ile başla\n- MİNİMUM 3000-4000 KELİME uzunluğunda KAPSAMLI içerik oluştur\n- Her bölümü detaylandır, kısa cümleler kullanma\n- Sonunda hiçbir not veya açıklama ekleme\n- Sadece HTML kod ver, başka hiçbir şey yazma\n- İçeriği ASLA yarım bırakma, tam tamamla"
                     ]
                 ],
                 'max_tokens' => $maxTokens,

@@ -2775,15 +2775,15 @@ post('/admin/dismiss-update-notification', function () {
         echo json_encode(['error' => 'Unauthorized']);
         return;
     }
-    
+
     $user = $_SESSION[site_url()]['user'];
     $role = user('role', $user);
-    
+
     if ($role === 'admin') {
         require_once 'system/includes/auto_updater.php';
         $autoUpdater = new AutoUpdater();
         $autoUpdater->dismissNotification();
-        
+
         echo json_encode(['success' => true]);
     } else {
         http_response_code(403);
@@ -2796,17 +2796,17 @@ post('/admin/generate-ai-content', function () {
     // Error reporting'i aç
     error_reporting(E_ALL);
     ini_set('display_errors', 0); // Browser'da gösterme ama log'a yaz
-    
+
     // JSON response header'ı ayarla
     header('Content-Type: application/json');
-    
+
     try {
         if (!login()) {
             http_response_code(401);
             echo json_encode(['success' => false, 'error' => 'Oturum açmanız gerekiyor']);
             return;
         }
-        
+
         // JSON input'u al
         $rawInput = file_get_contents('php://input');
         if (empty($rawInput)) {
@@ -2814,45 +2814,45 @@ post('/admin/generate-ai-content', function () {
             echo json_encode(['success' => false, 'error' => 'Boş JSON input']);
             return;
         }
-        
+
         $input = json_decode($rawInput, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             http_response_code(400);
             echo json_encode(['success' => false, 'error' => 'Geçersiz JSON format: ' . json_last_error_msg()]);
             return;
         }
-        
+
         // CSRF token kontrolü
         if (!isset($input['csrf_token']) || !is_csrf_proper($input['csrf_token'])) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Geçersiz CSRF token']);
             return;
         }
-        
+
         // Input validation
         $title = trim($input['title'] ?? '');
         $keywords = trim($input['keywords'] ?? '');
-        
+
         if (empty($title)) {
             http_response_code(400);
             echo json_encode(['success' => false, 'error' => 'Başlık gereklidir']);
             return;
         }
-        
+
         // AI Generator'ı yükle
         if (!file_exists('system/includes/ai_content_generator.php')) {
             throw new Exception('AI Content Generator dosyası bulunamadı');
         }
-        
+
         require_once 'system/includes/ai_content_generator.php';
-        
+
         if (!class_exists('EuropaAIContentGenerator')) {
             throw new Exception('AI Content Generator sınıfı yüklenemedi');
         }
-        
+
         $generator = new EuropaAIContentGenerator();
         $content = $generator->generateContent($title, $keywords);
-        
+
         echo json_encode([
             'success' => true,
             'content' => $content,
@@ -2865,12 +2865,12 @@ post('/admin/generate-ai-content', function () {
                 'timestamp' => date('Y-m-d H:i:s')
             ]
         ]);
-        
+
     } catch (Exception $e) {
         // Error log'a yaz
         error_log('AI Content Generator Error: ' . $e->getMessage());
         error_log('AI Content Generator Trace: ' . $e->getTraceAsString());
-        
+
         http_response_code(500);
         echo json_encode([
             'success' => false,
@@ -2899,9 +2899,9 @@ get('/admin/test-ai', function () {
         echo 'Not logged in';
         return;
     }
-    
+
     header('Content-Type: application/json');
-    
+
     try {
         echo json_encode([
             'status' => 'OK',

@@ -280,13 +280,13 @@ Please install and enable the INTL extension to format the date format to your l
              class="form-control" 
              id="chatgpt.max.tokens" 
              name="-config-chatgpt.max.tokens" 
-             value="<?php echo config('chatgpt.max.tokens') ?: '4000';?>" 
-             min="1000" 
-             max="8000" 
-             placeholder="4000">
+             value="<?php echo config('chatgpt.max.tokens') ?: '8000';?>" 
+             min="2000" 
+             max="16000" 
+             placeholder="8000">
       <small class="form-text text-muted">
         <i class="fa fa-calculator"></i> 
-        Oluşturulacak içeriğin maksimum uzunluğu (1000-8000 arası, 4000+ önerilir)
+        Oluşturulacak içeriğin maksimum uzunluğu (2000-16000 arası, 8000+ önerilir uzun içerik için)
       </small>
     </div>
   </div>

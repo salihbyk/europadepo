@@ -158,7 +158,7 @@ class GitHubUpdater {
             if ($error && isset($error['message'])) {
                 $errorMsg .= ': ' . $error['message'];
             }
-            
+
             // HTTP response headers kontrol et
             if (isset($http_response_header)) {
                 $statusLine = $http_response_header[0] ?? '';
@@ -169,7 +169,7 @@ class GitHubUpdater {
                     $errorMsg = 'GitHub erişim reddedildi (403). Repository private mi?';
                 }
             }
-            
+
             return ['error' => $errorMsg];
         }
 
@@ -257,7 +257,7 @@ class GitHubUpdater {
                 ZipArchive::ER_REMOVE => 'Can\'t remove file',
                 ZipArchive::ER_DELETED => 'Entry has been deleted'
             ];
-            
+
             $errorMsg = $zipErrors[$zipResult] ?? 'Bilinmeyen ZIP hatası: ' . $zipResult;
             unlink($tempFile);
             return ['error' => 'ZIP dosyası açılamadı: ' . $errorMsg . ' (Kod: ' . $zipResult . ')'];
