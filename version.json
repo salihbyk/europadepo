@@ -1,8 +1,8 @@
 {
     "version": "1.1.0",
-    "build": "20250919002",
+    "build": "20250919003",
     "release_date": "2025-09-19",
-    "description": "Europa Depo v1.1 - AI İçerik Oluşturucu ve Güncelleme Sistemi",
+    "description": "Europa Depo v1.1 - AI İçerik Oluşturucu ve Güncelleme Sistemi + Hata Ayıklama",
     "github_repo": "salihbyk/europadepo",
     "update_url": "https://api.github.com/repos/salihbyk/europadepo/releases/latest",
     "changelog": [
@@ -17,7 +17,9 @@
                 "🧹 Gelişmiş ChatGPT yanıt temizleme sistemi",
                 "📝 Admin panelinde AI ile SEO uyumlu içerik oluşturma",
                 "🛡️ Sadece değişen dosyaları güncelleme (hash karşılaştırma)",
-                "⚙️ Yapılandırılabilir AI parametreleri (model, token, sıcaklık)"
+                "⚙️ Yapılandırılabilir AI parametreleri (model, token, sıcaklık)",
+                "🔧 Gelişmiş hata ayıklama: ZIP, MIME type, dosya boyutu kontrolleri",
+                "📊 Detaylı güncelleme hata mesajları ve debug logları"
             ]
         },
         {

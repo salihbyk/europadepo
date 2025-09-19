@@ -23,6 +23,9 @@
 - **Korumalı Dizin Sistemi**: `content/`, `config/users/`, `cache/` dizinleri korunur
 - **API Hata Yönetimi**: Detaylı hata mesajları ve debug bilgileri
 - **Güvenli İstek Yönetimi**: SSL doğrulama ve timeout ayarları
+- **Gelişmiş ZIP Hata Ayıklama**: Dosya boyutu, MIME type, ZIP header kontrolleri
+- **Debug Logging**: PHP error_log'a detaylı güncelleme bilgileri
+- **Akıllı Hata Tespiti**: 404, 403, bozuk ZIP dosyası otomatik tespiti
 
 ## 📝 Admin Panel Geliştirmeleri
 
