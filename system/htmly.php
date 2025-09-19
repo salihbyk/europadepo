@@ -2940,18 +2940,7 @@ post('/admin/generate-ai-seo', function () {
             'meta_description' => $seo['meta_description'],
         ];
 
-        // SEO puanını aynı cevapla dön (başarısız olursa sessizce atla)
-        try {
-            // Önce uzaktan (ChatGPT) analiz dene
-            $score = $generator->analyzeSEOScore($title, $seo['meta_description'], $keywords, $content);
-            $response['seo_score'] = $score;
-        } catch (Exception $ignored) {
-            // Ağ/model hatası durumunda lokal skor kullan
-            try {
-                $local = $generator->computeLocalSEOScore($title, $seo['meta_description'], $keywords, $content);
-                $response['seo_score'] = $local;
-            } catch (Exception $ignored2) {}
-        }
+        // SEO puanı kaldırıldı
 
         echo json_encode($response);
 
@@ -2962,48 +2951,7 @@ post('/admin/generate-ai-seo', function () {
     }
 });
 
-// Europa AI SEO Score endpoint
-post('/admin/analyze-seo', function () {
-    header('Content-Type: application/json');
-    try {
-        if (!login()) {
-            http_response_code(401);
-            echo json_encode(['success' => false, 'error' => 'Oturum açmanız gerekiyor']);
-            return;
-        }
-
-        $rawInput = file_get_contents('php://input');
-        $input = json_decode($rawInput, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'error' => 'Geçersiz JSON format: ' . json_last_error_msg()]);
-            return;
-        }
-
-        if (!isset($input['csrf_token']) || !is_csrf_proper($input['csrf_token'])) {
-            http_response_code(403);
-            echo json_encode(['success' => false, 'error' => 'Geçersiz CSRF token']);
-            return;
-        }
-
-        $title = trim($input['title'] ?? '');
-        $description = trim($input['description'] ?? '');
-        $keywords = trim($input['keywords'] ?? '');
-        $content = $input['content'] ?? '';
-
-        if (!class_exists('EuropaAIContentGenerator')) {
-            throw new Exception('AI Content Generator sınıfı yüklenemedi. Sistem yeniden başlatılmalı.');
-        }
-        $generator = new EuropaAIContentGenerator();
-        $score = $generator->analyzeSEOScore($title, $description, $keywords, $content);
-
-        echo json_encode(['success' => true, 'score' => $score]);
-    } catch (Exception $e) {
-        error_log('AI SEO Analyze Error: ' . $e->getMessage());
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-    }
-});
+// SEO puanı endpoint'i kaldırıldı
 
 // AI Content Generator Test endpoint
 get('/admin/test-ai', function () {

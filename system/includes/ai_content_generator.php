@@ -299,9 +299,7 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         throw new Exception('ChatGPT isteği başarısız oldu.');
     }
 
-    /**
-     * Başlık, açıklama, anahtar kelimeler ve içerikten SEO puanı üretir (0-100)
-     */
+    // SEO puanı özelliği kaldırıldı (gerektiğinde geri alınabilir)
     public function analyzeSEOScore($title, $description, $keywords, $content) {
         $apiKey = config('chatgpt.api.key');
         if (empty($apiKey)) {
@@ -377,12 +375,9 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         }
 
         if ($lastError instanceof Exception) { throw $lastError; }
-        throw new Exception('SEO analizi başarısız oldu.');
+        throw new Exception('SEO analizi devre dışı.');
     }
 
-    /**
-     * Ağ veya model hatasında kullanılacak basit, kuralsal SEO puanı
-     */
     public function computeLocalSEOScore($title, $description, $keywords, $content) {
         $firstKeyword = '';
         $kwArray = [];

@@ -1332,11 +1332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const aiSEOStatus = document.getElementById('aiSEOStatus');
     const seoTitleInput = document.getElementById('pSeoTitle');
     const metaDescInput = document.getElementById('pMeta');
-    const analyzeBtn = document.getElementById('analyzeSEO');
-    const seoScoreBox = document.getElementById('seoScoreBox');
-    const seoScoreBadge = document.getElementById('seoScoreBadge');
-    const seoSubscores = document.getElementById('seoSubscores');
-    const seoNotes = document.getElementById('seoNotes');
+    // SEO puanı kaldırıldı
 
     if (generateAISEOBtn) {
         generateAISEOBtn.addEventListener('click', function() {
@@ -1379,33 +1375,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (metaDescInput && result.meta_description) metaDescInput.value = result.meta_description;
                         showSuccessMessage('🎉 AI SEO başarıyla oluşturuldu!');
 
-                        // Eğer SEO puanı da geldiyse kutuyu doldur
-                        if (result.seo_score && seoScoreBox) {
-                            const total = result.seo_score.score || 0;
-                            const subs = result.seo_score.subscores || {};
-                            const notes = result.seo_score.notes || [];
-                            if (seoScoreBadge) {
-                                seoScoreBadge.textContent = total;
-                                seoScoreBadge.className = 'badge ' + (total >= 80 ? 'badge-success' : total >= 60 ? 'badge-warning' : 'badge-danger');
-                            }
-                            if (seoSubscores) {
-                                seoSubscores.innerHTML = `
-                                    <div>Başlık: <strong>${subs.title ?? 0}</strong> / 25</div>
-                                    <div>Açıklama: <strong>${subs.description ?? 0}</strong> / 25</div>
-                                    <div>Anahtar Kelimeler: <strong>${subs.keywords ?? 0}</strong> / 25</div>
-                                    <div>İçerik: <strong>${subs.content ?? 0}</strong> / 25</div>
-                                `;
-                            }
-                            if (seoNotes) {
-                                seoNotes.innerHTML = '';
-                                notes.forEach(n => {
-                                    const li = document.createElement('li');
-                                    li.textContent = n;
-                                    seoNotes.appendChild(li);
-                                });
-                            }
-                            seoScoreBox.style.display = 'block';
-                        }
+                        // SEO puanı kaldırıldı
                     } else if (typeof result === 'string') {
                         // Geçici: İçerikten başlık/özet çıkar ve alanlara yerleştir
                         const tmp = document.createElement('div');
@@ -1439,68 +1409,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // SEO Puanı Analizi
-    if (analyzeBtn) {
-        analyzeBtn.addEventListener('click', async function() {
-            const title = titleInput ? titleInput.value.trim() : '';
-            const description = metaDescInput ? metaDescInput.value.trim() : '';
-            const tagInput = document.getElementById('pTag');
-            const keywords = tagInput ? tagInput.value.trim() : '';
-            const content = (document.getElementById('wmd-input') || {}).value || '';
-
-            this.disabled = true;
-            this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Analiz ediliyor...';
-
-            try {
-                const resp = await fetch(base_path + 'admin/analyze-seo', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-                    body: JSON.stringify({ title, description, keywords, content, csrf_token: '<?php echo get_csrf(); ?>' })
-                });
-                if (!resp.ok) throw new Error('HTTP ' + resp.status);
-                const data = await resp.json();
-                if (!data.success) throw new Error(data.error || 'Analiz başarısız');
-
-                const score = data.score || {};
-                const total = score.score ?? 0;
-                const subs = score.subscores || {};
-                const notes = score.notes || [];
-
-                if (seoScoreBadge) seoScoreBadge.textContent = total;
-
-                // Renk kodu
-                if (seoScoreBadge) {
-                    seoScoreBadge.className = 'badge ' + (total >= 80 ? 'badge-success' : total >= 60 ? 'badge-warning' : 'badge-danger');
-                }
-
-                if (seoSubscores) {
-                    seoSubscores.innerHTML = `
-                        <div>Başlık: <strong>${subs.title ?? 0}</strong> / 25</div>
-                        <div>Açıklama: <strong>${subs.description ?? 0}</strong> / 25</div>
-                        <div>Anahtar Kelimeler: <strong>${subs.keywords ?? 0}</strong> / 25</div>
-                        <div>İçerik: <strong>${subs.content ?? 0}</strong> / 25</div>
-                    `;
-                }
-
-                if (seoNotes) {
-                    seoNotes.innerHTML = '';
-                    notes.forEach(n => {
-                        const li = document.createElement('li');
-                        li.textContent = n;
-                        seoNotes.appendChild(li);
-                    });
-                }
-
-                if (seoScoreBox) seoScoreBox.style.display = 'block';
-                showSuccessMessage('SEO analizi tamamlandı.');
-            } catch (e) {
-                showErrorMessage('SEO analizi başarısız: ' + e.message);
-            } finally {
-                this.disabled = false;
-                this.innerHTML = '<i class="fas fa-chart-line"></i> SEO Puanını Analiz Et';
-            }
-        });
-    }
+    // SEO puanı tamamen kaldırıldı
 
     // Klavye kısayolları
     if (wmdInput) {
@@ -1899,16 +1808,7 @@ Kod bloğu
                                                 <i class="fas fa-info-circle text-info"></i>
                                                 Önerilen: 150-160 karakter. Boş bırakırsanız içerikten otomatik oluşturulur
                                             </div>
-                                            <div id="seoScoreBox" class="alert alert-light border mt-2" style="display:none;">
-                                                <div style="display:flex;align-items:center;gap:10px;">
-                                                    <div id="seoScoreBadge" class="badge badge-secondary" style="font-size:14px;">0</div>
-                                                    <strong>SEO Puanı</strong>
-                                                </div>
-                                                <div class="mt-2" id="seoSubscores" style="font-size:13px;">
-                                                    <!-- başlık/açıklama/anahtar kelime/içerik alt puanları -->
-                                                </div>
-                                                <ul id="seoNotes" class="mt-2 mb-0" style="padding-left:18px;font-size:12px;"></ul>
-                                            </div>
+                                            
                                         </div>
 </div>
                                     <div class="col-md-4">
