@@ -75,19 +75,13 @@ KISITLAR:
 
 ANAHTAR KELİMELER: {KEYWORDS}
 
-YASAK CÜMLELER (ASLA KULLANMA):
-- "Bu örnek"
-- "Bu içerik"
-- "hazırlanmıştır"
-- "platformun kapsamı"
-- "dışındadır"
-- "tam olarak istenen"
-- "Not:"
-- Herhangi bir açıklama cümlesi
+ÇIKTI FORMATI:
+- Sadece HTML formatında yanıt verin
+- 3000-4000 kelime uzunluğunda detaylı içerik oluşturun
+- Her bölümü kapsamlı şekilde açıklayın
+- İçeriği tam olarak tamamlayın
 
-SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!
-
-ÖNEMLİ: MİNİMUM 3000-4000 KELİME uzunluğunda detaylı, kapsamlı içerik oluştur. Her bölümü genişlet, kısa paragraflar yazma. İçeriği ASLA yarım bırakma!';
+ANAHTAR KELİMELER: {KEYWORDS}';
     }
 
     private function setupInternalLinks() {
@@ -162,11 +156,11 @@ SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!
                 'messages' => [
                     [
                         'role' => 'system',
-                        'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. SADECE HTML içerik üretirsin. Hiçbir açıklama, not, uyarı veya ek metin ekleme. "Bu örnek", "Bu içerik", "platformun kapsamı" gibi açıklamalar YASAK. Direkt HTML kodunu ver ve sus.'
+                        'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. Depolama hizmetleri hakkında bilgilendirici HTML içerik üretirsin. Sadece HTML formatında yanıt ver, ek açıklama ekleme.'
                     ],
                     [
                         'role' => 'user',
-                        'content' => $prompt . "\n\nKRİTİK TALİMATLAR:\n- SADECE HTML içeriği ver, hiçbir açıklama yazma\n- 'Bu örnek', 'Bu içerik', 'platformun kapsamı' gibi açıklamalar YASAK\n- Direkt <section> ile başla\n- MİNİMUM 3000-4000 KELİME uzunluğunda KAPSAMLI içerik oluştur\n- Her bölümü detaylandır, kısa cümleler kullanma\n- Sonunda hiçbir not veya açıklama ekleme\n- Sadece HTML kod ver, başka hiçbir şey yazma\n- İçeriği ASLA yarım bırakma, tam tamamla"
+                        'content' => $prompt . "\n\nLütfen yukarıdaki bilgilere göre profesyonel bir HTML içerik oluştur. İçerik 3000-4000 kelime uzunluğunda, detaylı ve kapsamlı olsun. Sadece HTML formatında yanıt ver."
                     ]
                 ],
                 'max_tokens' => $maxTokens,

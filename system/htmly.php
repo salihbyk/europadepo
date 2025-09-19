@@ -17,6 +17,11 @@ if (file_exists('system/includes/auto_updater.php')) {
     require_once 'system/includes/auto_updater.php';
 }
 
+// Load AI Content Generator
+if (file_exists('system/includes/ai_content_generator.php')) {
+    require_once 'system/includes/ai_content_generator.php';
+}
+
 // Set the timezone
 if (config('timezone')) {
     date_default_timezone_set(config('timezone'));
@@ -2839,15 +2844,9 @@ post('/admin/generate-ai-content', function () {
             return;
         }
 
-        // AI Generator'ı yükle
-        if (!file_exists('system/includes/ai_content_generator.php')) {
-            throw new Exception('AI Content Generator dosyası bulunamadı');
-        }
-
-        require_once 'system/includes/ai_content_generator.php';
-
+        // AI Generator sınıfının yüklendiğini kontrol et
         if (!class_exists('EuropaAIContentGenerator')) {
-            throw new Exception('AI Content Generator sınıfı yüklenemedi');
+            throw new Exception('AI Content Generator sınıfı yüklenemedi. Sistem yeniden başlatılmalı.');
         }
 
         $generator = new EuropaAIContentGenerator();
