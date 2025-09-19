@@ -135,6 +135,141 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         return $this->generateWithChatGPT($prompt);
     }
 
+    /**
+     * SEO başlığı ve meta açıklaması üretir
+     * Dönen değer: ['seo_title' => string, 'meta_description' => string]
+     */
+    public function generateSEOMeta($title, $keywords = '') {
+        $apiKey = config('chatgpt.api.key');
+        if (empty($apiKey)) {
+            throw new Exception('ChatGPT API anahtarı ayarlanmamış. Lütfen Config sayfasından API anahtarınızı girin.');
+        }
+
+        $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';
+        $maxTokens = (int)(config('chatgpt.max.tokens') ?: 8000);
+        $temperature = (float)(config('chatgpt.temperature') ?: 0.7);
+
+        $requestedModel = $model;
+        $attemptModels = [$requestedModel];
+        if ($requestedModel === 'gpt-5') {
+            $attemptModels[] = 'gpt-4o';
+            $attemptModels[] = 'gpt-4-turbo-preview';
+        }
+
+        $systemMsg = 'Sen profesyonel bir Türkçe SEO uzmanısın. Sadece geçerli JSON döndür.';
+        $userPrompt = [
+            'title' => $title,
+            'keywords' => $keywords,
+            'brand' => $this->brand_info['brand'],
+            'tone' => 'kurumsal, güven verici, sade',
+            'rules' => [
+                'seo_title 50-60 karakter aralığında olsun',
+                'meta_description 150-160 karakter aralığında olsun',
+                'Türkçe yaz, abartısız satışa yardımcı ton',
+                'Marka ismini yalnızca gerekiyorsa kullan',
+                'Yalnızca JSON döndür, açıklama ekleme, kod bloğu kullanma'
+            ],
+            'output_format' => '{"seo_title":"...","meta_description":"..."}'
+        ];
+
+        $lastError = null;
+        foreach ($attemptModels as $attemptModel) {
+            $data = [
+                'model' => $attemptModel,
+                'messages' => [
+                    ['role' => 'system', 'content' => $systemMsg],
+                    ['role' => 'user', 'content' => 'Aşağıdaki bilgilerle SEO başlığı ve meta açıklaması üret ve sadece JSON döndür (kod bloğu yok): ' . json_encode($userPrompt, JSON_UNESCAPED_UNICODE)]
+                ],
+                'max_tokens' => min($maxTokens, 512),
+                'temperature' => $temperature,
+            ];
+
+            $context = stream_context_create([
+                'http' => [
+                    'method' => 'POST',
+                    'header' => [
+                        'Content-Type: application/json',
+                        'Authorization: Bearer ' . $apiKey,
+                        'User-Agent: EuropaDepo-AI/1.0'
+                    ],
+                    'content' => json_encode($data),
+                    'timeout' => 45,
+                    'ignore_errors' => true
+                ],
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false
+                ]
+            ]);
+
+            $response = @file_get_contents('https://api.openai.com/v1/chat/completions', false, $context);
+            if ($response === false) {
+                $error = error_get_last();
+                $errorMsg = 'ChatGPT API\'ye erişim sağlanamadı';
+                if ($error && isset($error['message'])) {
+                    $errorMsg .= ': ' . $error['message'];
+                }
+                $lastError = new Exception($errorMsg);
+                break;
+            }
+
+            $result = json_decode($response, true);
+            if (!$result) {
+                $lastError = new Exception('ChatGPT API\'den geçersiz yanıt');
+                break;
+            }
+
+            if (isset($result['error'])) {
+                $message = strtolower($result['error']['message'] ?? '');
+                $lastError = new Exception('ChatGPT API Hatası: ' . ($result['error']['message'] ?? 'Bilinmeyen hata'));
+                $isModelError = (
+                    strpos($message, 'model') !== false && (
+                        strpos($message, 'not found') !== false ||
+                        strpos($message, 'does not exist') !== false ||
+                        strpos($message, 'unknown') !== false ||
+                        strpos($message, 'unsupported') !== false
+                    )
+                );
+                if ($isModelError && $attemptModel !== end($attemptModels)) {
+                    continue;
+                }
+                break;
+            }
+
+            $content = $result['choices'][0]['message']['content'] ?? '';
+            if (!$content) {
+                $lastError = new Exception('ChatGPT\'den içerik alınamadı');
+                break;
+            }
+
+            // Kod bloğu/etiket temizliği
+            $content = trim($content);
+            $content = preg_replace('/^```json|^```|```$/m', '', $content);
+
+            $json = json_decode($content, true);
+            if (!is_array($json)) {
+                // Bazı modeller çift tırnakları kaçırabilir; düzeltmeyi dene
+                $normalized = preg_replace('/([a-zA-Z_]+)\s*:/', '"$1":', $content);
+                $json = json_decode($normalized, true);
+            }
+
+            if (!is_array($json) || !isset($json['seo_title']) || !isset($json['meta_description'])) {
+                $lastError = new Exception('Geçersiz JSON çıktısı alındı');
+                break;
+            }
+
+            return [
+                'seo_title' => trim($json['seo_title']),
+                'meta_description' => trim($json['meta_description'])
+            ];
+        }
+
+        if ($lastError instanceof Exception) {
+            throw $lastError;
+        }
+        throw new Exception('ChatGPT isteği başarısız oldu.');
+    }
+
     private function generateWithChatGPT($prompt) {
         $apiKey = config('chatgpt.api.key');
         $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';
