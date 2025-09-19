@@ -113,6 +113,11 @@ Lütfen yukarıdaki talimatları takip ederek {SERVICE_NAME} için profesyonel, 
             throw new Exception('ChatGPT API anahtarı ayarlanmamış. Lütfen Config sayfasından API anahtarınızı girin.');
         }
         
+        // API anahtarının formatını kontrol et
+        if (!preg_match('/^sk-/', $apiKey)) {
+            throw new Exception('Geçersiz ChatGPT API anahtarı formatı. API anahtarı "sk-" ile başlamalıdır.');
+        }
+        
         // Hizmet türünü başlıktan tahmin et
         $serviceType = $this->detectServiceType($title);
         $pricingUnit = $this->detectPricingUnit($serviceType);
@@ -124,9 +129,23 @@ Lütfen yukarıdaki talimatları takip ederek {SERVICE_NAME} için profesyonel, 
         try {
             return $this->generateWithChatGPT($prompt);
         } catch (Exception $e) {
-            // API başarısız olursa template kullan
-            error_log('ChatGPT API Error: ' . $e->getMessage());
-            return $this->generateTemplateContent($title, $keywords, $serviceType, $pricingUnit);
+            // API başarısız olursa hata mesajını daha detaylı ver
+            $errorMsg = $e->getMessage();
+            
+            // Yaygın hataları kullanıcı dostu hale getir
+            if (strpos($errorMsg, 'Invalid API key') !== false) {
+                throw new Exception('ChatGPT API anahtarı geçersiz. Lütfen doğru API anahtarını girin.');
+            } elseif (strpos($errorMsg, 'insufficient_quota') !== false) {
+                throw new Exception('ChatGPT API krediniz tükendi. Lütfen OpenAI hesabınızı kontrol edin.');
+            } elseif (strpos($errorMsg, 'rate_limit') !== false) {
+                throw new Exception('ChatGPT API rate limit aşıldı. Lütfen biraz bekleyip tekrar deneyin.');
+            }
+            
+            // Debug için log tut
+            error_log('ChatGPT API Error: ' . $errorMsg);
+            
+            // Gerçek API hatası varsa kullanıcıya göster, template kullanma
+            throw new Exception('ChatGPT API Hatası: ' . $errorMsg);
         }
     }
     

@@ -2831,7 +2831,13 @@ post('/admin/generate-ai-content', function () {
         echo json_encode([
             'success' => true,
             'content' => $content,
-            'message' => 'İçerik başarıyla oluşturuldu'
+            'message' => 'İçerik başarıyla oluşturuldu',
+            'debug' => [
+                'title' => $title,
+                'keywords' => $keywords,
+                'api_configured' => !empty(config('chatgpt.api.key')),
+                'model' => config('chatgpt.model') ?: 'gpt-3.5-turbo'
+            ]
         ]);
         
     } catch (Exception $e) {

@@ -41,9 +41,7 @@ if (file_exists($field_file)) {
 <script type="text/javascript" src="<?php echo site_url() ?>system/admin/editor/js/Markdown.Extra.js"></script>
 <link rel="stylesheet" href="<?php echo site_url() ?>system/resources/css/jquery-ui.css">
 
-<!-- Zenginleştirilmiş Editör için ek kütüphaneler -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+<!-- Zenginleştirilmiş Editör için ek kütüphaneler kaldırıldı (güvenlik riski) -->
 
 <!-- Modern Admin Panel Styles -->
 <style>
@@ -1423,21 +1421,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Syntax highlighting için highlight.js
-    if (typeof hljs !== 'undefined') {
-        hljs.highlightAll();
-
-        // Önizlemede kod bloklarını highlight et
-        if (wmdPreview) {
-            const observer = new MutationObserver(function() {
-                wmdPreview.querySelectorAll('pre code').forEach(function(block) {
-                    hljs.highlightElement(block);
-                });
-            });
-
-            observer.observe(wmdPreview, { childList: true, subtree: true });
-        }
-    }
+    // Syntax highlighting kaldırıldı (güvenlik riski nedeniyle)
+    // Basit kod bloku stilleri yeterli
 });
 
 // Europa AI İçerik Oluşturma Fonksiyonu
@@ -1773,7 +1758,8 @@ Kod bloğu
                             <div class="info-text" style="text-align: center; margin-top: 10px;">
                                 <small>
                                     <i class="fa fa-info-circle"></i> 
-                                    Başlık ve etiket alanlarını doldurun, sonra bu butona tıklayın
+                                    Başlık ve etiket alanlarını doldurun, sonra bu butona tıklayın<br>
+                                    <span style="color: #28a745;">✅ ChatGPT API: Aktif</span>
                                 </small>
                             </div>
                         </div>
