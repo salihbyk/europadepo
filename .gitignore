@@ -8,6 +8,9 @@ config/users/*.ini
 content/
 cache/
 
+# Large files
+europadepo.zip
+
 # Backups
 backups/
 
