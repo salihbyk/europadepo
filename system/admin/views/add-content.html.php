@@ -1899,11 +1899,6 @@ Kod bloğu
                                                 <i class="fas fa-info-circle text-info"></i>
                                                 Önerilen: 150-160 karakter. Boş bırakırsanız içerikten otomatik oluşturulur
                                             </div>
-                                            <div class="mt-2">
-                                                <button type="button" id="analyzeSEO" class="btn btn-outline-secondary btn-sm">
-                                                    <i class="fas fa-chart-line"></i> SEO Puanını Analiz Et
-                                                </button>
-                                            </div>
                                             <div id="seoScoreBox" class="alert alert-light border mt-2" style="display:none;">
                                                 <div style="display:flex;align-items:center;gap:10px;">
                                                     <div id="seoScoreBadge" class="badge badge-secondary" style="font-size:14px;">0</div>

@@ -380,6 +380,96 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         throw new Exception('SEO analizi başarısız oldu.');
     }
 
+    /**
+     * Ağ veya model hatasında kullanılacak basit, kuralsal SEO puanı
+     */
+    public function computeLocalSEOScore($title, $description, $keywords, $content) {
+        $firstKeyword = '';
+        $kwArray = [];
+        if (!empty($keywords)) {
+            $kwArray = preg_split('/\s*,\s*/u', $keywords);
+            if (!empty($kwArray)) {
+                $firstKeyword = trim($kwArray[0]);
+            }
+        }
+
+        // Başlık skoru (0-25)
+        $titleLen = mb_strlen($title, 'UTF-8');
+        $titleLenScore = 0;
+        if ($titleLen > 0) {
+            // 50-60 aralığına yakınlık (maks 15)
+            $ideal = 55; $range = 35; // daha geniş tolerans
+            $diff = min($range, abs($titleLen - $ideal));
+            $titleLenScore = max(0, 15 - (int)round(($diff / $range) * 15));
+        }
+        $titleKwScore = 0;
+        if ($firstKeyword !== '' && stripos($title, $firstKeyword) !== false) {
+            $titleKwScore = 10;
+        }
+        $titleScore = min(25, $titleLenScore + $titleKwScore);
+
+        // Açıklama skoru (0-25)
+        $descLen = mb_strlen($description, 'UTF-8');
+        $descLenScore = 0;
+        if ($descLen > 0) {
+            $ideal = 155; $range = 70;
+            $diff = min($range, abs($descLen - $ideal));
+            $descLenScore = max(0, 15 - (int)round(($diff / $range) * 15));
+        }
+        $descStartScore = 0;
+        if ($firstKeyword !== '' && stripos($description, $firstKeyword) === 0) {
+            $descStartScore = 10;
+        } elseif ($firstKeyword !== '' && stripos($description, $firstKeyword) !== false) {
+            $descStartScore = 6;
+        }
+        $descriptionScore = min(25, $descLenScore + $descStartScore);
+
+        // Anahtar kelime skoru (0-25)
+        $kwCount = count(array_filter($kwArray));
+        $uniqueKwCount = count(array_unique(array_map('mb_strtolower', $kwArray)));
+        $kwDensityScore = min(15, (int)round(($kwCount / 6) * 15)); // 6+ etikette tavan
+        $kwUniqueScore = min(10, (int)round(($uniqueKwCount / max(1, $kwCount)) * 10));
+        $keywordsScore = min(25, $kwDensityScore + $kwUniqueScore);
+
+        // İçerik skoru (0-25)
+        $plain = trim(strip_tags($content));
+        $wordCount = preg_match_all('/\p{L}+/u', $plain, $m);
+        $lenScore = 0;
+        if ($wordCount >= 600) $lenScore = 15; elseif ($wordCount >= 300) $lenScore = 10; elseif ($wordCount >= 150) $lenScore = 6; else $lenScore = 2;
+        $kwOccurScore = 0;
+        if ($firstKeyword !== '') {
+            $occ = mb_substr_count(mb_strtolower($plain), mb_strtolower($firstKeyword));
+            if ($occ >= 5) $kwOccurScore = 10; elseif ($occ >= 2) $kwOccurScore = 7; elseif ($occ >= 1) $kwOccurScore = 5; else $kwOccurScore = 2;
+        }
+        $contentScore = min(25, $lenScore + $kwOccurScore);
+
+        $total = $titleScore + $descriptionScore + $keywordsScore + $contentScore;
+
+        // Notlar
+        $notes = [];
+        if ($firstKeyword && stripos($description, $firstKeyword) !== 0) $notes[] = 'Meta açıklama ilk etiket ile başlamıyor.';
+        if ($titleLen < 45 || $titleLen > 65) $notes[] = 'Başlık uzunluğu ideal aralıkta değil (50-60).';
+        if ($descLen < 130 || $descLen > 170) $notes[] = 'Meta açıklama uzunluğu ideal aralıkta değil (150-160).';
+        if ($kwCount < 2) $notes[] = 'En az 2-3 etiket önerilir.';
+        if ($wordCount < 300) $notes[] = 'İçerik kısa görünüyor, 300+ kelime önerilir.';
+
+        return [
+            'score' => (int)$total,
+            'subscores' => [
+                'title' => (int)$titleScore,
+                'description' => (int)$descriptionScore,
+                'keywords' => (int)$keywordsScore,
+                'content' => (int)$contentScore,
+            ],
+            'notes' => $notes,
+            'length' => [
+                'title' => (int)$titleLen,
+                'description' => (int)$descLen,
+                'content' => (int)$wordCount,
+            ],
+        ];
+    }
+
     private function generateWithChatGPT($prompt) {
         $apiKey = config('chatgpt.api.key');
         $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';

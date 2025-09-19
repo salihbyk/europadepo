@@ -2942,10 +2942,15 @@ post('/admin/generate-ai-seo', function () {
 
         // SEO puanını aynı cevapla dön (başarısız olursa sessizce atla)
         try {
+            // Önce uzaktan (ChatGPT) analiz dene
             $score = $generator->analyzeSEOScore($title, $seo['meta_description'], $keywords, $content);
             $response['seo_score'] = $score;
         } catch (Exception $ignored) {
-            // opsiyonel
+            // Ağ/model hatası durumunda lokal skor kullan
+            try {
+                $local = $generator->computeLocalSEOScore($title, $seo['meta_description'], $keywords, $content);
+                $response['seo_score'] = $local;
+            } catch (Exception $ignored2) {}
         }
 
         echo json_encode($response);
