@@ -133,8 +133,12 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         $maxTokens = (int)(config('chatgpt.max.tokens') ?: 4000);
         $temperature = (float)(config('chatgpt.temperature') ?: 0.7);
 
-        // GPT-5 kullanmaya devam et (gerçek model)
-        // Model ayarını olduğu gibi bırak
+        // GPT-5 henüz mevcut değilse en iyi alternatifi kullan
+        if ($model === 'gpt-5') {
+            $model = 'gpt-4-turbo-preview'; // En güncel mevcut model
+        } elseif ($model === 'gpt-4-turbo') {
+            $model = 'gpt-4-turbo-preview';
+        }
 
         $data = [
             'model' => $model,
@@ -155,6 +159,10 @@ ANAHTAR KELİMELER: {KEYWORDS}';
             'presence_penalty' => 0
         ];
 
+        // Debug için request'i log'la
+        error_log('ChatGPT API Request Model: ' . $model);
+        error_log('ChatGPT API Request Tokens: ' . $maxTokens);
+        
         $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
@@ -164,7 +172,8 @@ ANAHTAR KELİMELER: {KEYWORDS}';
                     'User-Agent: EuropaDepo-AI/1.0'
                 ],
                 'content' => json_encode($data),
-                'timeout' => 60
+                'timeout' => 60,
+                'ignore_errors' => true
             ],
             'ssl' => [
                 'verify_peer' => false,
@@ -173,9 +182,27 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         ]);
 
         $response = @file_get_contents('https://api.openai.com/v1/chat/completions', false, $context);
-
+        
         if ($response === false) {
-            throw new Exception('ChatGPT API\'ye erişim sağlanamadı');
+            $error = error_get_last();
+            $errorMsg = 'ChatGPT API\'ye erişim sağlanamadı';
+            if ($error && isset($error['message'])) {
+                $errorMsg .= ': ' . $error['message'];
+            }
+            
+            // HTTP response headers kontrol et
+            if (isset($http_response_header)) {
+                $statusLine = $http_response_header[0] ?? '';
+                if (strpos($statusLine, '401') !== false) {
+                    $errorMsg = 'ChatGPT API anahtarı geçersiz. Lütfen doğru API anahtarını girin.';
+                } elseif (strpos($statusLine, '429') !== false) {
+                    $errorMsg = 'ChatGPT API rate limit aşıldı. Lütfen biraz bekleyip tekrar deneyin.';
+                } elseif (strpos($statusLine, '402') !== false) {
+                    $errorMsg = 'ChatGPT API krediniz tükendi. Lütfen OpenAI hesabınızı kontrol edin.';
+                }
+            }
+            
+            throw new Exception($errorMsg);
         }
 
         $result = json_decode($response, true);
