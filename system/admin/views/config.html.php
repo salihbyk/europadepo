@@ -259,12 +259,14 @@ Please install and enable the INTL extension to format the date format to your l
     <div class="col-sm-10">
       <select class="form-control" id="chatgpt.model" name="chatgpt.model">
         <option value="gpt-3.5-turbo" <?php if(config('chatgpt.model') == 'gpt-3.5-turbo' || !config('chatgpt.model')) echo 'selected'; ?>>GPT-3.5 Turbo (Hızlı ve Ekonomik)</option>
-        <option value="gpt-4" <?php if(config('chatgpt.model') == 'gpt-4') echo 'selected'; ?>>GPT-4 (Daha Kaliteli)</option>
-        <option value="gpt-4-turbo" <?php if(config('chatgpt.model') == 'gpt-4-turbo') echo 'selected'; ?>>GPT-4 Turbo (En İyi)</option>
+        <option value="gpt-4" <?php if(config('chatgpt.model') == 'gpt-4') echo 'selected'; ?>>GPT-4 (Kaliteli)</option>
+        <option value="gpt-4-turbo" <?php if(config('chatgpt.model') == 'gpt-4-turbo') echo 'selected'; ?>>GPT-4 Turbo (Hızlı ve İyi)</option>
+        <option value="gpt-4o" <?php if(config('chatgpt.model') == 'gpt-4o') echo 'selected'; ?>>GPT-4o (Çok Modalı)</option>
+        <option value="gpt-5" <?php if(config('chatgpt.model') == 'gpt-5') echo 'selected'; ?>>GPT-5 (En Güncel ve En İyi) 🔥</option>
       </select>
       <small class="form-text text-muted">
         <i class="fa fa-lightbulb"></i> 
-        GPT-3.5 günlük kullanım için, GPT-4 kaliteli içerik için önerilir
+        <strong>Öneriler:</strong> GPT-3.5 (ekonomik), GPT-4 (kaliteli), GPT-5 (en güncel ve en iyi) 🚀
       </small>
     </div>
   </div>
