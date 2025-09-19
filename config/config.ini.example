@@ -215,3 +215,9 @@ fulltext.search = "false"
 
 ; Transliterate Slug
 transliterate.slug = "true"
+
+; Europa AI Content Generator (ChatGPT API)
+chatgpt.api.key = ""
+chatgpt.model = "gpt-3.5-turbo"
+chatgpt.max.tokens = "2000"
+chatgpt.temperature = "0.7"

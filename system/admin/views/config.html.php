@@ -221,6 +221,91 @@ Please install and enable the INTL extension to format the date format to your l
       </div>
     </div>
   </div>
+  
+  <hr style="margin: 30px 0; border-top: 2px solid #667eea;">
+  
+  <h4 style="color: #667eea; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+    <i class="fa fa-robot"></i> Europa AI İçerik Oluşturucu Ayarları
+  </h4>
+  
+  <div class="alert alert-info" style="margin-bottom: 20px;">
+    <i class="fa fa-info-circle"></i> <strong>ChatGPT API Entegrasyonu</strong><br>
+    Admin panelinde otomatik içerik oluşturmak için OpenAI API anahtarınızı girin.
+  </div>
+  
+  <div class="form-group row">
+    <label for="chatgpt.api.key" class="col-sm-2 col-form-label">
+      <i class="fa fa-key text-primary"></i> ChatGPT API Key
+    </label>
+    <div class="col-sm-10">
+      <input type="password" 
+             class="form-control" 
+             id="chatgpt.api.key" 
+             name="chatgpt.api.key" 
+             value="<?php echo config('chatgpt.api.key');?>" 
+             placeholder="sk-...">
+      <small class="form-text text-muted">
+        <i class="fa fa-external-link"></i> 
+        OpenAI API anahtarınızı girin. 
+        <a href="https://platform.openai.com/api-keys" target="_blank">API Key almak için tıklayın</a>
+      </small>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="chatgpt.model" class="col-sm-2 col-form-label">
+      <i class="fa fa-cogs text-primary"></i> ChatGPT Model
+    </label>
+    <div class="col-sm-10">
+      <select class="form-control" id="chatgpt.model" name="chatgpt.model">
+        <option value="gpt-3.5-turbo" <?php if(config('chatgpt.model') == 'gpt-3.5-turbo' || !config('chatgpt.model')) echo 'selected'; ?>>GPT-3.5 Turbo (Hızlı ve Ekonomik)</option>
+        <option value="gpt-4" <?php if(config('chatgpt.model') == 'gpt-4') echo 'selected'; ?>>GPT-4 (Daha Kaliteli)</option>
+        <option value="gpt-4-turbo" <?php if(config('chatgpt.model') == 'gpt-4-turbo') echo 'selected'; ?>>GPT-4 Turbo (En İyi)</option>
+      </select>
+      <small class="form-text text-muted">
+        <i class="fa fa-lightbulb"></i> 
+        GPT-3.5 günlük kullanım için, GPT-4 kaliteli içerik için önerilir
+      </small>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="chatgpt.max.tokens" class="col-sm-2 col-form-label">
+      <i class="fa fa-text-width text-primary"></i> Maksimum Token
+    </label>
+    <div class="col-sm-10">
+      <input type="number" 
+             class="form-control" 
+             id="chatgpt.max.tokens" 
+             name="chatgpt.max.tokens" 
+             value="<?php echo config('chatgpt.max.tokens') ?: '2000';?>" 
+             min="500" 
+             max="4000" 
+             placeholder="2000">
+      <small class="form-text text-muted">
+        <i class="fa fa-calculator"></i> 
+        Oluşturulacak içeriğin maksimum uzunluğu (500-4000 arası önerilir)
+      </small>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="chatgpt.temperature" class="col-sm-2 col-form-label">
+      <i class="fa fa-thermometer-half text-primary"></i> Yaratıcılık Seviyesi
+    </label>
+    <div class="col-sm-10">
+      <select class="form-control" id="chatgpt.temperature" name="chatgpt.temperature">
+        <option value="0.3" <?php if(config('chatgpt.temperature') == '0.3') echo 'selected'; ?>>Düşük (0.3) - Tutarlı ve Profesyonel</option>
+        <option value="0.7" <?php if(config('chatgpt.temperature') == '0.7' || !config('chatgpt.temperature')) echo 'selected'; ?>>Orta (0.7) - Dengeli</option>
+        <option value="1.0" <?php if(config('chatgpt.temperature') == '1.0') echo 'selected'; ?>>Yüksek (1.0) - Yaratıcı</option>
+      </select>
+      <small class="form-text text-muted">
+        <i class="fa fa-palette"></i> 
+        Düşük: Daha tutarlı, Yüksek: Daha yaratıcı içerik
+      </small>
+    </div>
+  </div>
+  
   <hr />
   <div class="form-group row">
     <div class="col-sm-10">

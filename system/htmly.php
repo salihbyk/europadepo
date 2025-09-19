@@ -2821,14 +2821,12 @@ post('/admin/generate-ai-content', function () {
         
         $title = $input['title'] ?? '';
         $keywords = $input['keywords'] ?? '';
-        $serviceType = $input['serviceType'] ?? '';
-        $pricingUnit = $input['pricingUnit'] ?? 'm³';
         
         if (empty($title)) {
             throw new Exception('Başlık gereklidir');
         }
         
-        $content = $generator->generateContent($title, $keywords, $serviceType, $pricingUnit);
+        $content = $generator->generateContent($title, $keywords);
         
         echo json_encode([
             'success' => true,

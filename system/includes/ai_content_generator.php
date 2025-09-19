@@ -105,13 +105,131 @@ Lütfen yukarıdaki talimatları takip ederek {SERVICE_NAME} için profesyonel, 
         ];
     }
     
-    public function generateContent($title, $keywords = '', $serviceType = '', $pricingUnit = 'm³') {
+    public function generateContent($title, $keywords = '') {
+        // ChatGPT API ayarlarını kontrol et
+        $apiKey = config('chatgpt.api.key');
+        
+        if (empty($apiKey)) {
+            throw new Exception('ChatGPT API anahtarı ayarlanmamış. Lütfen Config sayfasından API anahtarınızı girin.');
+        }
+        
+        // Hizmet türünü başlıktan tahmin et
+        $serviceType = $this->detectServiceType($title);
+        $pricingUnit = $this->detectPricingUnit($serviceType);
+        
         // Prompt'u hazırla
         $prompt = $this->preparePrompt($title, $keywords, $serviceType, $pricingUnit);
         
-        // Bu noktada gerçek AI API'si kullanılabilir
-        // Şimdilik template tabanlı içerik oluşturalım
-        return $this->generateTemplateContent($title, $keywords, $serviceType, $pricingUnit);
+        // ChatGPT API'si ile içerik oluştur
+        try {
+            return $this->generateWithChatGPT($prompt);
+        } catch (Exception $e) {
+            // API başarısız olursa template kullan
+            error_log('ChatGPT API Error: ' . $e->getMessage());
+            return $this->generateTemplateContent($title, $keywords, $serviceType, $pricingUnit);
+        }
+    }
+    
+    private function generateWithChatGPT($prompt) {
+        $apiKey = config('chatgpt.api.key');
+        $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';
+        $maxTokens = (int)(config('chatgpt.max.tokens') ?: 2000);
+        $temperature = (float)(config('chatgpt.temperature') ?: 0.7);
+        
+        $data = [
+            'model' => $model,
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. Verilen talimatları tam olarak takip ederek HTML içerik üretirsin.'
+                ],
+                [
+                    'role' => 'user',
+                    'content' => $prompt
+                ]
+            ],
+            'max_tokens' => $maxTokens,
+            'temperature' => $temperature,
+            'top_p' => 1,
+            'frequency_penalty' => 0,
+            'presence_penalty' => 0
+        ];
+        
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => [
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . $apiKey,
+                    'User-Agent: EuropaDepo-AI/1.0'
+                ],
+                'content' => json_encode($data),
+                'timeout' => 60
+            ],
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false
+            ]
+        ]);
+        
+        $response = @file_get_contents('https://api.openai.com/v1/chat/completions', false, $context);
+        
+        if ($response === false) {
+            throw new Exception('ChatGPT API\'ye erişim sağlanamadı');
+        }
+        
+        $result = json_decode($response, true);
+        
+        if (!$result) {
+            throw new Exception('ChatGPT API\'den geçersiz yanıt');
+        }
+        
+        if (isset($result['error'])) {
+            throw new Exception('ChatGPT API Hatası: ' . $result['error']['message']);
+        }
+        
+        if (!isset($result['choices'][0]['message']['content'])) {
+            throw new Exception('ChatGPT\'den içerik alınamadı');
+        }
+        
+        return trim($result['choices'][0]['message']['content']);
+    }
+    
+    private function detectServiceType($title) {
+        $title = strtolower($title);
+        
+        if (strpos($title, 'ev') !== false || strpos($title, 'eşya') !== false) {
+            return 'ev-esyasi-depolama';
+        } elseif (strpos($title, 'ticari') !== false || strpos($title, 'işletme') !== false) {
+            return 'ticari-depolama';
+        } elseif (strpos($title, 'arşiv') !== false || strpos($title, 'belge') !== false) {
+            return 'arsiv-depolama';
+        } elseif (strpos($title, 'e-ticaret') !== false || strpos($title, 'online') !== false) {
+            return 'e-ticaret-urun-depolama';
+        } elseif (strpos($title, 'medikal') !== false || strpos($title, 'tıbbi') !== false) {
+            return 'medikal-urun-depolama';
+        } elseif (strpos($title, 'self') !== false || strpos($title, 'kişisel') !== false) {
+            return 'self-storage';
+        } elseif (strpos($title, 'palet') !== false) {
+            return 'paletli-urun-depolama';
+        } elseif (strpos($title, 'sanat') !== false || strpos($title, 'antika') !== false) {
+            return 'sanat-antika-depolama';
+        }
+        
+        return 'ev-esyasi-depolama'; // varsayılan
+    }
+    
+    private function detectPricingUnit($serviceType) {
+        switch ($serviceType) {
+            case 'paletli-urun-depolama':
+                return 'palet/gün';
+            case 'arsiv-depolama':
+                return 'kutu/ay';
+            case 'self-storage':
+                return 'm²';
+            default:
+                return 'm³';
+        }
     }
     
     private function preparePrompt($title, $keywords, $serviceType, $pricingUnit) {

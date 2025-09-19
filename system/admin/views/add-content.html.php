@@ -1331,30 +1331,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Europa AI İçerik Oluşturucu
     const generateAIContentBtn = document.getElementById('generateAIContent');
-    const clearAIFormBtn = document.getElementById('clearAIForm');
     const aiGenerationStatus = document.getElementById('aiGenerationStatus');
     const contentTextarea = document.getElementById('wmd-input');
 
     if (generateAIContentBtn) {
         generateAIContentBtn.addEventListener('click', function() {
-            const title = aiTitleInput ? aiTitleInput.value.trim() : '';
-            const keywords = document.getElementById('aiKeywords') ? document.getElementById('aiKeywords').value.trim() : '';
-            const serviceType = document.getElementById('aiServiceType') ? document.getElementById('aiServiceType').value : '';
-            const pricingUnit = document.getElementById('aiPricingUnit') ? document.getElementById('aiPricingUnit').value : '';
+            // Mevcut form alanlarından veri al
+            const title = titleInput ? titleInput.value.trim() : '';
+            const tagInput = document.getElementById('pTag');
+            const keywords = tagInput ? tagInput.value.trim() : '';
 
             // Başlık kontrolü
             if (!title) {
-                showErrorMessage('Lütfen hizmet/konu başlığını girin!');
+                showErrorMessage('Lütfen önce başlık alanını doldurun!');
+                titleInput.focus();
+                return;
+            }
+
+            // Etiket kontrolü
+            if (!keywords) {
+                showErrorMessage('Lütfen etiket alanını doldurun! (anahtar kelimeler)');
+                if (tagInput) tagInput.focus();
                 return;
             }
 
             // Loading durumu göster
             this.disabled = true;
-            this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Oluşturuluyor...';
+            this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> ChatGPT ile oluşturuluyor...';
             aiGenerationStatus.style.display = 'block';
 
             // AI içerik oluşturma isteği
-            generateEuropaAIContent(title, keywords, serviceType, pricingUnit)
+            generateEuropaAIContent(title, keywords)
                 .then(content => {
                     if (content && content.trim()) {
                         // İçeriği textarea'ya ekle
@@ -1364,41 +1371,27 @@ document.addEventListener('DOMContentLoaded', function() {
                             contentTextarea.dispatchEvent(new Event('input'));
                         }
                         
-                        showSuccessMessage('AI içerik başarıyla oluşturuldu!');
-                        
-                        // Etiketleri otomatik doldur
-                        if (keywords) {
-                            const tagInput = document.getElementById('pTag');
-                            if (tagInput && !tagInput.value) {
-                                tagInput.value = keywords;
-                            }
-                        }
+                        showSuccessMessage('🎉 AI içerik başarıyla oluşturuldu! İçeriği kontrol edin ve düzenleyin.');
                     } else {
-                        showErrorMessage('İçerik oluşturulamadı. Lütfen tekrar deneyin.');
+                        showErrorMessage('İçerik oluşturulamadı. API ayarlarını kontrol edin.');
                     }
                 })
                 .catch(error => {
                     console.error('AI Content Generation Error:', error);
-                    showErrorMessage('İçerik oluşturulurken hata oluştu: ' + error.message);
+                    let errorMsg = 'İçerik oluşturulurken hata oluştu: ' + error.message;
+                    
+                    if (error.message.includes('API')) {
+                        errorMsg += ' ChatGPT API ayarlarını kontrol edin.';
+                    }
+                    
+                    showErrorMessage(errorMsg);
                 })
                 .finally(() => {
                     // Loading durumunu kaldır
                     this.disabled = false;
-                    this.innerHTML = '<i class="fa fa-magic"></i> İçerik Oluştur';
+                    this.innerHTML = '<i class="fa fa-magic"></i> AI İle İçerik Oluştur';
                     aiGenerationStatus.style.display = 'none';
                 });
-        });
-    }
-
-    if (clearAIFormBtn) {
-        clearAIFormBtn.addEventListener('click', function() {
-            if (aiTitleInput) aiTitleInput.value = '';
-            const keywordsInput = document.getElementById('aiKeywords');
-            if (keywordsInput) keywordsInput.value = '';
-            const serviceTypeSelect = document.getElementById('aiServiceType');
-            if (serviceTypeSelect) serviceTypeSelect.value = '';
-            const pricingUnitSelect = document.getElementById('aiPricingUnit');
-            if (pricingUnitSelect) pricingUnitSelect.value = 'm³';
         });
     }
 
@@ -1448,7 +1441,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Europa AI İçerik Oluşturma Fonksiyonu
-async function generateEuropaAIContent(title, keywords, serviceType, pricingUnit) {
+async function generateEuropaAIContent(title, keywords) {
     try {
         const response = await fetch(base_path + 'admin/generate-ai-content', {
             method: 'POST',
@@ -1459,8 +1452,6 @@ async function generateEuropaAIContent(title, keywords, serviceType, pricingUnit
             body: JSON.stringify({
                 title: title,
                 keywords: keywords,
-                serviceType: serviceType,
-                pricingUnit: pricingUnit,
                 csrf_token: '<?php echo get_csrf(); ?>'
             })
         });
@@ -1759,77 +1750,31 @@ Kod bloğu
                             <h4><i class="fa fa-magic text-primary"></i> Europa AI İçerik Oluşturucu</h4>
                             
                             <div class="alert alert-info" style="font-size: 12px; padding: 10px; margin-bottom: 15px;">
-                                <i class="fa fa-lightbulb"></i> <strong>Nasıl Çalışır?</strong><br>
-                                Başlık ve anahtar kelimeler girerek SEO uyumlu içerik oluşturun.
+                                <i class="fa fa-robot"></i> <strong>ChatGPT ile İçerik Üret</strong><br>
+                                Yukarıdaki başlık ve etiket alanlarını kullanarak otomatik SEO uyumlu içerik oluşturur.
                             </div>
                             
-                            <div class="form-group-modern">
-                                <label for="aiTitle">Hizmet/Konu Başlığı</label>
-                                <input type="text" 
-                                       class="form-control-modern" 
-                                       id="aiTitle" 
-                                       placeholder="örn: Ev Eşyası Depolama"
-                                       style="font-size: 14px;">
-                                <div class="info-text">Ana başlık yukarıdaki başlık alanından otomatik alınır</div>
-                            </div>
-                            
-                            <div class="form-group-modern">
-                                <label for="aiKeywords">Anahtar Kelimeler</label>
-                                <input type="text" 
-                                       class="form-control-modern" 
-                                       id="aiKeywords" 
-                                       placeholder="ankara, güvenli, sigortalı, iklim kontrol"
-                                       style="font-size: 14px;">
-                                <div class="info-text">Virgülle ayırarak yazın</div>
-                            </div>
-                            
-                            <div class="form-group-modern">
-                                <label for="aiServiceType">Hizmet Türü</label>
-                                <select id="aiServiceType" class="form-control-modern">
-                                    <option value="">Seçiniz...</option>
-                                    <option value="ev-esyasi-depolama">Ev Eşyası Depolama</option>
-                                    <option value="ticari-depolama">Ticari Depolama</option>
-                                    <option value="arsiv-depolama">Arşiv Depolama</option>
-                                    <option value="e-ticaret-urun-depolama">E-ticaret Ürün Depolama</option>
-                                    <option value="kisisel-esya-depolama">Kişisel Eşya Depolama</option>
-                                    <option value="medikal-urun-depolama">Medikal Ürün Depolama</option>
-                                    <option value="paletli-urun-depolama">Paletli Ürün Depolama</option>
-                                    <option value="sanat-antika-depolama">Sanat-Antika Depolama</option>
-                                    <option value="self-storage">Self Storage</option>
-                                    <option value="diger">Diğer</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group-modern">
-                                <label for="aiPricingUnit">Fiyat Birimi</label>
-                                <select id="aiPricingUnit" class="form-control-modern">
-                                    <option value="m³">m³ (Metreküp)</option>
-                                    <option value="m²">m² (Metrekare)</option>
-                                    <option value="palet/gün">Palet/Gün</option>
-                                    <option value="kutu/ay">Kutu/Ay</option>
-                                    <option value="raf/ay">Raf/Ay</option>
-                                    <option value="alan/ay">Alan/Ay</option>
-                                </select>
-                            </div>
-                            
-                            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <div style="text-align: center; margin: 20px 0;">
                                 <button type="button" 
                                         id="generateAIContent" 
                                         class="btn-modern btn-primary-modern" 
-                                        style="flex: 1;">
-                                    <i class="fa fa-magic"></i> İçerik Oluştur
-                                </button>
-                                <button type="button" 
-                                        id="clearAIForm" 
-                                        class="btn-modern btn-secondary-modern">
-                                    <i class="fa fa-trash"></i>
+                                        style="width: 100%; padding: 15px; font-size: 16px;">
+                                    <i class="fa fa-magic"></i> AI İle İçerik Oluştur
                                 </button>
                             </div>
                             
-                            <div id="aiGenerationStatus" style="margin-top: 10px; display: none;">
-                                <div class="alert alert-warning" style="padding: 8px 12px; font-size: 12px;">
-                                    <i class="fa fa-spinner fa-spin"></i> İçerik oluşturuluyor...
+                            <div id="aiGenerationStatus" style="margin-top: 15px; display: none;">
+                                <div class="alert alert-warning" style="padding: 12px; font-size: 14px; text-align: center;">
+                                    <i class="fa fa-spinner fa-spin"></i> ChatGPT ile içerik oluşturuluyor...<br>
+                                    <small>Bu işlem 10-30 saniye sürebilir</small>
                                 </div>
+                            </div>
+                            
+                            <div class="info-text" style="text-align: center; margin-top: 10px;">
+                                <small>
+                                    <i class="fa fa-info-circle"></i> 
+                                    Başlık ve etiket alanlarını doldurun, sonra bu butona tıklayın
+                                </small>
                             </div>
                         </div>
                         
