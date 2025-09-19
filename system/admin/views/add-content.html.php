@@ -1302,9 +1302,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-slug generation
     const titleInput = document.getElementById('pTitle');
     const slugInput = document.getElementById('pURL');
+    const aiTitleInput = document.getElementById('aiTitle');
 
     if (titleInput && slugInput) {
         titleInput.addEventListener('input', function() {
+            // AI başlık alanını da senkronize et
+            if (aiTitleInput && !aiTitleInput.value) {
+                aiTitleInput.value = this.value;
+            }
+            
             if (!slugInput.value) {
                 const slug = this.value
                     .toLowerCase()
@@ -1320,6 +1326,79 @@ document.addEventListener('DOMContentLoaded', function() {
                     .trim('-');
                 slugInput.value = slug;
             }
+        });
+    }
+
+    // Europa AI İçerik Oluşturucu
+    const generateAIContentBtn = document.getElementById('generateAIContent');
+    const clearAIFormBtn = document.getElementById('clearAIForm');
+    const aiGenerationStatus = document.getElementById('aiGenerationStatus');
+    const contentTextarea = document.getElementById('wmd-input');
+
+    if (generateAIContentBtn) {
+        generateAIContentBtn.addEventListener('click', function() {
+            const title = aiTitleInput ? aiTitleInput.value.trim() : '';
+            const keywords = document.getElementById('aiKeywords') ? document.getElementById('aiKeywords').value.trim() : '';
+            const serviceType = document.getElementById('aiServiceType') ? document.getElementById('aiServiceType').value : '';
+            const pricingUnit = document.getElementById('aiPricingUnit') ? document.getElementById('aiPricingUnit').value : '';
+
+            // Başlık kontrolü
+            if (!title) {
+                showErrorMessage('Lütfen hizmet/konu başlığını girin!');
+                return;
+            }
+
+            // Loading durumu göster
+            this.disabled = true;
+            this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Oluşturuluyor...';
+            aiGenerationStatus.style.display = 'block';
+
+            // AI içerik oluşturma isteği
+            generateEuropaAIContent(title, keywords, serviceType, pricingUnit)
+                .then(content => {
+                    if (content && content.trim()) {
+                        // İçeriği textarea'ya ekle
+                        if (contentTextarea) {
+                            contentTextarea.value = content;
+                            // Input event'ini tetikle (word count update için)
+                            contentTextarea.dispatchEvent(new Event('input'));
+                        }
+                        
+                        showSuccessMessage('AI içerik başarıyla oluşturuldu!');
+                        
+                        // Etiketleri otomatik doldur
+                        if (keywords) {
+                            const tagInput = document.getElementById('pTag');
+                            if (tagInput && !tagInput.value) {
+                                tagInput.value = keywords;
+                            }
+                        }
+                    } else {
+                        showErrorMessage('İçerik oluşturulamadı. Lütfen tekrar deneyin.');
+                    }
+                })
+                .catch(error => {
+                    console.error('AI Content Generation Error:', error);
+                    showErrorMessage('İçerik oluşturulurken hata oluştu: ' + error.message);
+                })
+                .finally(() => {
+                    // Loading durumunu kaldır
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fa fa-magic"></i> İçerik Oluştur';
+                    aiGenerationStatus.style.display = 'none';
+                });
+        });
+    }
+
+    if (clearAIFormBtn) {
+        clearAIFormBtn.addEventListener('click', function() {
+            if (aiTitleInput) aiTitleInput.value = '';
+            const keywordsInput = document.getElementById('aiKeywords');
+            if (keywordsInput) keywordsInput.value = '';
+            const serviceTypeSelect = document.getElementById('aiServiceType');
+            if (serviceTypeSelect) serviceTypeSelect.value = '';
+            const pricingUnitSelect = document.getElementById('aiPricingUnit');
+            if (pricingUnitSelect) pricingUnitSelect.value = 'm³';
         });
     }
 
@@ -1367,6 +1446,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+// Europa AI İçerik Oluşturma Fonksiyonu
+async function generateEuropaAIContent(title, keywords, serviceType, pricingUnit) {
+    try {
+        const response = await fetch(base_path + 'admin/generate-ai-content', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                title: title,
+                keywords: keywords,
+                serviceType: serviceType,
+                pricingUnit: pricingUnit,
+                csrf_token: '<?php echo get_csrf(); ?>'
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            return data.content;
+        } else {
+            throw new Error(data.error || 'İçerik oluşturulamadı');
+        }
+    } catch (error) {
+        console.error('AI Content Generation Error:', error);
+        throw error;
+    }
+}
 
 // Mesaj gösterme fonksiyonları
 function showSuccessMessage(message) {
@@ -1640,6 +1754,85 @@ Kod bloğu
 
                     <!-- Sidebar -->
                     <div class="editor-sidebar">
+                        <!-- Europa AI İçerik Oluşturucu -->
+                        <div class="sidebar-section" id="europa-ai-generator">
+                            <h4><i class="fa fa-magic text-primary"></i> Europa AI İçerik Oluşturucu</h4>
+                            
+                            <div class="alert alert-info" style="font-size: 12px; padding: 10px; margin-bottom: 15px;">
+                                <i class="fa fa-lightbulb"></i> <strong>Nasıl Çalışır?</strong><br>
+                                Başlık ve anahtar kelimeler girerek SEO uyumlu içerik oluşturun.
+                            </div>
+                            
+                            <div class="form-group-modern">
+                                <label for="aiTitle">Hizmet/Konu Başlığı</label>
+                                <input type="text" 
+                                       class="form-control-modern" 
+                                       id="aiTitle" 
+                                       placeholder="örn: Ev Eşyası Depolama"
+                                       style="font-size: 14px;">
+                                <div class="info-text">Ana başlık yukarıdaki başlık alanından otomatik alınır</div>
+                            </div>
+                            
+                            <div class="form-group-modern">
+                                <label for="aiKeywords">Anahtar Kelimeler</label>
+                                <input type="text" 
+                                       class="form-control-modern" 
+                                       id="aiKeywords" 
+                                       placeholder="ankara, güvenli, sigortalı, iklim kontrol"
+                                       style="font-size: 14px;">
+                                <div class="info-text">Virgülle ayırarak yazın</div>
+                            </div>
+                            
+                            <div class="form-group-modern">
+                                <label for="aiServiceType">Hizmet Türü</label>
+                                <select id="aiServiceType" class="form-control-modern">
+                                    <option value="">Seçiniz...</option>
+                                    <option value="ev-esyasi-depolama">Ev Eşyası Depolama</option>
+                                    <option value="ticari-depolama">Ticari Depolama</option>
+                                    <option value="arsiv-depolama">Arşiv Depolama</option>
+                                    <option value="e-ticaret-urun-depolama">E-ticaret Ürün Depolama</option>
+                                    <option value="kisisel-esya-depolama">Kişisel Eşya Depolama</option>
+                                    <option value="medikal-urun-depolama">Medikal Ürün Depolama</option>
+                                    <option value="paletli-urun-depolama">Paletli Ürün Depolama</option>
+                                    <option value="sanat-antika-depolama">Sanat-Antika Depolama</option>
+                                    <option value="self-storage">Self Storage</option>
+                                    <option value="diger">Diğer</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group-modern">
+                                <label for="aiPricingUnit">Fiyat Birimi</label>
+                                <select id="aiPricingUnit" class="form-control-modern">
+                                    <option value="m³">m³ (Metreküp)</option>
+                                    <option value="m²">m² (Metrekare)</option>
+                                    <option value="palet/gün">Palet/Gün</option>
+                                    <option value="kutu/ay">Kutu/Ay</option>
+                                    <option value="raf/ay">Raf/Ay</option>
+                                    <option value="alan/ay">Alan/Ay</option>
+                                </select>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                <button type="button" 
+                                        id="generateAIContent" 
+                                        class="btn-modern btn-primary-modern" 
+                                        style="flex: 1;">
+                                    <i class="fa fa-magic"></i> İçerik Oluştur
+                                </button>
+                                <button type="button" 
+                                        id="clearAIForm" 
+                                        class="btn-modern btn-secondary-modern">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                            
+                            <div id="aiGenerationStatus" style="margin-top: 10px; display: none;">
+                                <div class="alert alert-warning" style="padding: 8px 12px; font-size: 12px;">
+                                    <i class="fa fa-spinner fa-spin"></i> İçerik oluşturuluyor...
+                                </div>
+                            </div>
+                        </div>
+                        
                         <!-- Yayın Ayarları -->
                         <div class="sidebar-section">
                             <h4><i class="fa fa-cog"></i> Yayın Ayarları</h4>

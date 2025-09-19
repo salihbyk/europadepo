@@ -2775,19 +2775,73 @@ post('/admin/dismiss-update-notification', function () {
         echo json_encode(['error' => 'Unauthorized']);
         return;
     }
-
+    
     $user = $_SESSION[site_url()]['user'];
     $role = user('role', $user);
-
+    
     if ($role === 'admin') {
         require_once 'system/includes/auto_updater.php';
         $autoUpdater = new AutoUpdater();
         $autoUpdater->dismissNotification();
-
+        
         echo json_encode(['success' => true]);
     } else {
         http_response_code(403);
         echo json_encode(['error' => 'Forbidden']);
+    }
+});
+
+// Europa AI Content Generator endpoint
+post('/admin/generate-ai-content', function () {
+    if (!login()) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Unauthorized']);
+        return;
+    }
+    
+    // JSON input'u al
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    if (!$input) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid JSON input']);
+        return;
+    }
+    
+    // CSRF token kontrolü
+    if (!isset($input['csrf_token']) || !is_csrf_proper($input['csrf_token'])) {
+        http_response_code(403);
+        echo json_encode(['error' => 'Invalid CSRF token']);
+        return;
+    }
+    
+    try {
+        require_once 'system/includes/ai_content_generator.php';
+        $generator = new EuropaAIContentGenerator();
+        
+        $title = $input['title'] ?? '';
+        $keywords = $input['keywords'] ?? '';
+        $serviceType = $input['serviceType'] ?? '';
+        $pricingUnit = $input['pricingUnit'] ?? 'm³';
+        
+        if (empty($title)) {
+            throw new Exception('Başlık gereklidir');
+        }
+        
+        $content = $generator->generateContent($title, $keywords, $serviceType, $pricingUnit);
+        
+        echo json_encode([
+            'success' => true,
+            'content' => $content,
+            'message' => 'İçerik başarıyla oluşturuldu'
+        ]);
+        
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
     }
 });
 
