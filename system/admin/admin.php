@@ -226,6 +226,11 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
             }
         }
     }
+    // Manuel SEO Title desteği (formdan name="seo_title")
+    if (isset($_REQUEST['seo_title']) && trim($_REQUEST['seo_title']) !== '') {
+        $seoTitleSanitized = preg_replace('/\s+/', ' ', trim($_REQUEST['seo_title']));
+        $customField .= "\n<!--seo_title " . $seoTitleSanitized . " seo_title-->";
+    }
 
     $post_content = "<!--t " . $post_title . " t-->" . $post_description . $tagmd . $post_media . $customField . "\n\n" . $content;
 

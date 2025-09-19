@@ -4115,14 +4115,19 @@ function generate_meta($type = null, $object = null)
             }
         }
         if ($type == 'is_post') {
-            $tags .= '<title>'. generate_title('is_post',$object) .'</title>' . "\n";
+            // Manuel SEO Title override (özel alan: <!--seo_title ... seo_title-->)
+            $manualSeoTitle = get_field('seo_title', $object->body);
+            $finalTitle = $manualSeoTitle ? $manualSeoTitle : generate_title('is_post',$object);
+            $tags .= '<title>'. safe_html($finalTitle) .'</title>' . "\n";
             $tags .= '<meta name="author" content="'. safe_html($object->authorName) .'" />' . "\n";
             $tags .= '<meta name="article:published_time" content="'. date('c', $object->date) .'" />' . "\n";
             $tags .= '<meta name="article:modified_time" content="'. date('c', $object->lastMod) .'" />' . "\n";
             $tags .= '<meta name="article:section" content="'. safe_html($object->categoryTitle) .'" />' . "\n";
             $tags .= '<meta name="article:section_url" content="'. $object->categoryUrl .'" />' . "\n";
         } elseif ($type == 'is_page' || $type == 'is_subpage') {
-            $tags .= '<title>'. generate_title('is_page',$object) .'</title>' . "\n";
+            $manualSeoTitle = get_field('seo_title', $object->body);
+            $finalTitle = $manualSeoTitle ? $manualSeoTitle : generate_title('is_page',$object);
+            $tags .= '<title>'. safe_html($finalTitle) .'</title>' . "\n";
             $tags .= '<meta name="article:modified_time" content="'. date('c', $object->lastMod) .'" />' . "\n";
         } else {
             $tags .= '<title>'. generate_title($type , $object) .'</title>' . "\n";
@@ -4140,7 +4145,8 @@ function generate_meta($type = null, $object = null)
         $tags .= '<meta property="og:locale" content="'. locale_language() .'" />' . "\n";
         $tags .= '<meta property="og:site_name" content="'. blog_title() . '" />' . "\n";
         $tags .= '<meta property="og:type" content="article" />' . "\n";
-        $tags .= '<meta property="og:title" content="'. safe_html($object->title) .'" />' . "\n";
+        $ogTitle = $manualSeoTitle ? $manualSeoTitle : $object->title;
+        $tags .= '<meta property="og:title" content="'. safe_html($ogTitle) .'" />' . "\n";
         $tags .= '<meta property="og:url" content="'. $object->url .'" />' . "\n";
         $tags .= '<meta property="og:description" content="'. safe_html($object->description) .'" />' . "\n";
         $tags .= '<meta name="twitter:card" content="summary_large_image" />' . "\n";
