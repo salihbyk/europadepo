@@ -30,6 +30,8 @@ ZORUNLU ÇIKTI BİÇİMİ:
 - Harici link verme.
 - Tüm URL\'ler göreli: "/slug".
 - Sonunda 2 adet JSON-LD ekle: FAQPage ve Service.
+- MİNİMUM 2000 KELİME uzunluğunda detaylı, kapsamlı içerik oluştur.
+- Her bölümü detaylandır, örnekler ver, avantajları açıkla.
 
 SEO KURALLARI:
 - Meta başlık ve açıklama ÜRETME (bu prompt sayfayı üretir; meta\'yı ayrı prompt ile alacağım).
@@ -38,8 +40,22 @@ SEO KURALLARI:
 - Gereksiz tekrar yok, anahtar kelime doldurma yok.
 - İçerikte 1 "CTA" başlığı olsun (İletişim linki {CTA_URL}).
 - Tablo ekle (kapsam/fiyat parametreleri/KPI gibi hizmete uygun bir tablo).
-- 3–4 adet SSS üret (<details>).
+- 5–6 adet SSS üret (<details>).
 - "Yasaklı/İstisna" bölümü ekle (uygunsa).
+- "Süreç Adımları" bölümü ekle (nasıl çalışır).
+- "Avantajlar" bölümü detaylandır.
+
+İÇERİK YAPISI (ZORUNLU):
+1. İçindekiler navigasyonu
+2. Ana hizmet açıklaması (detaylı, min 300 kelime)
+3. Özellikler ve avantajlar (detaylı liste)
+4. Süreç adımları (nasıl çalışır)
+5. Fiyat tablosu (detaylı)
+6. Güvenlik ve sigorta bilgileri
+7. SSS bölümü (5-6 soru)
+8. Yasaklı maddeler
+9. İletişim CTA
+10. JSON-LD şemaları
 
 ŞEMA (JSON-LD):
 - FAQPage: generated Q/A\'ları gir.
@@ -62,7 +78,8 @@ DEĞİŞKENLER:
 - Şehir: {CITY}
 - CTA URL: {CTA_URL}
 - Fiyat birimi (ör: "m³", "palet/gün", "m²"): {PRICING_UNIT}
-- İç linkler (JSON): {INTERNAL_LINKS_JSON}  // ör: [{"href":"/ticari-depolama","text":"Ticari Depolama"}]
+- İç linkler (JSON): {INTERNAL_LINKS_JSON}
+- Anahtar kelimeler: {KEYWORDS}
 
 KISITLAR:
 - Soğuk zincir vb. özellikleri sadece {FEATURES_JSON} içinde true ise yaz. Aksi halde dahil etme.
@@ -70,12 +87,20 @@ KISITLAR:
 - Harici marka/karşılaştırma yok.
 - Görsel ekleme yok.
 
-ÇIKTI:
-- Sadece TEK bir <section>…</section> HTML bloğu + altında FAQPage ve Service JSON-LD (<script>) blokları.
+ÇIKTI FORMATI:
+<section>
+[Detaylı, kapsamlı HTML içerik - minimum 2000 kelime]
+</section>
 
-ANAHTAR KELİMELER: {KEYWORDS}
+<script type="application/ld+json">
+[FAQPage JSON-LD]
+</script>
 
-Lütfen yukarıdaki talimatları takip ederek {SERVICE_NAME} için profesyonel, SEO uyumlu içerik oluşturun.';
+<script type="application/ld+json">
+[Service JSON-LD]
+</script>
+
+Lütfen yukarıdaki talimatları TAM OLARAK takip ederek {SERVICE_NAME} için profesyonel, kapsamlı, SEO uyumlu içerik oluşturun.';
     }
     
     private function setupInternalLinks() {
@@ -152,24 +177,22 @@ Lütfen yukarıdaki talimatları takip ederek {SERVICE_NAME} için profesyonel, 
     private function generateWithChatGPT($prompt) {
         $apiKey = config('chatgpt.api.key');
         $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';
-        $maxTokens = (int)(config('chatgpt.max.tokens') ?: 2000);
+        $maxTokens = (int)(config('chatgpt.max.tokens') ?: 4000);
         $temperature = (float)(config('chatgpt.temperature') ?: 0.7);
         
-        // GPT-5 henüz mevcut değilse GPT-4 Turbo kullan
-        if ($model === 'gpt-5') {
-            $model = 'gpt-4-turbo';
-        }
+        // GPT-5 kullanmaya devam et (gerçek model)
+        // Model ayarını olduğu gibi bırak
         
         $data = [
             'model' => $model,
             'messages' => [
                 [
                     'role' => 'system',
-                    'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. Verilen talimatları tam olarak takip ederek HTML içerik üretirsin.'
+                    'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. SADECE HTML içerik üretirsin. Hiçbir açıklama, başlık veya ek metin ekleme. Direkt HTML kodunu ver.'
                 ],
                 [
                     'role' => 'user',
-                    'content' => $prompt
+                    'content' => $prompt . "\n\nÖNEMLİ: Sadece HTML içeriği ver, başında 'html' veya açıklama yazma. Direkt <section> ile başla ve </section> ile bitir. Minimum 1500 kelime uzunluğunda detaylı içerik oluştur."
                 ]
             ],
             'max_tokens' => $maxTokens,
@@ -216,7 +239,29 @@ Lütfen yukarıdaki talimatları takip ederek {SERVICE_NAME} için profesyonel, 
             throw new Exception('ChatGPT\'den içerik alınamadı');
         }
         
-        return trim($result['choices'][0]['message']['content']);
+        $content = trim($result['choices'][0]['message']['content']);
+        
+        // İçeriği temizle ve düzelt
+        $content = $this->cleanAIResponse($content);
+        
+        return $content;
+    }
+    
+    private function cleanAIResponse($content) {
+        // Başındaki gereksiz metinleri kaldır
+        $content = preg_replace('/^(html|HTML|```html|```)/i', '', $content);
+        $content = preg_replace('/```$/', '', $content);
+        
+        // Başında açıklama varsa kaldır
+        $content = preg_replace('/^[^<]*(<section)/i', '$1', $content);
+        
+        // Sonundaki gereksiz metinleri kaldır
+        $content = preg_replace('/(<\/section>)[^<]*$/i', '$1', $content);
+        
+        // Boş satırları temizle
+        $content = preg_replace('/\n\s*\n\s*\n/', "\n\n", $content);
+        
+        return trim($content);
     }
     
     private function detectServiceType($title) {
