@@ -1378,6 +1378,34 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (seoTitleInput && result.seo_title) seoTitleInput.value = result.seo_title;
                         if (metaDescInput && result.meta_description) metaDescInput.value = result.meta_description;
                         showSuccessMessage('🎉 AI SEO başarıyla oluşturuldu!');
+
+                        // Eğer SEO puanı da geldiyse kutuyu doldur
+                        if (result.seo_score && seoScoreBox) {
+                            const total = result.seo_score.score || 0;
+                            const subs = result.seo_score.subscores || {};
+                            const notes = result.seo_score.notes || [];
+                            if (seoScoreBadge) {
+                                seoScoreBadge.textContent = total;
+                                seoScoreBadge.className = 'badge ' + (total >= 80 ? 'badge-success' : total >= 60 ? 'badge-warning' : 'badge-danger');
+                            }
+                            if (seoSubscores) {
+                                seoSubscores.innerHTML = `
+                                    <div>Başlık: <strong>${subs.title ?? 0}</strong> / 25</div>
+                                    <div>Açıklama: <strong>${subs.description ?? 0}</strong> / 25</div>
+                                    <div>Anahtar Kelimeler: <strong>${subs.keywords ?? 0}</strong> / 25</div>
+                                    <div>İçerik: <strong>${subs.content ?? 0}</strong> / 25</div>
+                                `;
+                            }
+                            if (seoNotes) {
+                                seoNotes.innerHTML = '';
+                                notes.forEach(n => {
+                                    const li = document.createElement('li');
+                                    li.textContent = n;
+                                    seoNotes.appendChild(li);
+                                });
+                            }
+                            seoScoreBox.style.display = 'block';
+                        }
                     } else if (typeof result === 'string') {
                         // Geçici: İçerikten başlık/özet çıkar ve alanlara yerleştir
                         const tmp = document.createElement('div');
@@ -1518,6 +1546,7 @@ async function generateEuropaSEO(title, keywords) {
             body: JSON.stringify({
                 title: title,
                 keywords: keywords,
+                content: (document.getElementById('wmd-input') || {}).value || '',
                 csrf_token: '<?php echo get_csrf(); ?>'
             })
         });
@@ -1529,7 +1558,7 @@ async function generateEuropaSEO(title, keywords) {
         const data = await response.json();
 
         if (data.success) {
-            return { seo_title: data.seo_title, meta_description: data.meta_description };
+            return { seo_title: data.seo_title, meta_description: data.meta_description, seo_score: data.seo_score };
         } else {
             throw new Error(data.error || 'SEO oluşturulamadı');
         }
@@ -1916,7 +1945,7 @@ Kod bloğu
                             </div>
                         </div>
                     </div>
-     
+
                     <!-- Sidebar (Sağ Taraf) -->
                     <div class="col-lg-4">
 

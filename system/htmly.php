@@ -2892,7 +2892,7 @@ post('/admin/generate-ai-content', function () {
     }
 });
 
-// Europa AI SEO Generator endpoint (yalnızca SEO başlık + açıklama)
+// Europa AI SEO Generator endpoint (SEO başlık + açıklama + opsiyonel SEO puanı)
 post('/admin/generate-ai-seo', function () {
     // JSON response header
     header('Content-Type: application/json');
@@ -2920,6 +2920,7 @@ post('/admin/generate-ai-seo', function () {
 
         $title = trim($input['title'] ?? '');
         $keywords = trim($input['keywords'] ?? '');
+        $content = trim($input['content'] ?? '');
         if ($title === '') {
             http_response_code(400);
             echo json_encode(['success' => false, 'error' => 'Başlık gereklidir']);
@@ -2933,11 +2934,21 @@ post('/admin/generate-ai-seo', function () {
         $generator = new EuropaAIContentGenerator();
         $seo = $generator->generateSEOMeta($title, $keywords);
 
-        echo json_encode([
+        $response = [
             'success' => true,
             'seo_title' => $seo['seo_title'],
             'meta_description' => $seo['meta_description'],
-        ]);
+        ];
+
+        // SEO puanını aynı cevapla dön (başarısız olursa sessizce atla)
+        try {
+            $score = $generator->analyzeSEOScore($title, $seo['meta_description'], $keywords, $content);
+            $response['seo_score'] = $score;
+        } catch (Exception $ignored) {
+            // opsiyonel
+        }
+
+        echo json_encode($response);
 
     } catch (Exception $e) {
         error_log('AI SEO Generator Error: ' . $e->getMessage());
