@@ -191,7 +191,7 @@ class GitHubUpdater {
             $extractPath = $extractedDirs[0];
         }
 
-        // Dosyaları kopyala (korumalı dosyaları atla)
+        // Dosyaları kopyala (korumalı dosyaları atla ve sadece değişenleri yaz)
         $result = $this->copyFiles($extractPath, getcwd());
 
         // Geçici klasörü temizle
@@ -204,7 +204,12 @@ class GitHubUpdater {
         // Version dosyasını güncelle
         $this->updateVersionFile();
 
-        return ['success' => true, 'message' => 'Güncelleme başarıyla tamamlandı'];
+        return [
+            'success' => true,
+            'message' => 'Güncelleme başarıyla tamamlandı',
+            'changed' => $result['changed'] ?? [],
+            'added' => $result['added'] ?? []
+        ];
     }
 
     private function copyFiles($source, $destination) {
@@ -216,6 +221,9 @@ class GitHubUpdater {
             new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::SELF_FIRST
         );
+
+        $changedFiles = [];
+        $addedFiles = [];
 
         foreach ($iterator as $item) {
             $relativePath = str_replace($source . DIRECTORY_SEPARATOR, '', $item->getPathname());
@@ -237,16 +245,47 @@ class GitHubUpdater {
                 if (!is_dir($destDir)) {
                     mkdir($destDir, 0755, true);
                 }
-                copy($item->getPathname(), $destPath);
+                // Yalnızca değişen dosyaları yaz
+                if (file_exists($destPath)) {
+                    $srcHash = @md5_file($item->getPathname());
+                    $dstHash = @md5_file($destPath);
+                    if ($srcHash !== $dstHash) {
+                        copy($item->getPathname(), $destPath);
+                        $changedFiles[] = $relativePath;
+                    }
+                } else {
+                    copy($item->getPathname(), $destPath);
+                    $addedFiles[] = $relativePath;
+                }
             }
         }
 
-        return ['success' => true];
+        return [
+            'success' => true,
+            'changed' => $changedFiles,
+            'added' => $addedFiles
+        ];
     }
 
     private function isProtectedFile($filePath) {
+        // Varsayılan korunacak yollar (veri ve kullanıcı yapılandırmaları)
+        $defaultFiles = [
+            'config/config.ini',
+            'version.json',
+            'update_config.json'
+        ];
+        $defaultDirs = [
+            'content/',         // Tüm yazılar/sayfalar/kategoriler
+            'config/users/',    // Kullanıcılar
+            'cache/'            // Cache
+        ];
+
         $protectedFiles = $this->updateConfig['protected_files'] ?? [];
         $protectedDirs = $this->updateConfig['protected_directories'] ?? [];
+
+        // Birleştir ve tekilleştir
+        $protectedFiles = array_values(array_unique(array_merge($defaultFiles, $protectedFiles)));
+        $protectedDirs  = array_values(array_unique(array_merge($defaultDirs, $protectedDirs)));
 
         // Dosya kontrolü
         foreach ($protectedFiles as $protected) {

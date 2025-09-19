@@ -1,9 +1,6 @@
 {
     "protected_files": [
         "config\/config.ini",
-        "config\/users\/",
-        "content\/",
-        "cache\/",
         "version.json",
         "update_config.json"
     ],
