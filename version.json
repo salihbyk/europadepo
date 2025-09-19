@@ -1,11 +1,24 @@
 {
-    "version": "1.1.0",
-    "build": "20250919003",
+    "version": "1.1.1",
+    "build": "20250919004",
     "release_date": "2025-09-19",
-    "description": "Europa Depo v1.1 - AI İçerik Oluşturucu ve Güncelleme Sistemi + Hata Ayıklama",
+    "description": "Europa Depo v1.1.1 - SEO Title önceliği, Meta Description ilk etiket ile başlatma, AdminLTE layout iyileştirmeleri, AI SEO: içerik üretimi iptal, SEO üretimi sadeleştirildi",
     "github_repo": "salihbyk/europadepo",
     "update_url": "https://api.github.com/repos/salihbyk/europadepo/releases/latest",
     "changelog": [
+        {
+            "version": "1.1.1",
+            "date": "2025-09-19",
+            "changes": [
+                "🔎 SEO Title: Manuel alan dosyaya kaydediliyor (<!--seo_title ...-->), frontend'de <title> ve og:title için öncelikli",
+                "📝 Meta Description: İlk etiketle başlatma kuralı ve akıllı 160 karakter kırpma",
+                "🗂️ Admin panel: SEO ayarları içerik editörünün altına taşındı, açılır/kapanır",
+                "🧩 AdminLTE card/ikon/stil iyileştirmeleri",
+                "🤖 AI: İçerik üretimi kaldırıldı; yalnızca SEO Title + Description üretimi kaldı",
+                "⚙️ /admin/generate-ai-seo endpoint’i sadeleştirildi (puan özelliği kaldırıldı)",
+                "🐞 Hata düzeltmeleri ve düzenli temizlik"
+            ]
+        },
         {
             "version": "1.1.0",
             "date": "2025-09-19",
