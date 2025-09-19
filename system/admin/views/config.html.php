@@ -241,7 +241,7 @@ Please install and enable the INTL extension to format the date format to your l
       <input type="password" 
              class="form-control" 
              id="chatgpt.api.key" 
-             name="chatgpt.api.key" 
+             name="-config-chatgpt.api.key" 
              value="<?php echo config('chatgpt.api.key');?>" 
              placeholder="sk-...">
       <small class="form-text text-muted">
@@ -257,7 +257,7 @@ Please install and enable the INTL extension to format the date format to your l
       <i class="fa fa-cogs text-primary"></i> ChatGPT Model
     </label>
     <div class="col-sm-10">
-      <select class="form-control" id="chatgpt.model" name="chatgpt.model">
+      <select class="form-control" id="chatgpt.model" name="-config-chatgpt.model">
         <option value="gpt-3.5-turbo" <?php if(config('chatgpt.model') == 'gpt-3.5-turbo' || !config('chatgpt.model')) echo 'selected'; ?>>GPT-3.5 Turbo (Hızlı ve Ekonomik)</option>
         <option value="gpt-4" <?php if(config('chatgpt.model') == 'gpt-4') echo 'selected'; ?>>GPT-4 (Kaliteli)</option>
         <option value="gpt-4-turbo" <?php if(config('chatgpt.model') == 'gpt-4-turbo') echo 'selected'; ?>>GPT-4 Turbo (Hızlı ve İyi)</option>
@@ -279,7 +279,7 @@ Please install and enable the INTL extension to format the date format to your l
       <input type="number" 
              class="form-control" 
              id="chatgpt.max.tokens" 
-             name="chatgpt.max.tokens" 
+             name="-config-chatgpt.max.tokens" 
              value="<?php echo config('chatgpt.max.tokens') ?: '2000';?>" 
              min="500" 
              max="4000" 
@@ -296,7 +296,7 @@ Please install and enable the INTL extension to format the date format to your l
       <i class="fa fa-thermometer-half text-primary"></i> Yaratıcılık Seviyesi
     </label>
     <div class="col-sm-10">
-      <select class="form-control" id="chatgpt.temperature" name="chatgpt.temperature">
+      <select class="form-control" id="chatgpt.temperature" name="-config-chatgpt.temperature">
         <option value="0.3" <?php if(config('chatgpt.temperature') == '0.3') echo 'selected'; ?>>Düşük (0.3) - Tutarlı ve Profesyonel</option>
         <option value="0.7" <?php if(config('chatgpt.temperature') == '0.7' || !config('chatgpt.temperature')) echo 'selected'; ?>>Orta (0.7) - Dengeli</option>
         <option value="1.0" <?php if(config('chatgpt.temperature') == '1.0') echo 'selected'; ?>>Yüksek (1.0) - Yaratıcı</option>

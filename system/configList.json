@@ -98,5 +98,9 @@
     "rss.description",
     "admin.theme",
     "fulltext.search",
-    "transliterate.slug"
+    "transliterate.slug",
+    "chatgpt.api.key",
+    "chatgpt.model",
+    "chatgpt.max.tokens",
+    "chatgpt.temperature"
 ]
