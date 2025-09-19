@@ -1609,101 +1609,34 @@ function wrapSelection(textarea, prefix, suffix) {
             </div>
 
         <form method="POST">
-                <div class="editor-main">
-                    <!-- SEO Ayarları (Başlığın Üstünde) -->
-                    <div class="card card-primary card-outline mb-3">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-search-plus"></i> SEO Optimizasyonu
-                            </h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
+                <div class="row">
+                    <!-- Ana İçerik Alanı (Sol Taraf) -->
+                    <div class="col-lg-8">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-edit"></i> İçerik Editörü
+                                </h3>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="pSeoTitle" class="form-label">
-                                            <i class="fas fa-heading text-primary"></i> SEO Title
-                                            <small class="text-muted">(Arama motorları için özel başlık)</small>
-                                        </label>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="pSeoTitle"
-                                               name="seo_title"
-                                               value="<?php if (isset($p->seo_title)) { echo $p->seo_title;} ?>"
-                                               placeholder="Arama motorları için optimize edilmiş başlık..."/>
-                                        <div class="form-text">
-                                            <i class="fas fa-info-circle text-info"></i>
-                                            Boş bırakırsanız normal başlık kullanılır. Önerilen uzunluk: 50-60 karakter
-                                        </div>
+                            <div class="card-body">
+                                <!-- Başlık Alanı -->
+                                <div class="form-group">
+                                    <label for="pTitle" class="form-label">
+                                        <i class="fas fa-heading text-primary"></i> İçerik Başlığı
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input autofocus type="text"
+                                           class="form-control form-control-lg <?php if (isset($postTitle)) { if (empty($postTitle)) { echo 'is-invalid';}} ?>"
+                                           id="pTitle"
+                                           name="title"
+                                           value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"
+                                           placeholder="Yazınızın başlığını buraya yazın..."/>
+                                    <?php if (isset($postTitle) && empty($postTitle)): ?>
+                                    <div class="invalid-feedback">
+                                        <i class="fas fa-exclamation-triangle"></i> Başlık alanı zorunludur
                                     </div>
+                                    <?php endif; ?>
                                 </div>
-                                <div class="col-md-4">
-                                    <!-- AI SEO Oluşturucu -->
-                                    <div class="card card-success card-outline">
-                                        <div class="card-header">
-                                            <h3 class="card-title">
-                                                <i class="fas fa-robot"></i> AI SEO Asistanı
-                                            </h3>
-                                        </div>
-                                        <div class="card-body p-2">
-                                            <button type="button"
-                                                    id="generateAISEO"
-                                                    class="btn btn-success btn-sm btn-block">
-                                                <i class="fas fa-magic"></i> SEO Oluştur
-                                            </button>
-                                            <div id="aiSEOStatus" class="mt-2" style="display: none;">
-                                                <div class="alert alert-info alert-sm p-2">
-                                                    <i class="fas fa-spinner fa-spin"></i> AI çalışıyor...
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="pMeta" class="form-label">
-                                    <i class="fas fa-align-left text-info"></i> Meta Description
-                                    <small class="text-muted">(Arama sonuçlarında görünecek açıklama)</small>
-                                </label>
-                                <textarea id="pMeta"
-                                         class="form-control"
-                                         name="description"
-                                         rows="3"
-                                         placeholder="Arama motorları için kısa ve çekici açıklama yazın..."><?php if (isset($p->description)) { echo $p->description;} ?></textarea>
-                                <div class="form-text">
-                                    <i class="fas fa-info-circle text-info"></i>
-                                    Önerilen uzunluk: 150-160 karakter. Boş bırakırsanız içerikten otomatik oluşturulur
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ana İçerik Alanı -->
-                    <div class="editor-content">
-                        <!-- Başlık Alanı -->
-                        <div class="form-group">
-                            <label for="pTitle" class="form-label">
-                                <i class="fas fa-pen text-primary"></i> İçerik Başlığı
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input autofocus type="text"
-                                   class="form-control form-control-lg <?php if (isset($postTitle)) { if (empty($postTitle)) { echo 'is-invalid';}} ?>"
-                                   id="pTitle"
-                                   name="title"
-                                   value="<?php if (isset($postTitle)) { echo $postTitle;} ?>"
-                                   placeholder="Yazınızın başlığını buraya yazın..."/>
-                            <?php if (isset($postTitle) && empty($postTitle)): ?>
-                            <div class="invalid-feedback">
-                                <i class="fas fa-exclamation-triangle"></i> Başlık alanı zorunludur
-                            </div>
-                            <?php endif; ?>
-                        </div>
 
                         <!-- İçerik Editörü -->
                         <div class="content-editor-section">
@@ -1809,46 +1742,91 @@ Kod bloğu
 ```"><?php if (isset($postContent)) { echo $postContent;} ?></textarea>
                             </div>
 
-                            <!-- Önizleme -->
-                            <div id="wmd-preview" class="wmd-panel wmd-preview" style="margin-top: 20px; min-height: 200px;"></div>
+                                <!-- Önizleme -->
+                                <div id="wmd-preview" class="wmd-panel wmd-preview" style="margin-top: 20px; min-height: 200px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- SEO Ayarları (İçerik Editörünün Altında) -->
+                        <div class="card card-success card-outline mt-3">
+                            <div class="card-header" data-card-widget="collapse" style="cursor: pointer;">
+                                <h3 class="card-title">
+                                    <i class="fas fa-search-plus"></i> SEO Optimizasyonu
+                                </h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="pSeoTitle" class="form-label">
+                                                <i class="fas fa-heading text-primary"></i> SEO Title
+                                                <small class="text-muted">(Arama motorları için özel başlık)</small>
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="pSeoTitle"
+                                                   name="seo_title"
+                                                   value="<?php if (isset($p->seo_title)) { echo $p->seo_title;} ?>"
+                                                   placeholder="Arama motorları için optimize edilmiş başlık..."/>
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                Boş bırakırsanız normal başlık kullanılır. Önerilen: 50-60 karakter
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="pMeta" class="form-label">
+                                                <i class="fas fa-align-left text-info"></i> Meta Description
+                                                <small class="text-muted">(Arama sonuçlarında görünecek açıklama)</small>
+                                            </label>
+                                            <textarea id="pMeta"
+                                                     class="form-control"
+                                                     name="description"
+                                                     rows="3"
+                                                     placeholder="Arama motorları için kısa ve çekici açıklama yazın..."><?php if (isset($p->description)) { echo $p->description;} ?></textarea>
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle text-info"></i>
+                                                Önerilen: 150-160 karakter. Boş bırakırsanız içerikten otomatik oluşturulur
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- AI SEO Oluşturucu -->
+                                        <div class="card card-info card-outline">
+                                            <div class="card-header">
+                                                <h3 class="card-title">
+                                                    <i class="fas fa-robot"></i> AI SEO Asistanı
+                                                </h3>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <button type="button"
+                                                        id="generateAISEO"
+                                                        class="btn btn-info btn-block">
+                                                    <i class="fas fa-magic"></i> SEO Oluştur
+                                                </button>
+                                                <div id="aiSEOStatus" class="mt-2" style="display: none;">
+                                                    <div class="alert alert-warning p-2">
+                                                        <i class="fas fa-spinner fa-spin"></i> AI çalışıyor...
+                                                    </div>
+                                                </div>
+                                                <small class="text-muted mt-2 d-block">
+                                                    Başlık ve etiketleri doldurun, AI size SEO oluşturacak
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Sidebar -->
-                    <div class="editor-sidebar">
-                        <!-- Europa AI SEO Oluşturucu -->
-                        <div class="sidebar-section" id="europa-ai-seo-generator">
-                            <h4><i class="fa fa-search text-primary"></i> Europa AI SEO Oluşturucu</h4>
-
-                            <div class="alert alert-info" style="font-size: 12px; padding: 10px; margin-bottom: 15px;">
-                                <i class="fa fa-robot"></i> <strong>ChatGPT ile SEO Üret</strong><br>
-                                Yukarıdaki başlık ve etiket alanlarını kullanarak otomatik SEO title ve description oluşturur.
-                            </div>
-
-                            <div style="text-align: center; margin: 20px 0;">
-                                <button type="button"
-                                        id="generateAISEO"
-                                        class="btn-modern btn-primary-modern"
-                                        style="width: 100%; padding: 15px; font-size: 16px;">
-                                    <i class="fa fa-search"></i> AI İle SEO Oluştur
-                                </button>
-                            </div>
-
-                            <div id="aiSEOStatus" style="margin-top: 15px; display: none;">
-                                <div class="alert alert-warning" style="padding: 12px; font-size: 14px; text-align: center;">
-                                    <i class="fa fa-spinner fa-spin"></i> ChatGPT ile SEO oluşturuluyor...<br>
-                                    <small>Bu işlem 5-15 saniye sürebilir</small>
-                                </div>
-                            </div>
-
-                            <div class="info-text" style="text-align: center; margin-top: 10px;">
-                                <small>
-                                    <i class="fa fa-info-circle"></i>
-                                    Başlık ve etiket alanlarını doldurun, sonra bu butona tıklayın<br>
-                                    <span style="color: #28a745;">✅ ChatGPT API: Aktif</span>
-                                </small>
-                            </div>
-                        </div>
+                    <!-- Sidebar (Sağ Taraf) -->
+                    <div class="col-lg-4">
 
                         <!-- Yayın Ayarları -->
                         <div class="card card-info card-outline">
@@ -2029,26 +2007,42 @@ Kod bloğu
                 </div>
 
                 <!-- Alt Butonlar -->
-                <div class="editor-actions">
-                    <div>
-                        <button type="button" id="preview-toggle" class="btn-modern btn-secondary-modern">
-                            <i class="fa fa-eye"></i> Önizleme
-                        </button>
-                </div>
-                    <div style="display: flex; gap: 15px;">
-                        <input type="submit" name="draft" class="btn-modern btn-secondary-modern" value="Taslak Kaydet"/>
-                        <input type="submit" name="publish" class="btn-modern btn-primary-modern" value="Yayınla"/>
-            </div>
-                </div>
+                    </div>
 
-                <!-- Hidden Fields -->
-                <?php if ($type == 'is_post'):?>
-                <input type="hidden" name="is_post" value="is_post">
-                <?php endif;?>
-                <input id="oldfile" type="hidden" name="oldfile" class="text"/>
-                <input type="hidden" id="pType" name="posttype" value="<?php echo $type; ?>">
-                <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">
-        </form>
+                    <!-- Form Butonları -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card card-secondary card-outline">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <button type="button" id="preview-toggle" class="btn btn-outline-info">
+                                                <i class="fas fa-eye"></i> Önizleme
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="submit" name="draft" class="btn btn-outline-secondary mr-2">
+                                                <i class="fas fa-save"></i> Taslak Kaydet
+                                            </button>
+                                            <button type="submit" name="publish" class="btn btn-primary">
+                                                <i class="fas fa-paper-plane"></i> Yayınla
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Fields -->
+                    <?php if ($type == 'is_post'):?>
+                    <input type="hidden" name="is_post" value="is_post">
+                    <?php endif;?>
+                    <input id="oldfile" type="hidden" name="oldfile" class="text"/>
+                    <input type="hidden" id="pType" name="posttype" value="<?php echo $type; ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">
+                </div>
+            </form>
         </div>
     </div>
     </div>
