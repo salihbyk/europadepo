@@ -1,22 +1,22 @@
 {
     "protected_files": [
-        "config/config.ini",
-        "config/users/",
-        "content/",
-        "cache/",
+        "config\/config.ini",
+        "config\/users\/",
+        "content\/",
+        "cache\/",
         "version.json",
         "update_config.json"
     ],
     "protected_directories": [
-        "content/",
-        "config/users/",
-        "cache/"
+        "content\/",
+        "config\/users\/",
+        "cache\/"
     ],
     "backup_before_update": true,
-    "backup_directory": "backups/",
-    "auto_update_enabled": false,
+    "backup_directory": "backups\/",
+    "auto_update_enabled": true,
     "check_update_interval": 86400,
-    "last_check": null,
+    "last_check": 1758270630,
     "github_settings": {
         "owner": "salihbyk",
         "repo": "europadepo",

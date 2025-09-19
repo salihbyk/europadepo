@@ -83,8 +83,20 @@ class GitHubUpdater {
 
         $data = json_decode($response, true);
 
-        if (!$data || !isset($data['tag_name'])) {
-            return ['error' => 'Geçersiz API yanıtı'];
+        if (!$data) {
+            return ['error' => 'GitHub API yanıtı JSON formatında değil'];
+        }
+
+        if (isset($data['message'])) {
+            if ($data['message'] === 'Not Found') {
+                return ['error' => 'GitHub repository bulunamadı veya henüz release oluşturulmamış. Lütfen GitHub\'da ilk release\'i oluşturun.'];
+            } else {
+                return ['error' => 'GitHub API Hatası: ' . $data['message']];
+            }
+        }
+
+        if (!isset($data['tag_name'])) {
+            return ['error' => 'GitHub\'dan geçersiz release yanıtı alındı'];
         }
 
         $latestVersion = ltrim($data['tag_name'], 'v');

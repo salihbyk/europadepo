@@ -57,7 +57,7 @@ function session($user, $pass)
     $user_pass = user('password', $user);
     $user_role = user('role', $user);
     $mfa = user('mfa_secret', $user);
-    
+
     if(is_null($user_enc) || is_null($user_pass) || is_null($user_role)) {
         return $str = '<div class="error-message"><ul><li class="alert alert-danger">' . i18n('Invalid_Error') . '</li></ul></div>';
     }
@@ -151,15 +151,15 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
         }
 
         $post_tag = safe_tag(implode(',', $post_tag));
-        $post_tagmd = safe_html(implode(',', $post_tagmd));        
+        $post_tagmd = safe_html(implode(',', $post_tagmd));
 
     } else {
         $post_tag = safe_tag(implode(',', $tag));
-        $post_tagmd = safe_html(implode(',', $tag));        
+        $post_tagmd = safe_html(implode(',', $tag));
     }
 
     $post_date = date('Y-m-d-H-i-s', strtotime($dateTime));
-    $post_title = safe_html($title); 
+    $post_title = safe_html($title);
     $post_tag = strtolower(preg_replace(array('/[^a-zA-Z0-9,. \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($post_tag)));
     $post_url = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($url)));
     $category = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($category)));
@@ -183,7 +183,7 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
             }
         } else {
             $newtag[$v] = $tag;
-        }            
+        }
     }
 
     $post_tag = implode(',', array_keys($newtag));
@@ -199,11 +199,11 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
     }
 
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $post_description = "\n<!--d " . $description . " d-->";
         } else {
             $post_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $post_description = "";
     }
@@ -217,8 +217,8 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
     } else {
         $post_media = "";
     }
-    
-    $customField = "";    
+
+    $customField = "";
     if (!empty($field)) {
         foreach ($field as $key => $val) {
             if (!empty($val)) {
@@ -226,7 +226,7 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
             }
         }
     }
-    
+
     $post_content = "<!--t " . $post_title . " t-->" . $post_description . $tagmd . $post_media . $customField . "\n\n" . $content;
 
     if (!empty($post_title) && !empty($post_tag) && !empty($post_url) && !empty($post_content)) {
@@ -234,7 +234,7 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
         $filename = $post_date . '_' . $post_tag . '_' . $post_url . '.md';
 
         if (empty($draft)) {
-            if (date('Y-m-d-H-i-s') >= $post_date) { 
+            if (date('Y-m-d-H-i-s') >= $post_date) {
                 $dir = 'content/' . $user . '/blog/' . $category. '/'.$type. '/';
             } else {
                 $dir = 'content/' . $user . '/blog/' . $category. '/'.$type. '/scheduled/';
@@ -247,7 +247,7 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
             mkdir($dir, 0775, true);
 
         }
-        
+
         $searchFile = "content/data/search.json";
         $search = array();
 
@@ -255,11 +255,11 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
         $newfile = $dir . $filename;
         if ($oldfile !== $newfile && !is_null($autoSave)) {
             if (file_exists($oldfile)) {
-                
+
                 rename($oldfile, $newfile);
-                
+
                 if (config('fulltext.search') == "true") {
-                
+
                     if (file_exists($searchFile)) {
                         $search = json_decode(file_get_data($searchFile), true);
                     }
@@ -275,9 +275,9 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
                             save_json_pretty($searchFile, $arr);
                         }
                     }
-                
+
                 }
-                
+
             }
         } else {
             if (config('fulltext.search') == "true") {
@@ -292,20 +292,20 @@ function add_content($title, $tag, $url, $content, $user, $draft, $category, $ty
         }
 
         file_put_contents($newfile, print_r($post_content, true), LOCK_EX);
-        
+
         if (empty($draft)) {
             $draftFile = 'content/' . $user . '/blog/' . $category. '/draft/' . $filename;
             if (file_exists($draftFile)) {
                 unlink($draftFile);
             }
         }
-        
+
         save_tag_i18n($post_tag, $post_tagmd);
-        
+
         rebuilt_cache('all');
-        
+
         clear_post_cache($post_date, $post_tag, $post_url, $dir . $filename, $category, $type);
-        
+
         if (!is_null($autoSave)) {
             return json_encode(array('message' => 'Auto Saved', 'file'  => $newfile));
         }
@@ -356,7 +356,7 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
         $post_tagmd = safe_html(implode(',', $post_tagmd));
     } else {
         $post_tag = safe_tag(implode(',', $tag));
-        $post_tagmd = safe_html(implode(',', $tag));        
+        $post_tagmd = safe_html(implode(',', $tag));
     }
 
     $dir = explode('/', pathinfo($oldfile, PATHINFO_DIRNAME));
@@ -367,7 +367,7 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
     $post_url = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($url)));
     $category = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($category)));
     $description = safe_html($description);
-    
+
 
     $post_t =  explode(',', $post_tag);
     $pret_t = explode(',', $post_tagmd);
@@ -387,17 +387,17 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
             }
         } else {
             $newtag[$v] = $tag;
-        }            
+        }
     }
 
     $post_tag = implode(',', array_keys($newtag));
-    
+
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $post_description = "\n<!--d " . $description . " d-->";
         } else {
             $post_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $post_description = "";
     }
@@ -411,8 +411,8 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
     } else {
         $post_media = "";
     }
-    
-    $customField = "";    
+
+    $customField = "";
     if (!empty($field)) {
         foreach ($field as $key => $val) {
             if (!empty($val)) {
@@ -420,9 +420,9 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
             }
         }
     }
-    
+
     $post_content = "<!--t " . $post_title . " t-->" . $post_description . $tagmd . $post_media . $customField . "\n\n" . $content;
-    
+
     $dirBlog = $dir[0] . '/' . $dir[1] . '/' . $dir[2] . '/' . $category . '/' . $type . '/';
     $dirDraft = $dir[0] . '/' . $dir[1] . '/' . $dir[2] . '/' . $category . '/draft/';
     $dirScheduled = $dir[0] . '/' . $dir[1] . '/' . $dir[2] . '/' . $category . '/' . $type . '/scheduled/';
@@ -434,17 +434,17 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
     if (!is_dir($dirDraft)) {
         mkdir($dirDraft, 0775, true);
     }
-    
+
     if (!is_dir($dirScheduled)) {
         mkdir($dirScheduled, 0775, true);
-    }    
+    }
 
     if (!empty($post_title) && !empty($post_tag) && !empty($post_url) && !empty($post_content)) {
 
         if(!empty($revertPost) || !empty($publishDraft)) {
 
             if($dir[4] == 'draft') {
-                if (date('Y-m-d-H-i-s') >= $olddate) { 
+                if (date('Y-m-d-H-i-s') >= $olddate) {
                     $newfile = $dirBlog . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
                 } else {
                     $newfile = $dirScheduled . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
@@ -458,18 +458,18 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
 
         } else {
 
-            if ($dir[3] === $category) {            
-                
+            if ($dir[3] === $category) {
+
                 if($dir[4] == 'draft') {
                     $newfile = $dirDraft . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
                 } else {
-                    if (date('Y-m-d-H-i-s') >= $olddate) { 
+                    if (date('Y-m-d-H-i-s') >= $olddate) {
                         $newfile = $dirBlog . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
                     } else {
                         $newfile = $dirScheduled . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
                     }
                 }
-                                    
+
                 if ($oldfile === $newfile) {
                     file_put_contents($oldfile, print_r($post_content, true), LOCK_EX);
                 } else {
@@ -481,7 +481,7 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
                 if($dir[4] == 'draft') {
                     $newfile = $dirDraft . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
                 } else {
-                    if (date('Y-m-d-H-i-s') >= $olddate) { 
+                    if (date('Y-m-d-H-i-s') >= $olddate) {
                         $newfile = $dirBlog . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
                     } else {
                         $newfile = $dirScheduled . $olddate . '_' . $post_tag . '_' . $post_url . '.md';
@@ -522,14 +522,14 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
 
         rebuilt_cache('all');
         clear_post_cache($dt, $post_tag, $post_url, $oldfile, $category, $type);
-        
+
         $searchFile = "content/data/search.json";
         $search = array();
 
         $old_filename = pathinfo($oldfile, PATHINFO_FILENAME);
         $old_ex = explode('_', $old_filename);
         $old_url = $old_ex[2];
-        
+
         if ($old_url != $post_url) {
             $oKey = 'post_' . $old_url;
             $nKey = 'post_' . $post_url;
@@ -551,7 +551,7 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
                     }
                 }
             }
-            
+
         } else {
             if (config('fulltext.search') == "true") {
                 if (file_exists($searchFile)) {
@@ -563,8 +563,8 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
                 }
             }
 
-        }    
-        
+        }
+
         if (!is_null($autoSave)) {
             return json_encode(array('message' => 'Auto Saved', 'file'  => $newfile));
         }
@@ -574,7 +574,7 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
                 $drafturl = site_url() . 'admin/draft';
                 header("Location: $drafturl");
             } else {
-                if (date('Y-m-d-H-i-s') >= $olddate) { 
+                if (date('Y-m-d-H-i-s') >= $olddate) {
                     header("Location: $posturl");
                 } else {
                     $schurl = site_url() . 'admin/scheduled';
@@ -583,7 +583,7 @@ function edit_content($title, $tag, $url, $content, $oldfile, $revertPost, $publ
             }
         } else {
             if(!empty($publishDraft)) {
-                if (date('Y-m-d-H-i-s') >= $olddate) { 
+                if (date('Y-m-d-H-i-s') >= $olddate) {
                     header("Location: $posturl");
                 } else {
                     $schurl = site_url() . 'admin/scheduled';
@@ -611,15 +611,15 @@ function add_page($title, $url, $content, $draft, $description = null, $autoSave
     $post_url = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($url)));
     $description = safe_html($description);
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $post_description = "\n<!--d " . $description . " d-->";
         } else {
             $post_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $post_description = "";
     }
-    
+
     $posts = get_static_pages();
     $timestamp = date('YmdHis');
     foreach ($posts as $index => $v) {
@@ -635,8 +635,8 @@ function add_page($title, $url, $content, $draft, $description = null, $autoSave
             $post_url = $post_url;
         }
     }
-    
-    $customField = "";    
+
+    $customField = "";
     if (!empty($field)) {
         foreach ($field as $key => $val) {
             if (!empty($val)) {
@@ -644,7 +644,7 @@ function add_page($title, $url, $content, $draft, $description = null, $autoSave
             }
         }
     }
-    
+
     $post_content = '<!--t ' . $post_title . ' t-->' . $post_description . $customField . "\n\n" . $content;
 
     if (!empty($post_title) && !empty($post_url) && !empty($post_content)) {
@@ -666,7 +666,7 @@ function add_page($title, $url, $content, $draft, $description = null, $autoSave
             if (!is_dir($dirDraft)) {
                 mkdir($dirDraft, 0775, true);
             }
-            
+
             $oldfile = $oldfile;
             $newfile = $dirDraft . $filename;
             if ($oldfile !== $newfile && !is_null($autoSave)) {
@@ -679,17 +679,17 @@ function add_page($title, $url, $content, $draft, $description = null, $autoSave
 
         rebuilt_cache('all');
         clear_page_cache($post_url);
-        
+
         if (!is_null($autoSave)) {
             return json_encode(array('message' => 'Auto Saved', 'file'  => $newfile));
         }
-        
+
         if (empty($draft)) {
             $redirect = site_url() . 'admin/pages';
             header("Location: $redirect");
         } else {
             $redirect = site_url() . 'admin/draft';
-            header("Location: $redirect");            
+            header("Location: $redirect");
         }
     }
 }
@@ -707,11 +707,11 @@ function add_sub_page($title, $url, $content, $static, $draft, $description = nu
     $post_url = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($url)));
     $description = safe_html($description);
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $post_description = "\n<!--d " . $description . " d-->";
         } else {
             $post_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $post_description = "";
     }
@@ -731,8 +731,8 @@ function add_sub_page($title, $url, $content, $static, $draft, $description = nu
             $post_url = $post_url;
         }
     }
-    
-    $customField = "";    
+
+    $customField = "";
     if (!empty($field)) {
         foreach ($field as $key => $val) {
             if (!empty($val)) {
@@ -762,7 +762,7 @@ function add_sub_page($title, $url, $content, $static, $draft, $description = nu
             if (!is_dir($dirDraft)) {
                 mkdir($dirDraft, 0775, true);
             }
-            
+
             $oldfile = $oldfile;
             $newfile = $dirDraft . $filename;
             if ($oldfile !== $newfile && !is_null($autoSave)) {
@@ -772,7 +772,7 @@ function add_sub_page($title, $url, $content, $static, $draft, $description = nu
             }
             file_put_contents($newfile, print_r($post_content, true), LOCK_EX);
         }
-        
+
         if (!is_null($autoSave)) {
             return json_encode(array('message' => 'Auto Saved', 'file'  => $newfile));
         }
@@ -802,16 +802,16 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
     $post_url = $num . $pUrl;
     $description = safe_html($description);
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $post_description = "\n<!--d " . $description . " d-->";
         } else {
             $post_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $post_description = "";
     }
-    
-    $customField = "";    
+
+    $customField = "";
     if (!empty($field)) {
         foreach ($field as $key => $val) {
             if (!empty($val)) {
@@ -819,11 +819,11 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
             }
         }
     }
-    
+
     $post_content = '<!--t ' . $post_title . ' t-->' . $post_description . $customField  . "\n\n" . $content;
-    
-    if (!empty($post_title) && !empty($post_url) && !empty($post_content)) {  
-        
+
+    if (!empty($post_title) && !empty($post_url) && !empty($post_content)) {
+
         if(!empty($revertPage)) {
             $dirDraft = $dir . '/draft';
             if (!is_dir($dirDraft)) {
@@ -848,7 +848,7 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
                 }
             }
             unlink($oldfile);
-        } else { 
+        } else {
             $newfile = $dir . '/' . $post_url . '.md';
             if ($oldfile === $newfile) {
                 file_put_contents($oldfile, print_r($post_content, true), LOCK_EX);
@@ -859,7 +859,7 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
                     $old = pathinfo($oldfile, PATHINFO_FILENAME);
                     if(is_dir($dir . '/' . $old)) {
                         rename($dir . '/' . $old, $dir . '/' . $post_url);
-                    } 
+                    }
                 }
             }
         }
@@ -870,7 +870,7 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
         } else {
             $pu = $post_url;
         }
-        
+
         $old_filename = pathinfo($oldfile, PATHINFO_FILENAME);
         $old_ex = explode('.', $old_filename);
         if (isset($old_ex[1])) {
@@ -878,13 +878,13 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
         } else {
             $old_url = $old_filename;
         }
-        
+
         rebuilt_cache('all');
-        clear_page_cache($post_url);     
-        
+        clear_page_cache($post_url);
+
         if (!empty($static)) {
             $posturl = site_url() . $static .'/'. $pu;
-            
+
             if ($old_url != $pu) {
                 if (file_exists($viewsFile)) {
                     $views = json_decode(file_get_data($viewsFile), true);
@@ -894,8 +894,8 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
                         $arr = replace_key($views, $oKey, $nKey);
                         save_json_pretty($viewsFile, $arr);
                     }
-                }            
-            }            
+                }
+            }
 
         } else {
             $posturl = site_url() . $pu;
@@ -924,7 +924,7 @@ function edit_page($title, $url, $content, $oldfile, $revertPage, $publishDraft,
                             }
                         }
                     }
-                }                
+                }
             }
 
         }
@@ -954,11 +954,11 @@ function add_category($title, $url, $content, $description = null)
     $post_url = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($url)));
     $description = safe_html($description);
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $post_description = "\n<!--d " . $description . " d-->";
         } else {
             $post_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $post_description = "";
     }
@@ -991,11 +991,11 @@ function edit_category($title, $url, $content, $oldfile, $destination = null, $d
     $post_url = strtolower(preg_replace(array('/[^a-zA-Z0-9 \-\p{L}]/u', '/[ -]+/', '/^-|-$/'), array('', '-', ''), remove_accent($url)));
     $description = safe_html($description);
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $post_description = "\n<!--d " . $description . " d-->";
         } else {
             $post_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $post_description = "";
     }
@@ -1034,21 +1034,21 @@ function edit_profile($title, $content, $user, $description = null, $image = nul
 {
     $description = safe_html($description);
     if ($description !== null) {
-        if (!empty($description)) {        
+        if (!empty($description)) {
             $profile_description = "\n<!--d " . $description . " d-->";
         } else {
             $profile_description = "\n<!--d " . get_description(MarkdownExtra::defaultTransform($content)) . " d-->";
-        }            
+        }
     } else {
         $profile_description = "";
     }
-    if ($image !== null) {      
-        $avatar = "\n<!--image " . $image . " image-->";          
+    if ($image !== null) {
+        $avatar = "\n<!--image " . $image . " image-->";
     } else {
         $avatar = "";
     }
-    
-    $customField = "";    
+
+    $customField = "";
     if (!empty($field)) {
         foreach ($field as $key => $val) {
             if (!empty($val)) {
@@ -1056,7 +1056,7 @@ function edit_profile($title, $content, $user, $description = null, $image = nul
             }
         }
     }
-    
+
     $user_title = safe_html($title);
     $user_content = '<!--t ' . $user_title . ' t-->' . $profile_description . $avatar . $customField . "\n\n" . $content;
 
@@ -1079,8 +1079,8 @@ function edit_profile($title, $content, $user, $description = null, $image = nul
 // Edit homepage
 function edit_frontpage($title, $content, $field = null)
 {
-    
-    $customField = "";    
+
+    $customField = "";
     if (!empty($field)) {
         foreach ($field as $key => $val) {
             if (!empty($val)) {
@@ -1088,7 +1088,7 @@ function edit_frontpage($title, $content, $field = null)
             }
         }
     }
-    
+
     $front_title = safe_html($title);
     $front_content = '<!--t ' . $front_title . ' t-->' . $customField . "\n\n" . $content;
 
@@ -1117,7 +1117,7 @@ function delete_post($file, $destination)
     $user = $_SESSION[site_url()]['user'];
     $role = user('role', $user);
     $arr = explode('/', $file);
-    
+
     // realpath resolves all traversal operations like ../
     $realFilePath = realpath($file);
 
@@ -1167,7 +1167,7 @@ function delete_page($file, $destination)
     $deleted_content = $file;
     $user = $_SESSION[site_url()]['user'];
     $role = user('role', $user);
-    
+
     // realpath resolves all traversal operations like ../
     $realFilePath = realpath($file);
 
@@ -1304,18 +1304,18 @@ function find_draft_page($static = null)
 
                 // The static page URL
                 $fn = explode('.', $v['filename']);
-                
+
                 if (isset($fn[1])) {
                     $url = $fn[1];
                 } else {
                     $url= $v['filename'];
                 }
-                
+
                 $post->url = site_url() . $url;
 
                 $post->file = $v['dirname'] . '/' . $v['basename'];
                 $post->lastMod = strtotime(date('Y-m-d H:i:s', filemtime($post->file)));
-                
+
                 $post->md = $v['basename'];
                 $post->slug = $url;
                 $post->parent = null;
@@ -1345,7 +1345,7 @@ function find_draft_page($static = null)
             }
         }
     }
-    
+
     return $tmp;
 }
 
@@ -1383,7 +1383,7 @@ function find_draft_subpage($static = null, $sub_static = null)
 
                 // The static page URL
                 $fn = explode('.', $v['filename']);
-                
+
                 if (isset($fn[1])) {
                     $url = $fn[1];
                 } else {
@@ -1830,14 +1830,14 @@ function valueMaker($value)
     return (string)$value;
 }
 
-function replace_key($arr, $oldkey, $newkey) 
+function replace_key($arr, $oldkey, $newkey)
 {
     if(array_key_exists($oldkey, $arr)) {
         $keys = array_keys($arr);
         $keys[array_search($oldkey, $keys)] = $newkey;
-        return array_combine($keys, $arr);    
+        return array_combine($keys, $arr);
     }
-    return $arr;    
+    return $arr;
 }
 
 // rename category folder
@@ -1856,7 +1856,7 @@ function rename_category_folder($new_name, $old_file)
 }
 
 // reorder the static page
-function reorder_pages($pages = null) 
+function reorder_pages($pages = null)
 {
     $i = 1;
     $arr = array();
@@ -1873,7 +1873,7 @@ function reorder_pages($pages = null)
         } else {
             rename($dir . $p, $dir . $num . '.' . $fn . '.md');
             if (is_dir($dir . $fn)) {
-                rename($dir . $fn, $dir . $num . '.' . $fn);            
+                rename($dir . $fn, $dir . $num . '.' . $fn);
             }
         }
         $i++;
@@ -1883,7 +1883,7 @@ function reorder_pages($pages = null)
 }
 
 // reorder the subpage
-function reorder_subpages($subpages = null) 
+function reorder_subpages($subpages = null)
 {
     $i = 1;
     $arr = array();
@@ -1907,14 +1907,14 @@ function reorder_subpages($subpages = null)
 }
 
 // Return image gallery in pager.
-function image_gallery($images, $page = 1, $perpage = 0) 
+function image_gallery($images, $page = 1, $perpage = 0)
 {
     if (empty($images)) {
         $images = scan_images();
     }
     $tmp = '';
-    $pagination = has_pagination(count($images), $perpage, $page);  
-    $images = array_slice($images, ($page - 1) * $perpage, $perpage);  
+    $pagination = has_pagination(count($images), $perpage, $page);
+    $images = array_slice($images, ($page - 1) * $perpage, $perpage);
     $tmp .= '<div class="cover-container">';
     foreach ($images as $index => $v) {
         $tmp .= '<div class="cover-item"><img loading="lazy" class="img-thumbnail the-img" src="' . site_url() . $v['dirname'] . '/'. $v['basename'].'"></div>';
@@ -1944,7 +1944,7 @@ function authorized ($data = null)
             if ($user === $data->author || $role === 'editor' || $role === 'admin') {
                 return true;
             } else {
-                return false;            
+                return false;
             }
         } else {
             if ($role === 'editor' || $role === 'admin') {

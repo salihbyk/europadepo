@@ -2,20 +2,20 @@
 site.url = ""
 
 ; Your timezone
-timezone = "Asia/Jakarta"
+timezone = "Europe/Istanbul"
 
 ; Date format.
 date.format = "d F Y"
 
 ; Your language (example "en_US" for English or "de_DE" for German.
 ; See lang directory for available language)
-language = "en_US"
+language = "tr_TR"
 
 ; Blog info
-blog.title = "HTMLy"
-blog.tagline = "Just another HTMLy blog"
-blog.description = "Proudly powered by HTMLy, a databaseless blogging platform."
-blog.copyright = "(c) Your name."
+blog.title = "Ankara Eşya Depolama | Europa Depo 444 6 995"
+blog.tagline = "Premium Eşya Depolama"
+blog.description = "Ankara'da güvenli ve sigortalı depolama: ev, kişisel, ticari, arşiv ve e-ticaret çözümleri. 7/24 güvenlik, iklim izleme, profesyonel nakliyat. Hızlı teklif."
+blog.copyright = "europadepo"
 
 ; Set permalink type. "default" using /year/month/title. "post" using /post/title
 permalink.type = "default"
@@ -126,11 +126,11 @@ rss.count = "10"
 ; RSS feed description length. If left empty we will use full page.
 rss.char = "200"
 
-; Enable views Counter, the options is "true" and "false". 
+; Enable views Counter, the options is "true" and "false".
 ; If set to "true", you can see the Counts in Admin page and popular posts.
 views.counter = "false"
 
-; Sitemap priorities between "0.0" and "1.0". 
+; Sitemap priorities between "0.0" and "1.0".
 ; Set "-1" (minus one) to disable a sitemap for the given type. (See /sitemap.xml)
 sitemap.priority.base = "1.0"
 sitemap.priority.post = "0.5"
@@ -157,7 +157,7 @@ generation.time = "false"
 ; Switch on and off the cache timestamp. Options "false" and "true"
 cache.timestamp = "false"
 
-; The site.url depends on where you are visiting from. Same installation 
+; The site.url depends on where you are visiting from. Same installation
 multi.site = "false"
 
 ; TOC label
@@ -202,7 +202,7 @@ autosave.enable = "true"
 show.version = "true"
 
 ; Set the theme here
-views.root = "themes/tailwind"
+views.root = "themes/yenidepo-htmly"
 
 ; Framework config. No need to edit.
 views.layout = "layout"

@@ -113,43 +113,73 @@ $currentVersion = $updater->getCurrentVersion();
 
                 <?php if ($updateCheck): ?>
                     <?php if (isset($updateCheck['error'])): ?>
-                        <div class="alert alert-warning">
-                            <i class="fa fa-exclamation-triangle"></i> <strong>Kontrol Hatası:</strong> <?= htmlspecialchars($updateCheck['error']) ?>
+                        <div class="alert alert-danger border-danger">
+                            <h5><i class="fa fa-exclamation-triangle text-danger"></i> <strong>GitHub Release Gerekli!</strong></h5>
+                            <p><strong>Hata:</strong> <?= htmlspecialchars($updateCheck['error']) ?></p>
                             <hr>
-                            <div class="mt-3">
-                                <h6><strong>Çözüm Adımları:</strong></h6>
-                                <ol class="small">
-                                    <li><strong>GitHub Repository Oluşturun:</strong>
-                                        <ul>
-                                            <li><a href="https://github.com/new" target="_blank">GitHub'da yeni repository oluşturun</a></li>
-                                            <li>Repository adı: <code>europadepo</code></li>
-                                            <li>Public olarak oluşturun</li>
-                                        </ul>
-                                    </li>
-                                    <li><strong>İlk Release Oluşturun:</strong>
-                                        <ul>
-                                            <li>Repository → Releases → "Create a new release"</li>
-                                            <li>Tag: <code>v1.0.0</code></li>
-                                            <li>Title: <code>Europa Depo v1.0.0</code></li>
-                                            <li>Bu projeyi ZIP olarak yükleyin</li>
-                                        </ul>
-                                    </li>
-                                    <li><strong>Ayarları Kontrol Edin:</strong>
-                                        <ul>
-                                            <li>GitHub kullanıcı adı: <code>salihbyk</code></li>
-                                            <li>Repository adı: <code>europadepo</code></li>
-                                        </ul>
-                                    </li>
-                                </ol>
 
-                                <div class="mt-3">
-                                    <a href="https://github.com/new" target="_blank" class="btn btn-success btn-sm">
-                                        <i class="fa fa-plus"></i> GitHub'da Repository Oluştur
-                                    </a>
-                                    <a href="https://github.com/salihbyk/europadepo" target="_blank" class="btn btn-info btn-sm">
-                                        <i class="fa fa-external-link"></i> Repository'yi Görüntüle
-                                    </a>
+                            <div class="alert alert-info mb-3">
+                                <h6><i class="fa fa-info-circle"></i> <strong>Durum:</strong></h6>
+                                <p class="mb-0">✅ GitHub repository mevcut: <code>salihbyk/europadepo</code><br>
+                                ❌ Henüz release oluşturulmamış</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6><strong>🚀 Hemen Release Oluşturun:</strong></h6>
+                                    <ol>
+                                        <li><strong>GitHub Repository'nize Gidin:</strong><br>
+                                            <a href="https://github.com/salihbyk/europadepo" target="_blank" class="btn btn-sm btn-outline-primary mt-1">
+                                                <i class="fa fa-external-link"></i> Repository'yi Aç
+                                            </a>
+                                        </li>
+
+                                        <li class="mt-2"><strong>Releases Sekmesine Tıklayın</strong></li>
+
+                                        <li class="mt-2"><strong>"Create a new release" Butonuna Tıklayın</strong></li>
+
+                                        <li class="mt-2"><strong>Release Bilgilerini Girin:</strong>
+                                            <div class="bg-light p-2 mt-1 rounded">
+                                                <small>
+                                                    <strong>Tag version:</strong> <code>v1.0.0</code><br>
+                                                    <strong>Release title:</strong> <code>Europa Depo v1.0.0</code><br>
+                                                    <strong>Description:</strong> İlk versiyon açıklaması
+                                                </small>
+                                            </div>
+                                        </li>
+
+                                        <li class="mt-2"><strong>"Publish release" Butonuna Tıklayın</strong></li>
+                                    </ol>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6><i class="fa fa-rocket text-primary"></i> Hızlı Linkler</h6>
+                                            <div class="d-grid gap-2">
+                                                <a href="https://github.com/salihbyk/europadepo" target="_blank" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-github"></i> Repository
+                                                </a>
+                                                <a href="https://github.com/salihbyk/europadepo/releases/new" target="_blank" class="btn btn-success btn-sm">
+                                                    <i class="fa fa-plus"></i> Release Oluştur
+                                                </a>
+                                                <a href="https://github.com/salihbyk/europadepo/releases" target="_blank" class="btn btn-info btn-sm">
+                                                    <i class="fa fa-list"></i> Releases
+                                                </a>
+                                            </div>
+
+                                            <hr>
+                                            <small class="text-muted">
+                                                <i class="fa fa-lightbulb"></i> <strong>İpucu:</strong> Release oluşturduktan sonra bu sayfayı yenileyin.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 p-3 bg-warning bg-opacity-10 rounded">
+                                <h6><i class="fa fa-clock text-warning"></i> <strong>Sonraki Adım:</strong></h6>
+                                <p class="mb-0">Release oluşturduktan sonra <strong>"Güncelleme Kontrol Et"</strong> butonuna tekrar tıklayın.</p>
                             </div>
                         </div>
                     <?php elseif ($updateCheck['has_update']): ?>
