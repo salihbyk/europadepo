@@ -2879,6 +2879,14 @@ post('/admin/generate-ai-content', function () {
                 'error_type' => get_class($e),
                 'error_line' => $e->getLine(),
                 'error_file' => basename($e->getFile()),
+                'full_trace' => $e->getTraceAsString(),
+                'api_key_exists' => !empty(config('chatgpt.api.key')),
+                'api_key_length' => config('chatgpt.api.key') ? strlen(config('chatgpt.api.key')) : 0,
+                'model' => config('chatgpt.model'),
+                'max_tokens' => config('chatgpt.max.tokens'),
+                'temperature' => config('chatgpt.temperature'),
+                'class_exists' => class_exists('EuropaAIContentGenerator'),
+                'file_exists' => file_exists('system/includes/ai_content_generator.php'),
                 'timestamp' => date('Y-m-d H:i:s')
             ]
         ]);
