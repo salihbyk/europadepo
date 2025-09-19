@@ -1308,7 +1308,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (aiTitleInput && !aiTitleInput.value) {
                 aiTitleInput.value = this.value;
             }
-            
+
             if (!slugInput.value) {
                 const slug = this.value
                     .toLowerCase()
@@ -1368,7 +1368,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Input event'ini tetikle (word count update için)
                             contentTextarea.dispatchEvent(new Event('input'));
                         }
-                        
+
                         showSuccessMessage('🎉 AI içerik başarıyla oluşturuldu! İçeriği kontrol edin ve düzenleyin.');
                     } else {
                         showErrorMessage('İçerik oluşturulamadı. API ayarlarını kontrol edin.');
@@ -1377,11 +1377,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 .catch(error => {
                     console.error('AI Content Generation Error:', error);
                     let errorMsg = 'İçerik oluşturulurken hata oluştu: ' + error.message;
-                    
+
                     if (error.message.includes('API')) {
                         errorMsg += ' ChatGPT API ayarlarını kontrol edin.';
                     }
-                    
+
                     showErrorMessage(errorMsg);
                 })
                 .finally(() => {
@@ -1733,37 +1733,37 @@ Kod bloğu
                         <!-- Europa AI İçerik Oluşturucu -->
                         <div class="sidebar-section" id="europa-ai-generator">
                             <h4><i class="fa fa-magic text-primary"></i> Europa AI İçerik Oluşturucu</h4>
-                            
+
                             <div class="alert alert-info" style="font-size: 12px; padding: 10px; margin-bottom: 15px;">
                                 <i class="fa fa-robot"></i> <strong>ChatGPT ile İçerik Üret</strong><br>
                                 Yukarıdaki başlık ve etiket alanlarını kullanarak otomatik SEO uyumlu içerik oluşturur.
                             </div>
-                            
+
                             <div style="text-align: center; margin: 20px 0;">
-                                <button type="button" 
-                                        id="generateAIContent" 
-                                        class="btn-modern btn-primary-modern" 
+                                <button type="button"
+                                        id="generateAIContent"
+                                        class="btn-modern btn-primary-modern"
                                         style="width: 100%; padding: 15px; font-size: 16px;">
                                     <i class="fa fa-magic"></i> AI İle İçerik Oluştur
                                 </button>
                             </div>
-                            
+
                             <div id="aiGenerationStatus" style="margin-top: 15px; display: none;">
                                 <div class="alert alert-warning" style="padding: 12px; font-size: 14px; text-align: center;">
                                     <i class="fa fa-spinner fa-spin"></i> ChatGPT ile içerik oluşturuluyor...<br>
                                     <small>Bu işlem 10-30 saniye sürebilir</small>
                                 </div>
                             </div>
-                            
+
                             <div class="info-text" style="text-align: center; margin-top: 10px;">
                                 <small>
-                                    <i class="fa fa-info-circle"></i> 
+                                    <i class="fa fa-info-circle"></i>
                                     Başlık ve etiket alanlarını doldurun, sonra bu butona tıklayın<br>
                                     <span style="color: #28a745;">✅ ChatGPT API: Aktif</span>
                                 </small>
                             </div>
                         </div>
-                        
+
                         <!-- Yayın Ayarları -->
                         <div class="sidebar-section">
                             <h4><i class="fa fa-cog"></i> Yayın Ayarları</h4>

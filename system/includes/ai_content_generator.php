@@ -155,6 +155,11 @@ Lütfen yukarıdaki talimatları takip ederek {SERVICE_NAME} için profesyonel, 
         $maxTokens = (int)(config('chatgpt.max.tokens') ?: 2000);
         $temperature = (float)(config('chatgpt.temperature') ?: 0.7);
         
+        // GPT-5 henüz mevcut değilse GPT-4 Turbo kullan
+        if ($model === 'gpt-5') {
+            $model = 'gpt-4-turbo';
+        }
+        
         $data = [
             'model' => $model,
             'messages' => [

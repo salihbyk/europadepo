@@ -2793,39 +2793,64 @@ post('/admin/dismiss-update-notification', function () {
 
 // Europa AI Content Generator endpoint
 post('/admin/generate-ai-content', function () {
-    if (!login()) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Unauthorized']);
-        return;
-    }
+    // Error reporting'i aç
+    error_reporting(E_ALL);
+    ini_set('display_errors', 0); // Browser'da gösterme ama log'a yaz
     
-    // JSON input'u al
-    $input = json_decode(file_get_contents('php://input'), true);
-    
-    if (!$input) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Invalid JSON input']);
-        return;
-    }
-    
-    // CSRF token kontrolü
-    if (!isset($input['csrf_token']) || !is_csrf_proper($input['csrf_token'])) {
-        http_response_code(403);
-        echo json_encode(['error' => 'Invalid CSRF token']);
-        return;
-    }
+    // JSON response header'ı ayarla
+    header('Content-Type: application/json');
     
     try {
-        require_once 'system/includes/ai_content_generator.php';
-        $generator = new EuropaAIContentGenerator();
-        
-        $title = $input['title'] ?? '';
-        $keywords = $input['keywords'] ?? '';
-        
-        if (empty($title)) {
-            throw new Exception('Başlık gereklidir');
+        if (!login()) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Oturum açmanız gerekiyor']);
+            return;
         }
         
+        // JSON input'u al
+        $rawInput = file_get_contents('php://input');
+        if (empty($rawInput)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Boş JSON input']);
+            return;
+        }
+        
+        $input = json_decode($rawInput, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Geçersiz JSON format: ' . json_last_error_msg()]);
+            return;
+        }
+        
+        // CSRF token kontrolü
+        if (!isset($input['csrf_token']) || !is_csrf_proper($input['csrf_token'])) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Geçersiz CSRF token']);
+            return;
+        }
+        
+        // Input validation
+        $title = trim($input['title'] ?? '');
+        $keywords = trim($input['keywords'] ?? '');
+        
+        if (empty($title)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Başlık gereklidir']);
+            return;
+        }
+        
+        // AI Generator'ı yükle
+        if (!file_exists('system/includes/ai_content_generator.php')) {
+            throw new Exception('AI Content Generator dosyası bulunamadı');
+        }
+        
+        require_once 'system/includes/ai_content_generator.php';
+        
+        if (!class_exists('EuropaAIContentGenerator')) {
+            throw new Exception('AI Content Generator sınıfı yüklenemedi');
+        }
+        
+        $generator = new EuropaAIContentGenerator();
         $content = $generator->generateContent($title, $keywords);
         
         echo json_encode([
@@ -2836,14 +2861,54 @@ post('/admin/generate-ai-content', function () {
                 'title' => $title,
                 'keywords' => $keywords,
                 'api_configured' => !empty(config('chatgpt.api.key')),
-                'model' => config('chatgpt.model') ?: 'gpt-3.5-turbo'
+                'model' => config('chatgpt.model') ?: 'gpt-3.5-turbo',
+                'timestamp' => date('Y-m-d H:i:s')
             ]
         ]);
         
     } catch (Exception $e) {
+        // Error log'a yaz
+        error_log('AI Content Generator Error: ' . $e->getMessage());
+        error_log('AI Content Generator Trace: ' . $e->getTraceAsString());
+        
         http_response_code(500);
         echo json_encode([
             'success' => false,
+            'error' => $e->getMessage(),
+            'debug' => [
+                'error_type' => get_class($e),
+                'error_line' => $e->getLine(),
+                'error_file' => basename($e->getFile()),
+                'timestamp' => date('Y-m-d H:i:s')
+            ]
+        ]);
+    }
+});
+
+// AI Content Generator Test endpoint
+get('/admin/test-ai', function () {
+    if (!login()) {
+        echo 'Not logged in';
+        return;
+    }
+    
+    header('Content-Type: application/json');
+    
+    try {
+        echo json_encode([
+            'status' => 'OK',
+            'login' => true,
+            'api_key_configured' => !empty(config('chatgpt.api.key')),
+            'api_key_length' => strlen(config('chatgpt.api.key') ?: ''),
+            'model' => config('chatgpt.model') ?: 'not_set',
+            'max_tokens' => config('chatgpt.max.tokens') ?: 'not_set',
+            'temperature' => config('chatgpt.temperature') ?: 'not_set',
+            'file_exists' => file_exists('system/includes/ai_content_generator.php'),
+            'class_exists' => class_exists('EuropaAIContentGenerator', false)
+        ]);
+    } catch (Exception $e) {
+        echo json_encode([
+            'status' => 'ERROR',
             'error' => $e->getMessage()
         ]);
     }
