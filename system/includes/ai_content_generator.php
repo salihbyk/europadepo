@@ -77,7 +77,7 @@ ANAHTAR KELİMELER: {KEYWORDS}
 
 YASAK CÜMLELER (ASLA KULLANMA):
 - "Bu örnek"
-- "Bu içerik" 
+- "Bu içerik"
 - "hazırlanmıştır"
 - "platformun kapsamı"
 - "dışındadır"
@@ -144,116 +144,150 @@ SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!';
         $model = config('chatgpt.model') ?: 'gpt-3.5-turbo';
         $maxTokens = (int)(config('chatgpt.max.tokens') ?: 4000);
         $temperature = (float)(config('chatgpt.temperature') ?: 0.7);
-
-        // GPT-5 henüz mevcut değilse en iyi alternatifi kullan
-        if ($model === 'gpt-5') {
-            $model = 'gpt-4-turbo-preview'; // En güncel mevcut model
-        } elseif ($model === 'gpt-4-turbo') {
-            $model = 'gpt-4-turbo-preview';
+        // İstenen model ile dene; eğer yalnızca model kaynaklı hata oluşursa akıllı fallback uygula
+        $requestedModel = $model;
+        $attemptModels = [$requestedModel];
+        if ($requestedModel === 'gpt-5') {
+            // Yalnızca model bulunamazsa denenecek alternatifler
+            $attemptModels[] = 'gpt-4o';
+            $attemptModels[] = 'gpt-4-turbo-preview';
         }
 
-        $data = [
-            'model' => $model,
-            'messages' => [
-                [
-                    'role' => 'system',
-                    'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. SADECE HTML içerik üretirsin. Hiçbir açıklama, not, uyarı veya ek metin ekleme. "Bu örnek", "Bu içerik", "platformun kapsamı" gibi açıklamalar YASAK. Direkt HTML kodunu ver ve sus.'
+        $lastError = null;
+        foreach ($attemptModels as $attemptModel) {
+            $data = [
+                'model' => $attemptModel,
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. SADECE HTML içerik üretirsin. Hiçbir açıklama, not, uyarı veya ek metin ekleme. "Bu örnek", "Bu içerik", "platformun kapsamı" gibi açıklamalar YASAK. Direkt HTML kodunu ver ve sus.'
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $prompt . "\n\nKRİTİK TALİMATLAR:\n- SADECE HTML içeriği ver, hiçbir açıklama yazma\n- 'Bu örnek', 'Bu içerik', 'platformun kapsamı' gibi açıklamalar YASAK\n- Direkt <section> ile başla\n- Minimum 2000 kelime detaylı içerik\n- Sonunda hiçbir not veya açıklama ekleme\n- Sadece HTML kod ver, başka hiçbir şey yazma"
+                    ]
                 ],
-                [
-                    'role' => 'user',
-                    'content' => $prompt . "\n\nKRİTİK TALİMATLAR:\n- SADECE HTML içeriği ver, hiçbir açıklama yazma\n- 'Bu örnek', 'Bu içerik', 'platformun kapsamı' gibi açıklamalar YASAK\n- Direkt <section> ile başla\n- Minimum 2000 kelime detaylı içerik\n- Sonunda hiçbir not veya açıklama ekleme\n- Sadece HTML kod ver, başka hiçbir şey yazma"
+                'max_tokens' => $maxTokens,
+                'temperature' => $temperature,
+                'top_p' => 1,
+                'frequency_penalty' => 0,
+                'presence_penalty' => 0
+            ];
+
+            // Debug için request'i log'la
+            error_log('ChatGPT API Request Model: ' . $attemptModel);
+            error_log('ChatGPT API Request Tokens: ' . $maxTokens);
+
+            $context = stream_context_create([
+                'http' => [
+                    'method' => 'POST',
+                    'header' => [
+                        'Content-Type: application/json',
+                        'Authorization: Bearer ' . $apiKey,
+                        'User-Agent: EuropaDepo-AI/1.0'
+                    ],
+                    'content' => json_encode($data),
+                    'timeout' => 60,
+                    'ignore_errors' => true
+                ],
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false
                 ]
-            ],
-            'max_tokens' => $maxTokens,
-            'temperature' => $temperature,
-            'top_p' => 1,
-            'frequency_penalty' => 0,
-            'presence_penalty' => 0
-        ];
+            ]);
 
-        // Debug için request'i log'la
-        error_log('ChatGPT API Request Model: ' . $model);
-        error_log('ChatGPT API Request Tokens: ' . $maxTokens);
+            $response = @file_get_contents('https://api.openai.com/v1/chat/completions', false, $context);
 
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'POST',
-                'header' => [
-                    'Content-Type: application/json',
-                    'Authorization: Bearer ' . $apiKey,
-                    'User-Agent: EuropaDepo-AI/1.0'
-                ],
-                'content' => json_encode($data),
-                'timeout' => 60,
-                'ignore_errors' => true
-            ],
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false
-            ]
-        ]);
-
-        $response = @file_get_contents('https://api.openai.com/v1/chat/completions', false, $context);
-
-        if ($response === false) {
-            $error = error_get_last();
-            $errorMsg = 'ChatGPT API\'ye erişim sağlanamadı';
-            if ($error && isset($error['message'])) {
-                $errorMsg .= ': ' . $error['message'];
-            }
-
-            // HTTP response headers kontrol et
-            if (isset($http_response_header)) {
-                $statusLine = $http_response_header[0] ?? '';
-                if (strpos($statusLine, '401') !== false) {
-                    $errorMsg = 'ChatGPT API anahtarı geçersiz. Lütfen doğru API anahtarını girin.';
-                } elseif (strpos($statusLine, '429') !== false) {
-                    $errorMsg = 'ChatGPT API rate limit aşıldı. Lütfen biraz bekleyip tekrar deneyin.';
-                } elseif (strpos($statusLine, '402') !== false) {
-                    $errorMsg = 'ChatGPT API krediniz tükendi. Lütfen OpenAI hesabınızı kontrol edin.';
+            if ($response === false) {
+                $error = error_get_last();
+                $errorMsg = 'ChatGPT API\'ye erişim sağlanamadı';
+                if ($error && isset($error['message'])) {
+                    $errorMsg .= ': ' . $error['message'];
                 }
+
+                // HTTP response headers kontrol et
+                if (isset($http_response_header)) {
+                    $statusLine = $http_response_header[0] ?? '';
+                    if (strpos($statusLine, '401') !== false) {
+                        $errorMsg = 'ChatGPT API anahtarı geçersiz. Lütfen doğru API anahtarını girin.';
+                    } elseif (strpos($statusLine, '429') !== false) {
+                        $errorMsg = 'ChatGPT API rate limit aşıldı. Lütfen biraz bekleyip tekrar deneyin.';
+                    } elseif (strpos($statusLine, '402') !== false) {
+                        $errorMsg = 'ChatGPT API krediniz tükendi. Lütfen OpenAI hesabınızı kontrol edin.';
+                    }
+                }
+
+                $lastError = new Exception($errorMsg);
+                // Ağ/kimlik/limit hatalarında fallback denemeyelim
+                break;
             }
 
-            throw new Exception($errorMsg);
+            $result = json_decode($response, true);
+
+            if (!$result) {
+                $lastError = new Exception('ChatGPT API\'den geçersiz yanıt');
+                // Geçersiz yanıt varsa fallback denemeyelim
+                break;
+            }
+
+            if (isset($result['error'])) {
+                $message = strtolower($result['error']['message'] ?? '');
+                $lastError = new Exception('ChatGPT API Hatası: ' . ($result['error']['message'] ?? 'Bilinmeyen hata'));
+
+                // Sadece model kaynaklı hatalarda (örn. model bulunamadı/unsupported) bir sonraki modele geç
+                $isModelError = (
+                    strpos($message, 'model') !== false && (
+                        strpos($message, 'not found') !== false ||
+                        strpos($message, 'does not exist') !== false ||
+                        strpos($message, 'unknown') !== false ||
+                        strpos($message, 'unsupported') !== false
+                    )
+                );
+
+                if ($isModelError && $attemptModel !== end($attemptModels)) {
+                    continue; // sıradaki fallback model ile tekrar dene
+                }
+
+                // Diğer hatalarda denemeyi kes
+                break;
+            }
+
+            if (!isset($result['choices'][0]['message']['content'])) {
+                $lastError = new Exception('ChatGPT\'den içerik alınamadı');
+                // İçerik yoksa fallback denemeyelim
+                break;
+            }
+
+            // Başarılı
+            $content = trim($result['choices'][0]['message']['content']);
+            // İçeriği temizle ve döndür
+            $content = $this->cleanAIResponse($content);
+            return $content;
         }
 
-        $result = json_decode($response, true);
-
-        if (!$result) {
-            throw new Exception('ChatGPT API\'den geçersiz yanıt');
+        // Buraya düştüyse tüm denemeler başarısız oldu
+        if ($lastError instanceof Exception) {
+            throw $lastError;
         }
 
-        if (isset($result['error'])) {
-            throw new Exception('ChatGPT API Hatası: ' . $result['error']['message']);
-        }
-
-        if (!isset($result['choices'][0]['message']['content'])) {
-            throw new Exception('ChatGPT\'den içerik alınamadı');
-        }
-
-        $content = trim($result['choices'][0]['message']['content']);
-
-        // İçeriği temizle ve düzelt
-        $content = $this->cleanAIResponse($content);
-
-        return $content;
+        throw new Exception('ChatGPT isteği başarısız oldu.');
     }
 
     private function cleanAIResponse($content) {
         // Başındaki gereksiz metinleri kaldır
         $content = preg_replace('/^(html|HTML|```html|```)/i', '', $content);
         $content = preg_replace('/```$/', '', $content);
-        
+
         // Başında açıklama varsa kaldır
         $content = preg_replace('/^[^<]*(<section)/i', '$1', $content);
-        
+
         // Sonundaki ChatGPT açıklamalarını kaldır
         $content = preg_replace('/(<\/section>)[^<]*$/i', '$1', $content);
-        
+
         // ChatGPT'nin eklediği açıklamaları kaldır
         $patterns = [
             '/Bu örnek.*?dışındadır\.?/is',
-            '/Bu içerik.*?hazırlanmıştır\.?/is', 
+            '/Bu içerik.*?hazırlanmıştır\.?/is',
             '/verilen talimatlar.*?dışındadır\.?/is',
             '/tam olarak istenen.*?dışındadır\.?/is',
             '/Not:.*?dışındadır\.?/is',
@@ -266,31 +300,31 @@ SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!';
             '/\n\s*Bu.*?dışındadır\.?\s*$/is',
             '/```[^`]*Bu.*?dışındadır.*?```/is'
         ];
-        
+
         foreach ($patterns as $pattern) {
             $content = preg_replace($pattern, '', $content);
         }
-        
+
         // Script taglarından sonraki açıklamaları kaldır
         $content = preg_replace('/(<\/script>)\s*[^<]*$/i', '$1', $content);
-        
+
         // Boş satırları temizle
         $content = preg_replace('/\n\s*\n\s*\n/', "\n\n", $content);
-        
+
         // Son kontrol: section dışındaki herşeyi kaldır (JSON-LD hariç)
         if (preg_match('/(<section.*?<\/section>)(.*?)$/s', $content, $matches)) {
             $sectionContent = $matches[1];
             $afterSection = $matches[2];
-            
+
             // Script taglarını koru, diğer açıklamaları kaldır
             $scripts = '';
             if (preg_match_all('/<script[^>]*>.*?<\/script>/s', $afterSection, $scriptMatches)) {
                 $scripts = implode("\n\n", $scriptMatches[0]);
             }
-            
+
             $content = $sectionContent . "\n\n" . $scripts;
         }
-        
+
         return trim($content);
     }
 
