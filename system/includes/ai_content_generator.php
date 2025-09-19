@@ -73,7 +73,19 @@ KISITLAR:
 ÇIKTI:
 - Sadece TEK bir <section>…</section> HTML bloğu + altında FAQPage ve Service JSON-LD (<script>) blokları.
 
-ANAHTAR KELİMELER: {KEYWORDS}';
+ANAHTAR KELİMELER: {KEYWORDS}
+
+YASAK CÜMLELER (ASLA KULLANMA):
+- "Bu örnek"
+- "Bu içerik" 
+- "hazırlanmıştır"
+- "platformun kapsamı"
+- "dışındadır"
+- "tam olarak istenen"
+- "Not:"
+- Herhangi bir açıklama cümlesi
+
+SADECE HTML KOD VER, BAŞKA HİÇBİR ŞEY YAZMA!';
     }
 
     private function setupInternalLinks() {
@@ -145,11 +157,11 @@ ANAHTAR KELİMELER: {KEYWORDS}';
             'messages' => [
                 [
                     'role' => 'system',
-                    'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. SADECE HTML içerik üretirsin. Hiçbir açıklama, başlık veya ek metin ekleme. Direkt HTML kodunu ver.'
+                    'content' => 'Sen profesyonel bir Türkçe SEO içerik yazarısın. SADECE HTML içerik üretirsin. Hiçbir açıklama, not, uyarı veya ek metin ekleme. "Bu örnek", "Bu içerik", "platformun kapsamı" gibi açıklamalar YASAK. Direkt HTML kodunu ver ve sus.'
                 ],
                 [
                     'role' => 'user',
-                    'content' => $prompt . "\n\nÖNEMLİ: Sadece HTML içeriği ver, başında 'html' veya açıklama yazma. Direkt <section> ile başla ve </section> ile bitir. Minimum 1500 kelime uzunluğunda detaylı içerik oluştur."
+                    'content' => $prompt . "\n\nKRİTİK TALİMATLAR:\n- SADECE HTML içeriği ver, hiçbir açıklama yazma\n- 'Bu örnek', 'Bu içerik', 'platformun kapsamı' gibi açıklamalar YASAK\n- Direkt <section> ile başla\n- Minimum 2000 kelime detaylı içerik\n- Sonunda hiçbir not veya açıklama ekleme\n- Sadece HTML kod ver, başka hiçbir şey yazma"
                 ]
             ],
             'max_tokens' => $maxTokens,
@@ -162,7 +174,7 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         // Debug için request'i log'la
         error_log('ChatGPT API Request Model: ' . $model);
         error_log('ChatGPT API Request Tokens: ' . $maxTokens);
-        
+
         $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
@@ -182,14 +194,14 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         ]);
 
         $response = @file_get_contents('https://api.openai.com/v1/chat/completions', false, $context);
-        
+
         if ($response === false) {
             $error = error_get_last();
             $errorMsg = 'ChatGPT API\'ye erişim sağlanamadı';
             if ($error && isset($error['message'])) {
                 $errorMsg .= ': ' . $error['message'];
             }
-            
+
             // HTTP response headers kontrol et
             if (isset($http_response_header)) {
                 $statusLine = $http_response_header[0] ?? '';
@@ -201,7 +213,7 @@ ANAHTAR KELİMELER: {KEYWORDS}';
                     $errorMsg = 'ChatGPT API krediniz tükendi. Lütfen OpenAI hesabınızı kontrol edin.';
                 }
             }
-            
+
             throw new Exception($errorMsg);
         }
 
@@ -231,16 +243,54 @@ ANAHTAR KELİMELER: {KEYWORDS}';
         // Başındaki gereksiz metinleri kaldır
         $content = preg_replace('/^(html|HTML|```html|```)/i', '', $content);
         $content = preg_replace('/```$/', '', $content);
-
+        
         // Başında açıklama varsa kaldır
         $content = preg_replace('/^[^<]*(<section)/i', '$1', $content);
-
-        // Sonundaki gereksiz metinleri kaldır
+        
+        // Sonundaki ChatGPT açıklamalarını kaldır
         $content = preg_replace('/(<\/section>)[^<]*$/i', '$1', $content);
-
+        
+        // ChatGPT'nin eklediği açıklamaları kaldır
+        $patterns = [
+            '/Bu örnek.*?dışındadır\.?/is',
+            '/Bu içerik.*?hazırlanmıştır\.?/is', 
+            '/verilen talimatlar.*?dışındadır\.?/is',
+            '/tam olarak istenen.*?dışındadır\.?/is',
+            '/Not:.*?dışındadır\.?/is',
+            '/\*\*Not:\*\*.*?dışındadır\.?/is',
+            '/Bu şablon.*?örnektir\.?/is',
+            '/gerçek.*?oluştur.*?gerekir\.?/is',
+            '/ancak.*?kapsamı.*?dışındadır\.?/is',
+            '/platformun.*?dışındadır\.?/is',
+            '/uzunluktaki.*?dışındadır\.?/is',
+            '/\n\s*Bu.*?dışındadır\.?\s*$/is',
+            '/```[^`]*Bu.*?dışındadır.*?```/is'
+        ];
+        
+        foreach ($patterns as $pattern) {
+            $content = preg_replace($pattern, '', $content);
+        }
+        
+        // Script taglarından sonraki açıklamaları kaldır
+        $content = preg_replace('/(<\/script>)\s*[^<]*$/i', '$1', $content);
+        
         // Boş satırları temizle
         $content = preg_replace('/\n\s*\n\s*\n/', "\n\n", $content);
-
+        
+        // Son kontrol: section dışındaki herşeyi kaldır (JSON-LD hariç)
+        if (preg_match('/(<section.*?<\/section>)(.*?)$/s', $content, $matches)) {
+            $sectionContent = $matches[1];
+            $afterSection = $matches[2];
+            
+            // Script taglarını koru, diğer açıklamaları kaldır
+            $scripts = '';
+            if (preg_match_all('/<script[^>]*>.*?<\/script>/s', $afterSection, $scriptMatches)) {
+                $scripts = implode("\n\n", $scriptMatches[0]);
+            }
+            
+            $content = $sectionContent . "\n\n" . $scripts;
+        }
+        
         return trim($content);
     }
 
